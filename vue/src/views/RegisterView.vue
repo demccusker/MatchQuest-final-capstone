@@ -1,5 +1,5 @@
 <template>
-  <div id="register" class="text-center">
+  <div id="register" v-if ='!userRegistrationSuccess' class="text-center">
     <form v-on:submit.prevent="register">
       <h1>Create Account</h1>
       <div role="alert" v-if="registrationErrors">
@@ -21,7 +21,7 @@
       <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
   </div>
-  <registration-details :user="user" />
+<div v-else>  <registration-details :user="user"/> </div>
 </template>
 
 <script>
