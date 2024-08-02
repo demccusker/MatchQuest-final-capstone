@@ -21,12 +21,19 @@
       <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
   </div>
+  <registration-details :user="user" />
 </template>
 
 <script>
 import authService from '../services/AuthService';
+import RegistrationDetails from '../components/RegistrationDetails.vue';
 
 export default {
+  components: {
+    RegistrationDetails,
+  },
+
+  
   data() {
     return {
       user: {
@@ -35,6 +42,7 @@ export default {
         confirmPassword: '',
         role: 'user',
       },
+      userRegistrationSuccess: false,
       registrationErrors: false,
       registrationErrorMsg: 'There were problems registering this user.',
     };
@@ -48,11 +56,8 @@ export default {
         authService
           .register(this.user)
           .then((response) => {
-            if (response.status == 201) {
-              this.$router.push({
-                path: '/login',
-                query: { registration: 'success' },
-              });
+            if ((response.status == 201)) {
+              this.userRegistrationSuccess = true;
             }
           })
           .catch((error) => {
