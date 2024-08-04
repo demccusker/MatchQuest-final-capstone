@@ -48,7 +48,7 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
                     userDetailsDto.getEloRating(),
                     userDetailsDto.isStaff()
             );
-            userDetails = getUserDetailsById(detailId);
+            userDetails = getUserDetailsByDetailId(detailId);
             if(userDetails == null){
                 throw new DaoException("User Detail is null");
             }
@@ -72,12 +72,28 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
     };
 
     @Override
-    public UserDetails getUserDetailsById(int detailId){
+    public UserDetails getUserDetailsByDetailId(int id){
+        UserDetails userDetails;
+        String SQL = "SELECT * FROM user_details WHERE detail_id = ?;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(SQL, id);
+            userDetails = (results.next()) ? mapRowToUserDetails(results) : null;
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return userDetails;
+    }
+
+    @Override
+    public UserDetails getUserDetailsByUserId(int id){
         UserDetails userDetails;
         String SQL = "SELECT * FROM user_details WHERE user_id = ?;";
 
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(SQL,detailId);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(SQL, id);
             userDetails = (results.next()) ? mapRowToUserDetails(results) : null;
 
         } catch (CannotGetJdbcConnectionException e) {

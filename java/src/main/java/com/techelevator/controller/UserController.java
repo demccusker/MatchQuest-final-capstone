@@ -32,7 +32,7 @@ public class UserController {
     @RequestMapping(path = "/{userId}/details", method = RequestMethod.GET)
     public UserDetailsDto getUserDetails(@PathVariable int userId) {
         try {
-            UserDetails details = detailsDao.getUserDetailsById(userId);
+            UserDetails details = detailsDao.getUserDetailsByUserId(userId);
             if (details == null) throw new ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Unable to locate user details with provided ID: " + userId
             );
@@ -51,7 +51,7 @@ public class UserController {
         UserDetails details;
 
         try {
-            details = detailsDao.getUserDetailsById(userId);
+            details = detailsDao.getUserDetailsByUserId(userId);
             if (details != null) throw new ResponseStatusException(
                     HttpStatus.ALREADY_REPORTED, "User already has details"
             );

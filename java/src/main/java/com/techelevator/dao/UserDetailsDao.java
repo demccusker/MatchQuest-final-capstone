@@ -15,6 +15,8 @@ public interface UserDetailsDao {
 
     UserDetails getUserDetailsByUsername(String username);
 
-    UserDetails getUserDetailsById(int detailId);
+    UserDetails getUserDetailsByDetailId(int Id);
+
+    UserDetails getUserDetailsByUserId(int id);
 
 }
