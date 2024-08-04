@@ -21,7 +21,7 @@ public class UserDetails {
         this.eloRating = eloRating;
         this.isStaff = isStaff;
     }
-    
+
     public int getDetailId() {
         return detailId;
     }

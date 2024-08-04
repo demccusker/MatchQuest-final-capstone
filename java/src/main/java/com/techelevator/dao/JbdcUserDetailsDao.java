@@ -1,9 +1,10 @@
 package com.techelevator.dao;
 
+import com.techelevator.exception.DaoException;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.techelevator.model.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +25,20 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(SQL);
             while (results.next()) {
-                UserDetails userDetails = mapRowToUserDetails
+                UserDetails userDetails = mapRowToUserDetails(results);
+                usersDetails.add(userDetails);
             }
-
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
         }
-        catch {
-    }
+        return usersDetails;
     }
 
-    UserDetails createUserDetails();
+    UserDetails createUserDetails() {
+     UserDetails userDetails = new UserDetails();
+     String = "SELECT "
+
+    }
 
     UserDetails updateUserDetails();
 
@@ -40,11 +46,11 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
 
 private UserDetails mapRowToUserDetails(SqlRowSet results)   {
     UserDetails userDetails = new UserDetails();
-    userDetails.setDetailId(results.getInt("details_id));
+    userDetails.setDetailId(results.getInt("details_id"));
     userDetails.setUserId(results.getInt("user_id"));
     userDetails.setDisplayName(results.getString("display_name"));
     userDetails.setEloRating(results.getInt("elo_rating"));
-    userDetails.setIsStaff(results.getBoolean("is_staff"));
+    userDetails.setStaff(results.getBoolean("is_staff"));
 }
 
 
