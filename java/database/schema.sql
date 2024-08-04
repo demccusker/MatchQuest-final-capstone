@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS  users, user_details, team, team_games,
 game, win_condition, tournament, tournament_teams, bracket,
 match, match_teams, match_results, result
 CASCADE;
+DROP SEQUENCE IF EXISTS seq_detail_id;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -13,9 +14,14 @@ CREATE TABLE users (
 	CONSTRAINT PK_users PRIMARY KEY (user_id)
 );
 
+CREATE SEQUENCE seq_detail_id
+    INCREMENT BY 1
+    START WITH 1000
+    NO MAXVALUE;
+
 -- user_details Table
 CREATE TABLE user_details (
-    detail_id SERIAL NOT NULL,
+    detail_id INT NOT NULL DEFAULT nextval('seq_detail_id'),
     user_id INT NOT NULL,
     display_name VARCHAR(50),
     elo_rating INT NOT NULL,
