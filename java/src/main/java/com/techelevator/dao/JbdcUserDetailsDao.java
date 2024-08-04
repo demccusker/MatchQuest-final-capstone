@@ -37,7 +37,7 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
 
     @Override
     public UserDetails createUserDetails(int userId, UserDetailsDto userDetailsDto) {
-     UserDetails userDetails = new UserDetails();
+     UserDetails userDetails;
      String SQL = "INSERT INTO user_d" +
              "etails (user_id, display_name, elo_rating, is_staff) " +
              "VALUES(?,?,?,?) RETURNING detail_id;";
