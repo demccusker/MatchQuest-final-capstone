@@ -13,6 +13,14 @@ public class UserDetailsDto {
     }
     public UserDetailsDto(){};
 
+    public static UserDetailsDto convertToDto(UserDetails details) {
+        return new UserDetailsDto(
+                details.getDisplayName(),
+                details.getEloRating(),
+                details.isStaff()
+        );
+    }
+
     public String getDisplayName() {
         return displayName;
     }

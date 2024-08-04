@@ -11,7 +11,6 @@ import com.techelevator.model.UserDetails;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class JbdcUserDetailsDao implements UserDetailsDao {
 
     private final JdbcTemplate jdbcTemplate;
@@ -39,10 +38,11 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
     @Override
     public UserDetails createUserDetails(int userId, UserDetailsDto userDetailsDto) {
      UserDetails userDetails = new UserDetails();
-     String SQL = "INSERT INTO user_details (user_id, display_name, elo_rating, is_staff) " +
+     String SQL = "INSERT INTO user_d" +
+             "etails (user_id, display_name, elo_rating, is_staff) " +
              "VALUES(?,?,?,?) RETURNING detail_id;";
         try {
-            int detailId = jdbcTemplate.queryForObject(SQL,int.class,
+            int detailId = jdbcTemplate.queryForObject(SQL, int.class,
                     userId,
                     userDetailsDto.getDisplayName(),
                     userDetailsDto.getEloRating(),
@@ -73,16 +73,17 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
 
     @Override
     public UserDetails getUserDetailsById(int detailId){
-        UserDetails userDetails = new UserDetails();
+        UserDetails userDetails;
         String SQL = "SELECT * FROM user_details WHERE detail_id = ?;";
+
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(SQL,detailId);
-            if (results.next()) {
-                userDetails = mapRowToUserDetails(results);
-            }
+            userDetails = (results.next()) ? mapRowToUserDetails(results) : null;
+
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
         }
+
         return userDetails;
     }
 
