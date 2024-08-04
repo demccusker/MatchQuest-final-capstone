@@ -74,7 +74,7 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
     @Override
     public UserDetails getUserDetailsById(int detailId){
         UserDetails userDetails;
-        String SQL = "SELECT * FROM user_details WHERE detail_id = ?;";
+        String SQL = "SELECT * FROM user_details WHERE user_id = ?;";
 
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(SQL,detailId);
@@ -89,7 +89,7 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
 
 private UserDetails mapRowToUserDetails(SqlRowSet results)   {
     UserDetails userDetails = new UserDetails();
-    userDetails.setDetailId(results.getInt("details_id"));
+    userDetails.setDetailId(results.getInt("detail_id"));
     userDetails.setUserId(results.getInt("user_id"));
     userDetails.setDisplayName(results.getString("display_name"));
     userDetails.setEloRating(results.getInt("elo_rating"));
