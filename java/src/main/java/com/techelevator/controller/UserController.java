@@ -26,6 +26,7 @@ public class UserController {
         detailsDao = new JbdcUserDetailsDao(jdbcTemplate);
     }
 
+    @PreAuthorize("permitAll")
     @RequestMapping(path = "/{userId}/details", method = RequestMethod.GET)
     public UserDetailsDto getUserDetails(@PathVariable int userId) {
         try {
