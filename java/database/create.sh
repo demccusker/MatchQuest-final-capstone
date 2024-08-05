@@ -1,5 +1,5 @@
 #!/bin/bash
-export PGPASSWORD='614WmiramontST#'
+export PGPASSWORD='postgres1'
 BASEDIR=$(dirname $0)
 DATABASE=final_capstone
 

@@ -106,12 +106,13 @@ CREATE TABLE tournament (
     tournament_id SERIAL NOT NULL,
     bracket_id INT NOT NULL,
     game_id INT NOT NULL,
+    creator_id INT NOT NULL,
     name VARCHAR(50),
     is_scrim BOOLEAN NOT NULL,
-    round_count INT NOT NULL,
     CONSTRAINT pk_tournament PRIMARY KEY (tournament_id),
     CONSTRAINT fk_tournament_bracket FOREIGN KEY (bracket_id) REFERENCES bracket (bracket_id),
-    CONSTRAINT fk_tournament_game FOREIGN KEY (game_id) REFERENCES game (game_id)
+    CONSTRAINT fk_tournament_game FOREIGN KEY (game_id) REFERENCES game (game_id),
+    CONSTRAINT fk_tournament_creator FOREIGN KEY (creator_id) REFERENCES users (user_id)
 );
 
 -- tournament_teams Table
