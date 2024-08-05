@@ -93,11 +93,9 @@ CREATE TABLE match (
 CREATE TABLE bracket (
     bracket_id SERIAL NOT NULL,
     parent_bracket INT REFERENCES bracket (bracket_id), -- Self-referencing foreign key
-    game_id INT NOT NULL,
     match_id INT NOT NULL,
     name VARCHAR(50),
     CONSTRAINT pk_bracket PRIMARY KEY (bracket_id),
-    CONSTRAINT fk_bracket_game FOREIGN KEY (game_id) REFERENCES game (game_id),
     CONSTRAINT fk_bracket_match FOREIGN KEY (match_id) REFERENCES match (match_id)
 );
 

@@ -41,6 +41,19 @@ INSERT INTO game (name, description, win_type) values (
     (SELECT condition_id FROM win_condition WHERE name = 'MAX')
 );
 
+INSERT INTO match (game_id,round_count,is_scrim)
+VALUES ((SELECT game_id
+	   FROM game
+	   WHERE name = 'Golf'),3,FALSE);
+
+INSERT INTO bracket (parent_bracket,match_id,name)
+VALUES (NULL, 1, 'First bracket' );
+
+INSERT INTO tournament (game_id,bracket_id, creator_id, name,is_scrim)
+VALUES ((SELECT game_id
+	   FROM game
+	   WHERE name = 'Golf'),1,3,'Golf Tournament', FALSE);
+
 -- BRIDGE TABLES
 INSERT INTO team_players (user_id, team_id) VALUES(
     (SELECT user_id FROM users WHERE username = 'andrew501'),

@@ -9,7 +9,7 @@ public interface TournamentDao {
 
     Tournament getTournamentById(int tournamentId);
 
-    Tournament createTournament();
+    Tournament createTournament(Tournament tournament);
 
     Tournament updateTournament(Tournament tournament);
 
