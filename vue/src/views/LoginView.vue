@@ -67,4 +67,13 @@ export default {
 label {
   margin-right: 0.5rem;
 }
+#login{
+  
+  display: flex;
+  justify-content: center;
+  margin: auto; 
+  height: 1 vw;
+  
+
+}
 </style>
