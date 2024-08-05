@@ -11,11 +11,11 @@ import com.techelevator.model.UserDetails;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JbdcUserDetailsDao implements UserDetailsDao {
+public class JdbcUserDetailsDao implements UserDetailsDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JbdcUserDetailsDao(JdbcTemplate jdbcTemplate) {
+    public JdbcUserDetailsDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -38,15 +38,14 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
     @Override
     public UserDetails createUserDetails(int userId, UserDetailsDto userDetailsDto) {
      UserDetails userDetails;
-     String SQL = "INSERT INTO user_d" +
-             "etails (user_id, display_name, elo_rating, is_staff) " +
+     String SQL = "INSERT INTO user_details (user_id, display_name, elo_rating, is_staff) " +
              "VALUES(?,?,?,?) RETURNING detail_id;";
         try {
             int detailId = jdbcTemplate.queryForObject(SQL, int.class,
                     userId,
                     userDetailsDto.getDisplayName(),
                     userDetailsDto.getEloRating(),
-                    userDetailsDto.isStaff()
+                    userDetailsDto.getIsStaff()
             );
             userDetails = getUserDetailsByDetailId(detailId);
             if(userDetails == null){
@@ -62,8 +61,22 @@ public class JbdcUserDetailsDao implements UserDetailsDao {
     }
 
     @Override
-    public UserDetails updateUserDetails(){
-        return null;
+    public int  updateUserDetails(  UserDetails userDetails){
+
+        String SQL = "UPDATE user_details " +
+                "SET display_name = ? , elo_rating = ?, is_staff = ? " +
+                "WHERE detail_id = ? " ;
+        try {
+            int rowsEffected = jdbcTemplate.update(SQL, userDetails.getDisplayName(),userDetails.getEloRating(),
+                    userDetails.getIsStaff(), userDetails.getDetailId());
+            return rowsEffected;
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+
     };
 
     @Override
@@ -109,7 +122,7 @@ private UserDetails mapRowToUserDetails(SqlRowSet results)   {
     userDetails.setUserId(results.getInt("user_id"));
     userDetails.setDisplayName(results.getString("display_name"));
     userDetails.setEloRating(results.getInt("elo_rating"));
-    userDetails.setStaff(results.getBoolean("is_staff"));
+    userDetails.setIsStaff(results.getBoolean("is_staff"));
 
     return userDetails;
 }

@@ -1,6 +1,6 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.JbdcUserDetailsDao;
+import com.techelevator.dao.JdbcUserDetailsDao;
 import com.techelevator.dao.JdbcUserDao;
 import com.techelevator.dao.UserDao;
 import com.techelevator.dao.UserDetailsDao;
@@ -25,7 +25,7 @@ public class UserController {
 
     public UserController(JdbcTemplate jdbcTemplate) {
         userDao = new JdbcUserDao(jdbcTemplate);
-        detailsDao = new JbdcUserDetailsDao(jdbcTemplate);
+        detailsDao = new JdbcUserDetailsDao(jdbcTemplate);
     }
 
     @PreAuthorize("permitAll")
@@ -72,4 +72,32 @@ public class UserController {
 
         return UserDetailsDto.convertToDto(details);
     }
+
+    @RequestMapping(path= "/{userId}/details", method = RequestMethod.PUT)
+    public UserDetails updateDetails(@RequestBody UserDetails userDetails, @PathVariable int userId ) {
+        userDetails.setUserId(userId);
+        try {
+            UserDetails updatedUserDetails;
+            int rowsEffected = detailsDao.updateUserDetails(userDetails);
+            if (rowsEffected == 0) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "unable to update user detail" + userId);
+            }
+            updatedUserDetails = detailsDao.getUserDetailsByUserId(userId);
+            if(updatedUserDetails == null){
+                throw new ResponseStatusException (
+                        HttpStatus.REQUEST_TIMEOUT, "user id is not valid "
+                );
+
+            }
+            return updatedUserDetails;
+        }catch (DaoException e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage()
+            );
+        }
+
+    }
+
+
 }
