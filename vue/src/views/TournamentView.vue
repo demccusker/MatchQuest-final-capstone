@@ -1,20 +1,35 @@
 <template>
+    <div>
+      <h1> Active Tournaments
+      </h1>
+    <tournament-list/>
+          
+    </div>
+    
     <h1>Tournament Creator</h1>
     
     <button class="create">Create</button>
     <button class="edit">Edit/Modify</button>
     <!-- Component name here to type later> <!-->
     
-</template>
+</template> 
 
 
 <script>
-
 import CreateTournament from '../components/CreateTournament.vue';
+import TournamentService from '../services/TournamentService';
+import TournamentList from '../components/TournamentList.vue';
+
 export default{
      components: {
-        CreateTournament
-     }
+        CreateTournament,
+        TournamentList
+     },
+     data() {
+        return {
+            tournaments: []
+        }
+    }
 }
 </script>
 
