@@ -43,12 +43,11 @@ CREATE TABLE game (
     game_id SERIAL NOT NULL,
     name VARCHAR(50) UNIQUE NOT NULL,
     description VARCHAR(255),
-    win_condition INT NOT NULL,
-    is_scrim BOOLEAN NOT NULL,
+    win_type INT NOT NULL,
     max_players INT NOT NULL DEFAULT -1, -- Assuming this is intended to be -1
     min_players INT NOT NULL DEFAULT -1, -- Assuming this is intended to be -1
     CONSTRAINT pk_game PRIMARY KEY (game_id),
-    CONSTRAINT fk_game_win_condition FOREIGN KEY (win_condition) REFERENCES win_condition (condition_id)
+    CONSTRAINT fk_game_win_condition FOREIGN KEY (win_type) REFERENCES win_condition (condition_id)
 );
 
 -- team Table
@@ -60,6 +59,16 @@ CREATE TABLE team (
     CONSTRAINT pk_team PRIMARY KEY (team_id),
     CONSTRAINT fk_team_users FOREIGN KEY (owner_id) REFERENCES users (user_id)
 );
+
+-- bridge table between users and team table
+CREATE TABLE team_players (
+    user_id INT NOT NULL,
+    team_id INT NOT NULL,
+
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
+    CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES team (team_id)
+);
+
 
 -- team_games Table
 CREATE TABLE team_games (
