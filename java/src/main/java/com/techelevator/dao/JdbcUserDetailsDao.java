@@ -83,7 +83,20 @@ public class JdbcUserDetailsDao implements UserDetailsDao {
 
     @Override
     public UserDetails getUserDetailsByUsername(String username){
-        return null;
+        UserDetails userDetails;
+        String SQL = "SELECT ud.* FROM user_details ud " +
+                     "JOIN users u ON ud.user_id = u.user_id " +
+                     "WHERE username = ?;";
+
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(SQL, username);
+            userDetails = (result.next()) ? mapRowToUserDetails(result) : null;
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return userDetails;
     };
 
     @Override

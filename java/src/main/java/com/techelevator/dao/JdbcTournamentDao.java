@@ -51,7 +51,7 @@ public class JdbcTournamentDao implements TournamentDao{
     }
     @Override
     public Tournament createTournament(Tournament tournament){
-        Tournament newTournament = null;
+        Tournament newTournament;
 
         String sql = "INSERT INTO tournament (game_id,bracket_id, creator_id, name,is_scrim)\n" +
                 "VALUES (?, ?, ?, ?, ? ) RETURNING tournament_id";
