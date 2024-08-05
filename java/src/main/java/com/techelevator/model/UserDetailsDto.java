@@ -17,7 +17,7 @@ public class UserDetailsDto {
         return new UserDetailsDto(
                 details.getDisplayName(),
                 details.getEloRating(),
-                details.isStaff()
+                details.getIsStaff()
         );
     }
 
@@ -37,11 +37,11 @@ public class UserDetailsDto {
         this.eloRating = eloRating;
     }
 
-    public boolean isStaff() {
+    public boolean getIsStaff() {
         return isStaff;
     }
 
-    public void setStaff(boolean staff) {
-        isStaff = staff;
+    public void setIsStaff(boolean isStaff) {
+        this.isStaff = isStaff;
     }
 }

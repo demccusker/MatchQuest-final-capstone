@@ -38,7 +38,7 @@ public class UserDetails {
         return eloRating;
     }
 
-    public boolean isStaff() {
+    public boolean getIsStaff() {
         return isStaff;
     }
 
@@ -58,7 +58,7 @@ public class UserDetails {
         this.eloRating = eloRating;
     }
 
-    public void setStaff(boolean staff) {
-        isStaff = staff;
+    public void setIsStaff(boolean isStaff) {
+       this.isStaff = isStaff;
     }
 }
