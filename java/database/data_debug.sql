@@ -10,6 +10,18 @@ INSERT INTO users (username,password_hash,role) VALUES ('andrew500', '$2a$10$VPh
 INSERT INTO users (username,password_hash,role) VALUES ('andrew501', '$2a$10$CWafZTSVTpRp6.5tpUJgN.0.jEjKIZhQvlZwjaNvlZKjugvIMOShS', 'ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('ale200', '$2a$10$svmq0rFHa4fJK3m.g3fYFOC/vcHrKM.9PNw7Ngz9bXR5sFMuQ7iKC', 'ROLE_USER');
 
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    3,
+    'Andrew',
+    1200,
+    FALSE
+);
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    5,
+    'A-Andrew',
+    1200,
+    TRUE
+);
 INSERT INTO team (owner_id, name, create_date) VALUES(
     (SELECT user_id FROM users WHERE username = 'andrew500'),
     'Struggle Bus E-sports',
