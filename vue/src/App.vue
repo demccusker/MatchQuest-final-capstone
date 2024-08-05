@@ -7,3 +7,19 @@
     <router-view />
   </div>
 </template>
+
+
+<style>
+#nav{
+  text-align: right;
+  font-family: Verdana
+}
+
+body{
+  background-color: #007bff48;
+  font-family: sans-serif;
+  color: #0011fff4
+}
+
+
+</style>
