@@ -69,7 +69,6 @@ CREATE TABLE team_players (
     CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES team (team_id)
 );
 
-
 -- team_games Table
 CREATE TABLE team_games (
     team_id INT NOT NULL,
@@ -99,6 +98,17 @@ CREATE TABLE bracket (
     CONSTRAINT fk_bracket_match FOREIGN KEY (match_id) REFERENCES match (match_id)
 );
 
+CREATE TABLE address (
+    address_id SERIAL NOT NULL,
+    building_number INT NOT NULL,
+    street VARCHAR(50),
+    city VARCHAR(50),
+    province VARCHAR(50),
+    country VARCHAR(50),
+
+    CONSTRAINT pk_tournament PRIMARY KEY(address_id)
+);
+
 -- tournament Table
 CREATE TABLE tournament (
     tournament_id SERIAL NOT NULL,
@@ -107,10 +117,16 @@ CREATE TABLE tournament (
     creator_id INT NOT NULL,
     name VARCHAR(50),
     is_scrim BOOLEAN NOT NULL,
+    is_online BOOLEAN NOT NULL,
+    location INT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NULL,
+
     CONSTRAINT pk_tournament PRIMARY KEY (tournament_id),
     CONSTRAINT fk_tournament_bracket FOREIGN KEY (bracket_id) REFERENCES bracket (bracket_id),
     CONSTRAINT fk_tournament_game FOREIGN KEY (game_id) REFERENCES game (game_id),
-    CONSTRAINT fk_tournament_creator FOREIGN KEY (creator_id) REFERENCES users (user_id)
+    CONSTRAINT fk_tournament_creator FOREIGN KEY (creator_id) REFERENCES users (user_id),
+    CONSTRAINT fk_tournament_location FOREIGN KEY (location) REFERENCES address (address_id)
 );
 
 -- tournament_teams Table
@@ -121,7 +137,6 @@ CREATE TABLE tournament_teams (
     CONSTRAINT fk_tournament_teams_team FOREIGN KEY (team_id) REFERENCES team (team_id),
     CONSTRAINT fk_tournament_teams_tournament FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
 );
-
 
 -- match_teams Table
 CREATE TABLE match_teams (
@@ -148,10 +163,5 @@ CREATE TABLE match_results (
     CONSTRAINT fk_match_results_match FOREIGN KEY (match_id) REFERENCES match (match_id),
     CONSTRAINT fk_match_results_result FOREIGN KEY (result_id) REFERENCES result (result_id)
 );
-
-
-
-
-
 
 COMMIT TRANSACTION;
