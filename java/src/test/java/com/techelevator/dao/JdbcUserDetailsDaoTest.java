@@ -1,11 +1,15 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.User;
+<<<<<<< HEAD
 import com.techelevator.model.UserDetails;
+=======
+>>>>>>> 098804f (Started work on implementing test classes)
 import com.techelevator.model.UserDetailsDto;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+<<<<<<< HEAD
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.techelevator.exception.DaoException;
@@ -106,3 +110,56 @@ public class JdbcUserDetailsDaoTest extends BaseDaoTests {
             Assert.assertEquals("Staff status should match", expected.getIsStaff(), actual.getIsStaff());
         }
     }
+=======
+import org.springframework.jdbc.core.JdbcTemplate;
+
+public class JdbcUserDetailsDaoTest extends BaseDaoTests {
+    private JdbcUserDetailsDao sut;
+    private JdbcUserDao userDao;
+
+    private static final UserDetailsDto user1Details = new UserDetailsDto("User1", 800, false);
+    private static final UserDetailsDto user2Details = new UserDetailsDto("User2", 1200, true);
+    private static final UserDetailsDto user3Details = new UserDetailsDto("User3", 900, false);
+
+    @Before
+    public void setup() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+
+        sut = new JdbcUserDetailsDao(jdbcTemplate);
+        userDao = new JdbcUserDao(jdbcTemplate);
+    }
+
+    @Test
+    public void creating_user_details_returns_input_user() {
+        User user = userDao.getUserByUsername("user1");
+
+        sut.createUserDetails(user.getId(), user1Details);
+
+        UserDetailsDto actualDetails = UserDetailsDto.convertToDto(sut.getUserDetailsByUserId(user.getId()));
+        assertDetailsEquals(user1Details, actualDetails);
+
+        user = userDao.getUserByUsername("user2");
+
+        sut.createUserDetails(user.getId(), user2Details);
+
+        actualDetails = UserDetailsDto.convertToDto(sut.getUserDetailsByUserId(user.getId()));
+        assertDetailsEquals(user2Details, actualDetails);
+
+        user = userDao.getUserByUsername("user3");
+
+        sut.createUserDetails(user.getId(), user3Details);
+
+        actualDetails = UserDetailsDto.convertToDto(sut.getUserDetailsByUserId(user.getId()));
+        assertDetailsEquals(user3Details, actualDetails);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void create_user_details_null_returns_exception() { sut.createUserDetails(userDao.getUserByUsername("user1").getId(), null); }
+
+    private void assertDetailsEquals(UserDetailsDto details1, UserDetailsDto details2) {
+        Assert.assertEquals(details1.getDisplayName(), details2.getDisplayName());
+        Assert.assertEquals(details1.getEloRating(), details2.getEloRating());
+        Assert.assertEquals(details1.getIsStaff(), details2.getIsStaff());
+    }
+}
+>>>>>>> 098804f (Started work on implementing test classes)
