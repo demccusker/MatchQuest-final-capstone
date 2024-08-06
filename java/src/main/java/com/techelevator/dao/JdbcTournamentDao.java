@@ -34,6 +34,7 @@ public class JdbcTournamentDao implements TournamentDao{
 
     }
 
+    @Override
     public Tournament getTournamentById(int tournamentId) {
         String sql = "SELECT * FROM tournament WHERE tournament_id = ? ";
         Tournament tournament = null;
@@ -49,6 +50,7 @@ public class JdbcTournamentDao implements TournamentDao{
         return tournament;
 
     }
+
     @Override
     public Tournament createTournament(Tournament tournament){
         Tournament newTournament;
