@@ -52,8 +52,9 @@ public class TournamentController {
         return newTournament;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("permitAll")
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.CREATED)
     public List<Tournament> getAllTournaments() {
         List<Tournament> tournaments = new ArrayList<>();
         try {

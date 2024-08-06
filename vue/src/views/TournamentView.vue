@@ -2,9 +2,9 @@
     <div>
       <h1> Active Tournaments
       </h1>
-    <tournament-list/>
-          
     </div>
+
+    <tournament-list/>
     
     <h1>Tournament Creator</h1>
     
@@ -25,11 +25,6 @@ export default{
         CreateTournament,
         TournamentList
      },
-     data() {
-        return {
-            tournaments: []
-        }
-    }
 }
 </script>
 

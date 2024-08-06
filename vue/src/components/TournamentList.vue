@@ -1,7 +1,7 @@
 <template>
-<div class = "tournament-container" v-for="tournament in tournaments" v-bind:key="tournament">
-<tournament-preview v-bind:tournament="tournament"/>
-</div>
+    <div class="tournament-container" v-for="tournament in tournaments" v-bind:key="tournament.tournament_id">
+        <tournament-preview v-bind:tournament="tournament" />
+    </div>
 </template>
 
 
@@ -10,7 +10,7 @@ import TournamentService from '../services/TournamentService';
 import TournamentPreview from './TournamentPreview.vue';
 
 export default {
-    component: {
+    components: {
         TournamentPreview
     },
     data() {
