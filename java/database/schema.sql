@@ -106,7 +106,7 @@ CREATE TABLE address (
     province VARCHAR(50),
     country VARCHAR(50),
 
-    CONSTRAINT pk_tournament PRIMARY KEY(address_id)
+    CONSTRAINT pk_address PRIMARY KEY(address_id)
 );
 
 -- tournament Table

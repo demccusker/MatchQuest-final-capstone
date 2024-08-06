@@ -77,20 +77,36 @@ INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     'Second bracket'
 );
 
-INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim) VALUES (
+INSERT INTO address (building_number, street, city, province, country) VALUES (
+    1200,
+    'Smith Street',
+    'Los Angeles',
+    'California',
+    'USA'
+);
+
+INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
     (SELECT game_id FROM game WHERE name = 'Golf'),
     1,
     3,
     'Golf Tournament',
-    FALSE
+    FALSE,
+    TRUE,
+    1,
+    CURRENT_DATE,
+    NULL
 );
 
-INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim) VALUES (
+INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
     (SELECT game_id FROM game WHERE name = 'Golf'),
     2,
     3,
     'Golf Tournament',
-    TRUE
+    TRUE,
+    FALSE,
+    NULL,
+    CURRENT_DATE,
+    NULL
 );
 
 -- BRIDGE TABLES
