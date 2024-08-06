@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="register">
+    <form v-on:submit.prevent="createUserDetails">
         <h1> Welcome, let's grab some details! </h1>
         <div class="form-input-group">
             <label for="displayName">Come up with a snazzy display name! </label>
@@ -17,7 +17,10 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+import UserDetailsService from '../services/UserDetailsService';
 export default {
+
     // Your component code here
     name: 'RegistrationDetails',
 
@@ -44,6 +47,29 @@ export default {
     created() {
         this.userDetails = this.user;
     },
+    methods:{
+        createUserDetails(){
+      //Retrieve userId from store
+      const userId = this.userId; 
+      console.log(userId)
+        
+
+      UserDetailsService.createUserDetails({userId})
+        .then((response)=>{
+          if(response.status==201){
+            console.log("successfully added user-details");
+          }
+        })
+        .catch((error)=>{
+          const response = error.response;
+          if(response === 400){
+            this.registrationErrorMsg = "An error occurred during register user-details"
+            console.log("did not register at all");
+          }
+        })
+    }
+    },
+
 
 };
 
