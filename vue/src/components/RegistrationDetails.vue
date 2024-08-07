@@ -1,4 +1,6 @@
 <template>
+    <p>{{ this.$store.state }}</p>
+    <!-- <p>{{ this.$store.state.user.id }}</p> -->
     <form v-on:submit.prevent="createUserDetails">
         <h1> Welcome, let's grab some details! </h1>
         <div class="form-input-group">
@@ -47,29 +49,34 @@ export default {
     created() {
         this.userDetails = this.user;
     },
+    
+    
     methods:{
         createUserDetails(){
-      //Retrieve userId from store
-      const userId = this.userId; 
-      console.log(userId)
-        
+      const userId = this.$store.state.user.id; 
+      console.log(userId)     
 
       UserDetailsService.createUserDetails({userId})
         .then((response)=>{
           if(response.status==201){
-            console.log("successfully added user-details");
+            console.log(response);
           }
         })
         .catch((error)=>{
           const response = error.response;
           if(response === 400){
             this.registrationErrorMsg = "An error occurred during register user-details"
-            console.log("did not register at all");
+            
           }
         })
-    }
+        
     },
+        getUserIDTest(){
+            
+            this.$router.push("/");
 
+        }
+    }
 
 };
 

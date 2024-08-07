@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    
+    {{ this.$store.state }}
     
     <div class="container">
       

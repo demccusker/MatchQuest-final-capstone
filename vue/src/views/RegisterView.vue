@@ -21,7 +21,7 @@
       <p><router-link v-bind:to="{ name: 'login' }">Already have an account? Log in.</router-link></p>
     </form>
   </div>
-<div v-else>  <registration-details :user="user"/> </div>
+
 </template>
 
 <script>
@@ -29,11 +29,7 @@ import authService from '../services/AuthService';
 import RegistrationDetails from '../components/RegistrationDetails.vue';
 
 export default {
-  components: {
-    RegistrationDetails,
-  },
-
-  
+    
   data() {
     return {
       user: {
@@ -57,15 +53,23 @@ export default {
           .register(this.user)
           .then((response) => {
             if ((response.status == 201)) {
+              console.log(response.data);
+              // this.$store.commit("SET_AUTH_TOKEN", response.data.token)
+              
+              
+              this.$router.push("/login");
               this.userRegistrationSuccess = true;
             }
           })
           .catch((error) => {
-            const response = error.response;
-            this.registrationErrors = true;
-            if (response.status === 400) {
-              this.registrationErrorMsg = 'Bad Request: Validation Errors';
+            if(error){
+              const response = error.response;
+              this.registrationErrors = true;
+                if (response.status === 400) {
+                  this.registrationErrorMsg = 'Bad Request: Validation Errors';
+                }
             }
+            
           });
       }
     },

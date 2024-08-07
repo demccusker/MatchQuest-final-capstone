@@ -25,14 +25,8 @@ export function createStore(currentToken, currentUser) {
         axios.defaults.headers.common = {};
       }
     },
-    getters:{
-      userId(state){
-        return state.user.id;
-      },
-      userObject(state){
-        return state.user;
-      }
-    }
+    
+    
   });
   return store;
 }
