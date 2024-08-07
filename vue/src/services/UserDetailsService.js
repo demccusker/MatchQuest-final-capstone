@@ -8,8 +8,8 @@ export default{
     getUserDetails(userId){
         return http.get(`/users/${userId}/details`);
     },
-    createUserDetails(userId){
-        return http.post(`/users/${userId}`);
+    createUserDetails(userId, details){
+        return http.post(`/users/${userId}`, details);
     },
     updateUserDetails(userId){
         return http.put(`/users/${userId}/details`);
