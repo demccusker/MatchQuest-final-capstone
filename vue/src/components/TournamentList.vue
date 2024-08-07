@@ -29,3 +29,18 @@ export default {
     }
 }
 </script>
+
+<style>
+
+#tournamentList {
+  margin: 25px 0px;
+}
+.tournament-container {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; */
+  border-radius: 8px;
+  background-color: white;
+  padding: 2rem 10rem;
+}
+</style>

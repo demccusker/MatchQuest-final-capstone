@@ -1,16 +1,21 @@
 <template>
+   <div id="nav">
+      <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
+      <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
+      <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link> &nbsp;|&nbsp;
+      <router-link v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link> &nbsp;|&nbsp;
+      <!-- <router-link v-bind:to="{ name: 'userDetails'}">User Details</router-link> -->
+    </div>
     <div>
       <h1> Active Tournaments
       </h1>
     </div>
-
-    <tournament-list/>
+<div id="tournamentList"><tournament-list/></div>
     
-    <h1>Tournament Creator</h1>
     
-    <button class="create">Create</button>
-    <button class="edit">Edit/Modify</button>
-    <!-- Component name here to type later> <!-->
+    <!-- <button class="create">Create</button>
+    <button class="edit">Edit/Modify</button> -->
+    <div id="createForm"><create-tournament/></div>
     
 </template> 
 
@@ -24,12 +29,24 @@ export default{
      components: {
         CreateTournament,
         TournamentList
-     },
+     }
 }
 </script>
 
 
 <style>
+#tournamentList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  
+}
+
+#createForm {
+  display: flex;
+  justify-content: center;
+}
+
 /* .bracket-maker {
   text-align: center;
   padding: 2rem;
