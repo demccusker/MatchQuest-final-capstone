@@ -47,6 +47,7 @@ public class UserController {
     }
 
     @RequestMapping(path = "/{userId}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public UserDetailsDto addUserDetails(@Valid @RequestBody UserDetailsDto detailsBody, @PathVariable int userId) {
         UserDetails details;
 
