@@ -1,18 +1,19 @@
 <template>
-    <p>{{ this.$store.state }}</p>
-    <!-- <p>{{ this.$store.state.user.id }}</p> -->
     <form v-on:submit.prevent="createUserDetails">
-        <h1> Welcome, let's grab some details! </h1>
+        <h1> Edit Profile </h1>
         <div class="form-input-group">
-            <label for="displayName">Come up with a snazzy display name! </label>
+            <h2>Display Name</h2>
             <input type="text" id="displayName" v-model="userDetails.displayName" required autofocus />
         </div>
-        <div class="checkbox" />
-        <label for="isOrganizer">Are you an organizer? </label>
-        <input type="checkbox" id="isOrganizer" v-model="userDetails.isOrganizer" />
+        
         <div class="form-input-group">
-            <label for="eloRating">What is your Elo rating? </label>
+            <h2>Elo Rating</h2>
             <input type="number" id="eloRating" v-model="userDetails.eloRating" />
+        </div>
+
+        <div class="form-input-group">
+            <label for="isOrganizer">Are you an organizer? </label>
+            <input type="checkbox" id="isOrganizer" v-model="userDetails.isOrganizer" />
         </div>
         <button type="submit">Submit</button>
     </form>
@@ -24,65 +25,36 @@ import UserDetailsService from '../services/UserDetailsService';
 export default {
 
     // Your component code here
-    name: 'RegistrationDetails',
-
-    props: [      
-        'user',
-       ],
-
-
     data() {
         return {
             userDetails: {
-                username: '',
-                password: '',
                 displayName: '',
                 isOrganizer: false,
                 eloRating: 1000,
-        
             },
             registrationErrors: false,
             registrationErrorMsg: 'There were problems registering this user.',
         };
     },
-
-    created() {
-        this.userDetails = this.user;
-    },
-    
-    
     methods:{
         createUserDetails(){
-      const userId = this.$store.state.user.id; 
-      console.log(userId)     
+            console.log("ID: " + this.$store.state.user.id);
 
-      UserDetailsService.createUserDetails({userId})
-        .then((response)=>{
-          if(response.status==201){
-            console.log(response);
-          }
-        })
-        .catch((error)=>{
-          const response = error.response;
-          if(response === 400){
-            this.registrationErrorMsg = "An error occurred during register user-details"
-            
-          }
-        })
-        
-    },
-        getUserIDTest(){
-            
-            this.$router.push("/");
-
-        }
+            UserDetailsService.createUserDetails(this.$store.state.user.id, this.userDetails).then((response)=>{
+                if(response.status == 201){
+                    this.$router.push("/");
+                }
+            }).catch((error)=>{
+                const response = error.response;
+                if(response === 400){
+                    this.registrationErrorMsg = "An error occurred during register user-details"
+                }
+            });
+        },
     }
 
 };
-
 </script>
-
-
 
 <style>
 flex-container {
@@ -93,5 +65,11 @@ flex-container {
     height: 100vh;
 }
 
+.form-input-group {
+    margin: 20px;
+}
 
+button {
+    flex-grow: 1;
+}
 </style>
