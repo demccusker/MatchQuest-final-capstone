@@ -93,4 +93,84 @@ label {
   display: flex;
   justify-content: center;
 }
+.form-input-group {
+  margin-bottom: 1rem;
+}
+label {
+  margin-right: 0.5rem;
+}
+input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+#login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+  text-transform: none;
+  font-size: 1.1rem;
+  margin: 0; 
+}
+
+form {
+  border: 1px solid #ccc; 
+  border-radius: 8px; 
+  padding: 2rem; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  background-color: #fff; 
+  width: 100%;
+  max-width: 500px; 
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+.form-input-group {
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem; 
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #007bff; 
+  border-radius: 4px;
+  background-color: #007bff; 
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3; 
+  border-color: #004080; 
+}
+
+button:active {
+  background-color: #004080; 
+  border-color: #00264d; 
+}
+
+router-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #669fdd; 
+  text-decoration: none;
+}
 </style>
