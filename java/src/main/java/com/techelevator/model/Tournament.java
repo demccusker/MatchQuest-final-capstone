@@ -1,5 +1,10 @@
 package com.techelevator.model;
 
+import org.apache.tomcat.jni.Local;
+
+import java.time.LocalDate;
+import java.util.Date;
+
 public class Tournament {
     private int tournamentId;
     private int bracketId;
@@ -7,18 +12,63 @@ public class Tournament {
     private int creatorId;
     private String name;
     private boolean isScrim;
-    public Tournament() {
+    private boolean isOnline;
+    private Integer location;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
-    }
 
-    public Tournament(int tournamentId, int bracketId, int gameId, int creatorId, String name, boolean isScrim) {
+    public Tournament(int tournamentId, int bracketId, int gameId, int creatorId, String name,
+                      boolean isScrim, boolean isOnline, Integer location,
+                      LocalDate startDate, LocalDate endDate) {
         this.tournamentId = tournamentId;
         this.bracketId = bracketId;
         this.gameId = gameId;
         this.creatorId = creatorId;
         this.name = name;
         this.isScrim = isScrim;
+        this.isOnline = isOnline;
+        this.location = location;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
+
+    public void setIsOnline(boolean IsOnline) {
+        isOnline = IsOnline;
+    }
+
+    public void setLocation(Integer location) {
+        this.location = location;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public Integer getLocation() {
+        return location;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public Tournament() {
+
+    }
+
 
     public int getTournamentId() {
         return tournamentId;

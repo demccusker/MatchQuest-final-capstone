@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.*;
 import com.techelevator.exception.DaoException;
+import com.techelevator.model.AddressFilter;
 import com.techelevator.model.Tournament;
 import com.techelevator.model.UserDetails;
 import org.springframework.http.HttpStatus;
@@ -53,7 +54,7 @@ public class TournamentController {
     }
 
     @PreAuthorize("permitAll")
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping( method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.CREATED)
     public List<Tournament> getAllTournaments() {
         List<Tournament> tournaments = new ArrayList<>();
@@ -88,5 +89,48 @@ public class TournamentController {
         }
 
         return tournament;
+    }
+    @RequestMapping(path = "/active", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
+    public List<Tournament> getActiveTournaments() {
+        List<Tournament> tournaments;
+        try {
+            tournaments = tournamentDao.getActiveTournaments();
+            if (tournaments.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No active tournaments found");
+            }
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
+        }
+        return tournaments;
+    }
+    @RequestMapping(path = "/past", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
+    public List<Tournament> getPastTournaments() {
+        List<Tournament> tournaments;
+        try {
+            tournaments = tournamentDao.getPastTournaments();
+            if (tournaments.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No past tournaments found");
+            }
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
+        }
+        return tournaments;
+    }
+    @RequestMapping(path = "/filterByLocation", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
+
+    public List<Tournament> getTournamentsByLocation(AddressFilter addressFilter) {
+        List<Tournament> tournaments;
+        try {
+            tournaments = tournamentDao.getTournamentByLocation(addressFilter);
+            if (tournaments.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No tournaments found for the specified location filters");
+            }
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
+        }
+        return tournaments;
     }
 }
