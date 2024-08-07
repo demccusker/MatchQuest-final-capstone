@@ -26,7 +26,7 @@
 
 <script>
 import authService from '../services/AuthService';
-import RegistrationDetails from '../components/RegistrationDetails.vue';
+import RegistrationDetails from '../components/UserDetails.vue';
 
 export default {
     

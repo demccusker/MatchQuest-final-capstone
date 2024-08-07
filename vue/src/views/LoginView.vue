@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <form v-on:submit.prevent="login">
-      <h1 >Please Sign In</h1>
+      <h1>Please Sign In</h1>
       <div role="alert" v-if="invalidCredentials">
         Invalid username and password!
       </div>
@@ -18,13 +18,15 @@
       </div>
       <button type="submit">Sign in</button>
       <p>
-      <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link></p>
+        <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link>
+      </p>
     </form>
   </div>
 </template>
 
 <script>
 import authService from "../services/AuthService";
+import detailsService from "../services/UserDetailsService";
 
 export default {
   components: {},
@@ -45,7 +47,9 @@ export default {
           if (response.status == 200) {
             this.$store.commit("SET_AUTH_TOKEN", response.data.token);
             this.$store.commit("SET_USER", response.data.user);
-            this.$router.push("/");
+
+            // Determine if the user is brand new or exist//
+            this.nextPage(response.data.user.id);
           }
         })
         .catch(error => {
@@ -55,6 +59,18 @@ export default {
             this.invalidCredentials = true;
           }
         });
+    },
+    nextPage(userId) {
+      detailsService.getUserDetails(userId).then(response => {
+        this.$router.push("/");
+
+      }).catch(error => {
+        if (error) {
+          if (error.response.status == 404) {
+            this.$router.push({ name: 'profileEdit', params: { userId: userId } });
+          }
+        }
+      });
     }
   }
 };
@@ -64,16 +80,18 @@ export default {
 .form-input-group {
   margin-bottom: 1rem;
 }
+
 label {
   margin-right: 0.5rem;
 }
-#login{
-  
+
+#login {
+
   display: flex;
   justify-content: center;
-  margin: auto; 
+  margin: auto;
   height: 1 vw;
-  
+
 
 }
 </style>
