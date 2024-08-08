@@ -11,23 +11,19 @@
       </h1>
     </div>
 <div id="tournamentList"><tournament-list/></div>
-    
-    
-    <!-- <button class="create">Create</button>
-    <button class="edit">Edit/Modify</button> -->
-    <div id="createForm"><create-tournament/></div>
+  
     
 </template> 
 
 
 <script>
-import CreateTournament from '../components/CreateTournament.vue';
+
 import TournamentService from '../services/TournamentService';
 import TournamentList from '../components/TournamentList.vue';
 
 export default{
      components: {
-        CreateTournament,
+        
         TournamentList
      }
 }

@@ -9,6 +9,8 @@ import RegisterView from '../views/RegisterView.vue';
 import TournamentView from '../views/TournamentView.vue';
 import RegisterDetailsView from '../views/UserDetailsView.vue';
 import UserProfileEditView from '../views/UserProfileEditView.vue';
+import OrganizerCreateTournamentView from '../views/OrganizerCreateTournamentView.vue';
+import OrganizerView from '../views/OrganizerView.vue';
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
  * inside of App.vue depending on the URL.
@@ -72,6 +74,22 @@ const routes = [
     component: UserProfileEditView,
     meta: {
       requiresAuth: false
+    }
+  },
+  {
+    path: "/organizer/create-tournament",
+    name: "organizerCreateTournament",
+    component: OrganizerCreateTournamentView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: "/organizer",
+    name: "organizerView",
+    component: OrganizerView,
+    meta: {
+      requiresAuth: true
     }
   }
 ];
