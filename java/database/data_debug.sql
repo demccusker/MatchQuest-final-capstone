@@ -76,20 +76,20 @@ INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
 );
 
 INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'user'),
+    (SELECT user_id FROM users WHERE username = 'user2'),
     'Wicked Tuna',
     CURRENT_DATE
-
+);
 INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'Drew'),
+    (SELECT user_id FROM users WHERE username = 'user4'),
     'Team I Chow',
     CURRENT_DATE
-
+);
 INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'A-Andrew'),
+    (SELECT user_id FROM users WHERE username = 'user5'),
     'Olympic E-Sports',
     CURRENT_DATE
-
+);
 INSERT INTO team (owner_id, name, create_date) VALUES(
     (SELECT user_id FROM users WHERE username = 'andrew500'),
     'Struggle Bus E-sports',
@@ -124,17 +124,17 @@ INSERT INTO game (name, description, win_type) values (
     'War',
     'A game of luck',
     (SELECT condition_id FROM win_condition WHERE name = 'MAX')
-
+);
 INSERT INTO game (name, description, win_type) values (
     'Basketball',
     'Agility and precision',
     (SELECT condition_id FROM win_condition WHERE name = 'MAX')
-
+);
 INSERT INTO game (name, description, win_type) values (
     'Minecraft',
     'How does one win?',
     (SELECT condition_id FROM win_condition WHERE name = 'MAX')
-
+);
 
 
 INSERT INTO match (game_id, round_count, is_scrim) VALUES (
