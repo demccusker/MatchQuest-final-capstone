@@ -12,8 +12,8 @@
         </div>
 
         <div class="form-input-group">
-            <label for="isOrganizer">Are you an organizer? </label>
-            <input type="checkbox" id="isOrganizer" v-model="userDetails.isOrganizer" />
+            <label for="isStaff">Are you an organizer? </label>
+            <input type="checkbox" id="isStaff" v-model="userDetails.isStaff" />
         </div>
         <button type="submit">Submit</button>
     </form>
@@ -29,7 +29,7 @@ export default {
         return {
             userDetails: {
                 displayName: '',
-                isOrganizer: false,
+                isStaff: false,
                 eloRating: 1000,
             },
             registrationErrors: false,
@@ -39,8 +39,8 @@ export default {
     methods:{
         createUserDetails(){
             console.log("ID: " + this.$store.state.user.id);
-
-            UserDetailsService.createUserDetails(this.$store.state.user.id, this.userDetails).then((response)=>{
+            const authToken = this.$store.state.token;
+            UserDetailsService.createUserDetails(this.$store.state.user.id, this.userDetails,authToken).then((response)=>{
                 if(response.status == 201){
                     this.$router.push("/");
                 }
