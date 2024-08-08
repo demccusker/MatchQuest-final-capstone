@@ -10,8 +10,9 @@ export default {
     getTournament(id) {
         return http.get(`/tournaments/${id}`)
     },
-    createTournament(tournament) {
-        return http.post('/tournaments', tournament)
+    createTournament(tournament, authToken) {
+        let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
+        return http.post('/tournaments', tournament,authHeader)
     }
     // updateTournament(id, tournament) {
     //     return http.put(`/tournaments/${id}`, tournament)

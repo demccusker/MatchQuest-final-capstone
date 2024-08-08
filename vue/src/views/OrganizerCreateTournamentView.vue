@@ -6,6 +6,7 @@
 
 <script>
 import CreateTournament from '../components/CreateTournament.vue';
+
     export default {
         components: {
             CreateTournament
