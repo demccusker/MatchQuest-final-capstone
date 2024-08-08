@@ -7,6 +7,7 @@ import LoginView from '../views/LoginView.vue';
 import LogoutView from '../views/LogoutView.vue';
 import RegisterView from '../views/RegisterView.vue';
 import TournamentView from '../views/TournamentView.vue';
+import TournamentDetailsView from '../views/TournamentDetailsView.vue';
 import RegisterDetailsView from '../views/UserDetailsView.vue';
 import UserProfileEditView from '../views/UserProfileEditView.vue';
 import OrganizerCreateTournamentView from '../views/OrganizerCreateTournamentView.vue';
@@ -57,6 +58,14 @@ const routes = [
     name: "tournament",
     component: TournamentView,
     meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: "/tournaments/:id",
+    name: "tournamentDetails",
+    component: TournamentDetailsView,
+    meta:{
       requiresAuth: false
     }
   },

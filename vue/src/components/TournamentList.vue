@@ -1,7 +1,17 @@
 <template>
-    <div class="tournament-container" v-for="tournament in tournaments" v-bind:key="tournament.tournament_id">
-        <tournament-preview v-bind:tournament="tournament" />
-    </div>
+    
+        <div class="tournament-list-container">
+            <a href=""
+                v-for="tournament in tournaments" 
+                v-bind:key="tournament.tournament_id"
+                v-on:click="sendToTournamentDetailsPage(tournament)"
+                >
+                    <tournament-preview v-bind:tournament="tournament"/>
+            </a>
+                        
+        </div>  
+    
+    
 </template>
 
 
@@ -26,7 +36,15 @@ export default {
         }).catch(error => {
             console.log(error);
         });
+    },
+    methods:{
+        sendToTournamentDetailsPage(tournament){
+            console.log(tournament)
+            this.$router.push({ name: 'tournamentDetails',params: { id: tournament.tournamentId }});
+        },
+
     }
+    
 }
 </script>
 
@@ -35,12 +53,5 @@ export default {
 #tournamentList {
   margin: 25px 0px;
 }
-.tournament-container {
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around; */
-  border-radius: 8px;
-  background-color: white;
-  padding: 2rem 10rem;
-}
+
 </style>
