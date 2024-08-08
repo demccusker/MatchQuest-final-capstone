@@ -1,10 +1,20 @@
 <template>
     <div id="createTournament">
-        <form action="">
+        <form v-on:submit.prevent="createNewTournament">
             <h1>Create New Tournament</h1>
             <div class="form-input-group">
-                <label for="tournamentName">Tournament Name</label>
-                <input type="text" id="tournamentName" v-model="tournament.tournamentName" required autofocus />
+                <label for="name">Tournament Name</label>
+                <input type="text" id="tournamentName" v-model="tournament.name" required autofocus />
+            </div>
+            <div class="form-input-group"> <!-- this is currently hardcoded for the options in our test data; needs to be dynamic -->
+                <label for="game_id">Game</label>
+                <select id="game_id" v-model="tournament.gameId" required>
+                <option value=1>Chess</option>
+                <option value=2>Soccer</option>  
+                <option value=3>Golf</option>
+                <option value=4>CS2</option>  
+                </select>
+
             </div>
             <div class="form-input-group">
                 <label for="startDate">Start Date</label>
@@ -16,10 +26,6 @@
 
             </div>
             <div class="form-input-group">
-                <label for="description">Description</label>
-                <textarea id="description" v-model="tournament.description" required rows="4" cols="50"></textarea>
-            </div>
-            <div class="form-input-group">
                 <label for="isOnline">Online Tournament?</label>
                 <input type="checkbox" id="isOnline" v-model="tournament.isOnline" />
             </div>
@@ -29,7 +35,7 @@
             </div>
             <div class="form-input-group">
                 <label for="location">Location</label>
-                <input type="text" id="location" v-model="tournament.location" />
+                <input type="number" id="location" v-model="tournament.location" />
             </div>
             <button type="submit">Create</button>
         </form>
@@ -37,20 +43,41 @@
 </template>
 
 <script>
+import TournamentService from '../services/TournamentService';
 export default {
     name: 'CreateTournament',
     data() {
         return {
             tournament: {
-                tournamentName: '',
+                name: '',
+                gameId: 0,  
+                bracketId: 2, // hardcoded for now
+                creatorId: this.$store.state.user.id,  
                 startDate: '',
                 endDate: '',
-                description: '',
                 isOnline: false,
                 isScrim: false,
                 location: '',
 
             }
+        }
+    },
+    methods: {
+        createNewTournament() {
+            console.log("Creating new tournament");
+            console.log(this.tournament);
+            TournamentService.createTournament(this.tournament, this.$store.state.token)
+            .then((response) => {
+                if (response.status == 201) {
+                    this.$router.push("/tournaments");
+                }
+            }).catch((error) => {
+                const response = error.response;
+                if (response === 400) {
+                    this.registrationErrorMsg = "An error occurred during tournament creation"
+                }
+            });
+            
         }
     }
 

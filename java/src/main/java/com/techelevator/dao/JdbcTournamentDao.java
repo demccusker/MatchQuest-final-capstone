@@ -107,11 +107,15 @@ public class JdbcTournamentDao implements TournamentDao{
     public Tournament createTournament(Tournament tournament){
         Tournament newTournament;
 
-        String sql = "INSERT INTO tournament (game_id,bracket_id, creator_id, name,is_scrim)\n" +
-                "VALUES (?, ?, ?, ?, ? ) RETURNING tournament_id";
+        String sql = "INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date)\n" +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING tournament_id";
         try {
-            int newTournamentId = jdbcTemplate.queryForObject(sql,int.class,tournament.getGameId(),tournament.getBracketId(),
-                    tournament.getCreatorId(),tournament.getName(),tournament.getIsScrim());
+            int newTournamentId = jdbcTemplate.queryForObject(sql,int.class,
+                    tournament.getGameId(),tournament.getBracketId(),
+                    tournament.getCreatorId(),tournament.getName(),
+                    tournament.getIsScrim(),tournament.isOnline(),
+                    tournament.getLocation(),
+                    tournament.getStartDate(),tournament.getEndDate());
             newTournament = getTournamentById(newTournamentId);
 
         } catch (CannotGetJdbcConnectionException e) {
