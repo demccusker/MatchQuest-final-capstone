@@ -75,41 +75,13 @@ INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
     FALSE
 );
 
-INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'user2'),
-    'Wicked Tuna',
-    CURRENT_DATE
-);
-INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'user4'),
-    'Team I Chow',
-    CURRENT_DATE
-);
-INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'user5'),
-    'Olympic E-Sports',
-    CURRENT_DATE
-);
-INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'andrew500'),
-    'Struggle Bus E-sports',
-    CURRENT_DATE
-);
-INSERT INTO team (owner_id, name, create_date) VALUES(
-    (SELECT user_id FROM users WHERE username = 'andrew501'),
-    'Golfing Masters',
-    CURRENT_DATE
-);
+
 INSERT INTO game (name, description, win_type) values (
     'Chess',
     'A game of wits',
     (SELECT condition_id FROM win_condition WHERE name = 'MAX')
 );
-INSERT INTO game (name, description, win_type) values (
-    'Soccer',
-    'Kick the ball',
-    (SELECT condition_id FROM win_condition WHERE name = 'MAX')
-);
+
 INSERT INTO game (name, description, win_type) values (
     'Golf',
     'Surprisingly frustrating and calming',
@@ -124,11 +96,7 @@ INSERT INTO game (name, description, win_type) values (
     'War',
     'A game of luck',
     (SELECT condition_id FROM win_condition WHERE name = 'MAX')
-);
-INSERT INTO game (name, description, win_type) values (
-    'Basketball',
-    'Agility and precision',
-    (SELECT condition_id FROM win_condition WHERE name = 'MAX')
+
 );
 INSERT INTO game (name, description, win_type) values (
     'Minecraft',
@@ -136,18 +104,48 @@ INSERT INTO game (name, description, win_type) values (
     (SELECT condition_id FROM win_condition WHERE name = 'MAX')
 );
 
+INSERT INTO game (name, description, win_type) values (
+    'Badminton',
+    'What it fly!',
+    (SELECT condition_id FROM win_condition WHERE name = 'MAX')
+);
 
-INSERT INTO match (game_id, round_count, is_scrim) VALUES (
+
+INSERT INTO match (game_id, is_scrim) VALUES (
     (SELECT game_id FROM game WHERE name = 'Golf'),
-    3,
     FALSE
 );
 
-INSERT INTO match (game_id, round_count, is_scrim) VALUES (
+INSERT INTO match (game_id, is_scrim) VALUES (
     (SELECT game_id FROM game WHERE name = 'Golf'),
-    3,
     FALSE
 );
+
+INSERT INTO match (game_id, is_scrim) VALUES (
+      (SELECT game_id FROM game WHERE name = 'Golf'),
+      FALSE
+  );
+
+INSERT INTO match (game_id, is_scrim) VALUES (
+      (SELECT game_id FROM game WHERE name = 'Golf'),
+      FALSE
+  );
+
+INSERT INTO match (game_id, is_scrim) VALUES (
+      (SELECT game_id FROM game WHERE name = 'Golf'),
+      FALSE
+  );
+
+INSERT INTO match (game_id, is_scrim) VALUES (
+      (SELECT game_id FROM game WHERE name = 'Golf'),
+      FALSE
+  );
+
+INSERT INTO match (game_id, is_scrim) VALUES (
+      (SELECT game_id FROM game WHERE name = 'Golf'),
+      FALSE
+  );
+
 
 INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     NULL,
@@ -160,32 +158,32 @@ INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     2,
     'Second bracket'
 );
-
-
-
-
-
-INSERT INTO address (building_number, street, city, province, country) VALUES (
-    1200,
-    'Smith Street',
-    'Los Angeles',
-    'California',
-    'USA'
+INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
+    NULL,
+    3,
+    'Third bracket'
 );
 
-INSERT INTO address (building_number, street, city, province, country) VALUES (
-    1801,
-    'Hawkins Rd',
-    'Annapolis',
-    'Maryland',
-    'USA'
+INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
+    NULL,
+    4,
+    'Fourth bracket'
 );
-INSERT INTO address (building_number, street, city, province, country) VALUES (
-    120,
-    'Kings Xing',
-    'Lewes',
-    'Deleware',
-    'USA'
+INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
+    NULL,
+    5,
+    'Fifth bracket'
+);
+INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
+    NULL,
+    6,
+    'Sixth bracket'
+);
+
+INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
+    NULL,
+    7,
+    'Seventh bracket'
 );
 
 
@@ -193,7 +191,7 @@ INSERT INTO address (building_number, street, city, province, country) VALUES (
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
     (SELECT game_id FROM game WHERE name = 'Golf'),
     1,
-    3,
+    2,
     'Golf Tournament',
     FALSE,
     TRUE,
@@ -205,8 +203,8 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_onli
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
     (SELECT game_id FROM game WHERE name = 'Golf'),
     2,
-    3,
-    'Golf Tournament',
+    2,
+    'Golfy Tournament',
     TRUE,
     FALSE,
     NULL,
@@ -214,38 +212,65 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_onli
     NULL
 );
 
+INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
+    (SELECT game_id FROM game WHERE name = 'Golf'),
+    2,
+    3,
+    'Golf Tourney',
+    TRUE,
+    FALSE,
+    NULL,
+    CURRENT_DATE,
+    NULL
+);
+
+
+INSERT INTO address (tournament_id, city, province, country) VALUES (
+    1,
+    'Los Angeles',
+    'California',
+    'USA'
+);
+
+INSERT INTO address (tournament_id, city, province, country) VALUES (
+    2,
+    'Annapolis',
+    'Maryland',
+    'USA'
+);
+INSERT INTO address (tournament_id, city, province, country) VALUES (
+    3,
+    'Lewes',
+    'Deleware',
+    'USA'
+);
+
+
+
+INSERT INTO result (is_draw, elo_change, winner_id) VALUES
+(FALSE, 50,  (SELECT user_id FROM users WHERE username = 'andrew501'));
+
+
+
+
+
+
 -- BRIDGE TABLES
-INSERT INTO team_players (user_id, team_id) VALUES(
+INSERT INTO match_players (match_id, user_id) VALUES (
+    (SELECT match_id FROM match WHERE match_id = 1),
+    (SELECT user_id FROM users WHERE username = 'andrew501')
+);
+--
+--INSERT INTO match_results (match_id, user_id) VALUES (
+--    (SELECT match_id FROM match WHERE match_id = 1),
+--    (SELECT user_id FROM users WHERE username = 'user2')
+--);
+
+INSERT INTO tournament_players (user_id, tournament_id) VALUES (
     (SELECT user_id FROM users WHERE username = 'andrew501'),
-    (SELECT team_id FROM team WHERE name = 'Struggle Bus E-sports')
+    (SELECT tournament_id FROM tournament WHERE name = 'Golf Tournament')
 );
-INSERT INTO team_players (user_id, team_id) VALUES(
-    (SELECT user_id FROM users WHERE username = 'andrew501'),
-    (SELECT team_id FROM team WHERE name = 'Golfing Masters')
-);
-INSERT INTO team_players (user_id, team_id) VALUES(
-    (SELECT user_id FROM users WHERE username = 'andrew500'),
-    (SELECT team_id FROM team WHERE name = 'Struggle Bus E-sports')
-);
-INSERT INTO team_players (user_id, team_id) VALUES(
-    (SELECT user_id FROM users WHERE username = 'andrew500'),
-    (SELECT team_id FROM team WHERE name = 'Golfing Masters')
-);
-INSERT INTO team_players (user_id, team_id) VALUES(
-    (SELECT user_id FROM users WHERE username = 'ale200'),
-    (SELECT team_id FROM team WHERE name = 'Struggle Bus E-sports')
-);
-INSERT INTO team_games (team_id, game_id) VALUES (
-    (SELECT team_id FROM team WHERE name = 'Struggle Bus E-sports'),
-    (SELECT game_id FROM game WHERE name = 'CS2')
-);
-INSERT INTO team_games (team_id, game_id) VALUES (
-    (SELECT team_id FROM team WHERE name = 'Struggle Bus E-sports'),
-    (SELECT game_id FROM game WHERE name = 'Golf')
-);
-INSERT INTO team_games (team_id, game_id) VALUES (
-    (SELECT team_id FROM team WHERE name = 'Golfing Masters'),
-    (SELECT game_id FROM game WHERE name = 'Golf')
-);
+
+
 
 COMMIT TRANSACTION;

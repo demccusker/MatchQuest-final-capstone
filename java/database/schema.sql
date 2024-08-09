@@ -1,8 +1,7 @@
 BEGIN TRANSACTION;
 --ROLLBACK;
-DROP TABLE IF EXISTS  users, user_details, team, team_games,
-game, win_condition, tournament, tournament_teams, bracket,
-match, match_teams, match_results, result
+DROP TABLE IF EXISTS  users, user_details, game, win_condition, tournament, tournament_players, bracket,
+match, match_players, result, match_results, address
 CASCADE;
 DROP SEQUENCE IF EXISTS seq_detail_id;
 
@@ -50,20 +49,10 @@ CREATE TABLE game (
     CONSTRAINT fk_game_win_condition FOREIGN KEY (win_type) REFERENCES win_condition (condition_id)
 );
 
--- bridge table between users and tournament table
-CREATE TABLE tournament_players (
-    user_id INT NOT NULL,
-    tournament_id INT NOT NULL,
-
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
-    CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
-);
-
 -- match Table
 CREATE TABLE match (
     match_id SERIAL NOT NULL,
     game_id INT NOT NULL,
-    round_count INT NOT NULL,
     is_scrim BOOLEAN NOT NULL,
     CONSTRAINT pk_match PRIMARY KEY (match_id),
     CONSTRAINT fk_match_game FOREIGN KEY (game_id) REFERENCES game (game_id)
@@ -79,14 +68,7 @@ CREATE TABLE bracket (
     CONSTRAINT fk_bracket_match FOREIGN KEY (match_id) REFERENCES match (match_id)
 );
 
-CREATE TABLE address (
-    tournament_id INT NOT NULL,
-    city VARCHAR(50) NULL,
-    province VARCHAR(50) NULL,
-    country VARCHAR(50) NULL,
 
-    CONSTRAINT fk_tournament_id FOREIGN KEY(tournament_id) REFERENCES tournament(tournament_id)
-);
 
 -- tournament Table
 CREATE TABLE tournament (
@@ -107,6 +89,16 @@ CREATE TABLE tournament (
     CONSTRAINT fk_tournament_creator FOREIGN KEY (creator_id) REFERENCES users (user_id)
 );
 
+-- bridge table between users and tournament table
+CREATE TABLE tournament_players (
+    user_id INT NOT NULL,
+    tournament_id INT NOT NULL,
+
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
+    CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
+);
+
+
 -- match_players Table
 CREATE TABLE match_players (
     match_id INT NOT NULL,
@@ -118,10 +110,12 @@ CREATE TABLE match_players (
 -- result Table
 CREATE TABLE result (
     result_id SERIAL NOT NULL,
-    is_winner BOOLEAN NOT NULL,
     is_draw BOOLEAN NOT NULL,
     elo_change DOUBLE PRECISION NOT NULL DEFAULT 0,
-    CONSTRAINT pk_result PRIMARY KEY (result_id)
+    winner_id INT NOT NULL,
+    CONSTRAINT pk_result PRIMARY KEY (result_id),
+    CONSTRAINT fk_result_users FOREIGN KEY (winner_id) REFERENCES users(user_id)
+
 );
 
 -- match_results Table
@@ -131,6 +125,15 @@ CREATE TABLE match_results (
     CONSTRAINT pk_match_results PRIMARY KEY (match_id, result_id),
     CONSTRAINT fk_match_results_match FOREIGN KEY (match_id) REFERENCES match (match_id),
     CONSTRAINT fk_match_results_result FOREIGN KEY (result_id) REFERENCES result (result_id)
+);
+
+CREATE TABLE address (
+    tournament_id INT NOT NULL,
+    city VARCHAR(50) NULL,
+    province VARCHAR(50) NULL,
+    country VARCHAR(50) NULL,
+
+    CONSTRAINT fk_tournament_id FOREIGN KEY(tournament_id) REFERENCES tournament(tournament_id)
 );
 
 COMMIT TRANSACTION;
