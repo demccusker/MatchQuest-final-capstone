@@ -1,6 +1,6 @@
 <template>
     <form v-on:submit.prevent="createUserDetails">
-        <h1> Edit Profile </h1>
+        <h1> Create Profile </h1>
         <div class="form-input-group">
             <h2>Display Name</h2>
             <input type="text" id="displayName" v-model="userDetails.displayName" required autofocus />
