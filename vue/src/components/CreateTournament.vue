@@ -33,7 +33,7 @@
                 <label for="isScrim">Scrimmage?</label>
                 <input type="checkbox" id="isScrim" v-model="tournament.isScrim" />
             </div>
-            <div class="form-input-group">
+            <div class="form-input-group" v-show="!tournament.isOnline">
                 <label for="location">Location</label>
                 <input type="number" id="location" v-model="tournament.location" />
             </div>

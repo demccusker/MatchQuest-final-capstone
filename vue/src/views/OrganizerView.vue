@@ -3,6 +3,7 @@
       <aside class="sidebar">
         <div class="nav-top">
         <router-link to="/organizer/create-tournament" class="nav-link">Create Tournament</router-link>
+        <router-link to="/organizer/edit-tournament" class="nav-link">Edit Tournament</router-link>
         <router-link to="/organizer/past-tournaments" class="nav-link">Past Tournaments</router-link>
       </div>
       <div class="nav-bottom">
