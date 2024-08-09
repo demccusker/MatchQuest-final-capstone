@@ -13,5 +13,5 @@ public interface TournamentDao {
 
     Tournament createTournament(Tournament tournament);
     Tournament getTournamentById(int tournamentId);
-    Tournament updateTournament(Tournament tournament);
+    int updateTournament(Tournament tournament);
 }

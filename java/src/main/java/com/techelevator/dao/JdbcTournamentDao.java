@@ -126,8 +126,23 @@ public class JdbcTournamentDao implements TournamentDao{
         return newTournament;
     }
 
-    public Tournament updateTournament(Tournament tournament){
-        return null;
+    public int updateTournament(Tournament tournament){
+        int rowsAffected = 0;
+        String sql = "UPDATE tournament " +
+                "SET game_id = ? , bracket_id = ?, creator_id = ?, name = ?, " +
+                "is_scrim = ?, is_online = ?, location = ?, start_date=? , end_date = ? " +
+                "WHERE tournament_id = ? ";
+        try { rowsAffected = jdbcTemplate.update(sql,tournament.getGameId(),tournament.getBracketId(),
+                tournament.getCreatorId(),tournament.getName(),tournament.getIsScrim(),
+                tournament.isOnline(),tournament.getLocation(),tournament.getStartDate(),
+                tournament.getEndDate(),tournament.getTournamentId());
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return rowsAffected;
     }
 
     private Tournament mapRowToTournament(SqlRowSet result) {

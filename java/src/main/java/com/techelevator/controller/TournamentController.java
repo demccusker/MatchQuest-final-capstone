@@ -1,5 +1,6 @@
 package com.techelevator.controller;
 
+import ch.qos.logback.core.joran.conditional.ThenOrElseActionBase;
 import com.techelevator.dao.*;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.AddressFilter;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +122,6 @@ public class TournamentController {
     }
     @RequestMapping(path = "/filterByLocation", method = RequestMethod.GET)
     @PreAuthorize("permitAll")
-
     public List<Tournament> getTournamentsByLocation(AddressFilter addressFilter) {
         List<Tournament> tournaments;
         try {
@@ -133,4 +134,37 @@ public class TournamentController {
         }
         return tournaments;
     }
+
+    @RequestMapping(path = "/{tournamentId}/update", method = RequestMethod.PUT)
+    @PreAuthorize("permitAll")
+    public Tournament updateTournament(@RequestBody @Valid Tournament tournament, @PathVariable int tournamentId) {
+        tournament.setTournamentId(tournamentId);
+
+        Tournament updatedTournament = new Tournament();
+        try {
+
+            int rowsAffected = tournamentDao.updateTournament(tournament);
+
+            if (rowsAffected == 0) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Unable to update tournament " + tournamentId);
+            }
+            updatedTournament = tournamentDao.getTournamentById(tournamentId);
+
+            if(updatedTournament == null){
+                throw new ResponseStatusException (
+                        HttpStatus.REQUEST_TIMEOUT, "Tournament ID is not valid "
+                );
+
+            }
+
+        }catch (DaoException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage()
+            );
+        }
+        return updatedTournament;
+
+    }
+
 }
