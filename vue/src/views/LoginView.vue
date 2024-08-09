@@ -37,7 +37,9 @@ export default {
         username: "",
         password: ""
       },
-      invalidCredentials: false
+      invalidCredentials: false,
+      userDetails:{}
+      
     };
   },
   methods: {
@@ -63,7 +65,21 @@ export default {
     },
     nextPage(userId) {
       detailsService.getUserDetails(userId).then(response => {
-        this.$router.push('/');
+        // console.log("response below");
+        // console.log(response.data);
+        
+        this.userDetails = response.data;
+
+        // console.log("userDetails isStaff is");
+        // console.log(this.userDetails.isStaff);
+        //If isStaff == false then will go to player dashboard
+        if(this.userDetails.isStaff===false){
+          this.$router.push('/player/dashboard');
+        }
+        else{
+          this.$router.push('/organizer/dashboard');
+        }
+        
 
       }).catch(error => {
         if (error) {

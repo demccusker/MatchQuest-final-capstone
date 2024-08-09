@@ -96,7 +96,7 @@ const routes = [
     }
   },
   {
-    path: "/organizer",
+    path: "/organizer/dashboard",
     name: "organizerView",
     component: OrganizerView,
     meta: {
