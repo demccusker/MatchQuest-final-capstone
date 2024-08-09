@@ -7,8 +7,9 @@ public class Match {
     private int gameId;
 
     private boolean isScrim;
+    public Match(){}
 
-    public Match(int matchId, int gameId, int roundCount, boolean isScrim) {
+    public Match(int matchId, int gameId,boolean isScrim) {
         this.matchId = matchId;
         this.gameId = gameId;
         this.isScrim = isScrim;
