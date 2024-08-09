@@ -50,32 +50,13 @@ CREATE TABLE game (
     CONSTRAINT fk_game_win_condition FOREIGN KEY (win_type) REFERENCES win_condition (condition_id)
 );
 
--- team Table
-CREATE TABLE team (
-    team_id SERIAL NOT NULL,
-    name VARCHAR(50) UNIQUE NOT NULL,
-    owner_id INT NOT NULL,
-    create_date DATE NOT NULL,
-    CONSTRAINT pk_team PRIMARY KEY (team_id),
-    CONSTRAINT fk_team_users FOREIGN KEY (owner_id) REFERENCES users (user_id)
-);
-
--- bridge table between users and team table
-CREATE TABLE team_players (
+-- bridge table between users and tournament table
+CREATE TABLE tournament_players (
     user_id INT NOT NULL,
-    team_id INT NOT NULL,
+    tournament_id INT NOT NULL,
 
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
-    CONSTRAINT fk_team_id FOREIGN KEY (team_id) REFERENCES team (team_id)
-);
-
--- team_games Table
-CREATE TABLE team_games (
-    team_id INT NOT NULL,
-    game_id INT NOT NULL,
-    CONSTRAINT pk_team_games PRIMARY KEY (team_id, game_id),
-    CONSTRAINT fk_team_games_team FOREIGN KEY (team_id) REFERENCES team (team_id),
-    CONSTRAINT fk_team_games_game FOREIGN KEY (game_id) REFERENCES game (game_id)
+    CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
 );
 
 -- match Table
@@ -99,14 +80,12 @@ CREATE TABLE bracket (
 );
 
 CREATE TABLE address (
-    address_id SERIAL NOT NULL,
-    building_number INT NOT NULL,
-    street VARCHAR(50),
-    city VARCHAR(50),
-    province VARCHAR(50),
-    country VARCHAR(50),
+    tournament_id INT NOT NULL,
+    city VARCHAR(50) NULL,
+    province VARCHAR(50) NULL,
+    country VARCHAR(50) NULL,
 
-    CONSTRAINT pk_address PRIMARY KEY(address_id)
+    CONSTRAINT fk_tournament_id FOREIGN KEY(tournament_id) REFERENCES tournament(tournament_id)
 );
 
 -- tournament Table
@@ -118,33 +97,23 @@ CREATE TABLE tournament (
     name VARCHAR(50),
     is_scrim BOOLEAN NOT NULL,
     is_online BOOLEAN NOT NULL,
-    location INT NULL,
+    location VARCHAR(80) NULL,
     start_date DATE NOT NULL,
     end_date DATE NULL,
 
     CONSTRAINT pk_tournament PRIMARY KEY (tournament_id),
     CONSTRAINT fk_tournament_bracket FOREIGN KEY (bracket_id) REFERENCES bracket (bracket_id),
     CONSTRAINT fk_tournament_game FOREIGN KEY (game_id) REFERENCES game (game_id),
-    CONSTRAINT fk_tournament_creator FOREIGN KEY (creator_id) REFERENCES users (user_id),
-    CONSTRAINT fk_tournament_location FOREIGN KEY (location) REFERENCES address (address_id)
+    CONSTRAINT fk_tournament_creator FOREIGN KEY (creator_id) REFERENCES users (user_id)
 );
 
--- tournament_teams Table
-CREATE TABLE tournament_teams (
-    team_id INT NOT NULL,
-    tournament_id INT NOT NULL,
-    CONSTRAINT pk_tournament_teams PRIMARY KEY (team_id, tournament_id),
-    CONSTRAINT fk_tournament_teams_team FOREIGN KEY (team_id) REFERENCES team (team_id),
-    CONSTRAINT fk_tournament_teams_tournament FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
-);
-
--- match_teams Table
-CREATE TABLE match_teams (
+-- match_players Table
+CREATE TABLE match_players (
     match_id INT NOT NULL,
-    team_id INT NOT NULL,
-    CONSTRAINT pk_match_teams PRIMARY KEY (match_id, team_id),
-    CONSTRAINT fk_match_teams_match FOREIGN KEY (match_id) REFERENCES match (match_id),
-    CONSTRAINT fk_match_teams_team FOREIGN KEY (team_id) REFERENCES team (team_id)
+    user_id INT NOT NULL,
+    CONSTRAINT pk_match_players PRIMARY KEY (match_id, user_id),
+    CONSTRAINT fk_match_players_match FOREIGN KEY (match_id) REFERENCES match (match_id),
+    CONSTRAINT fk_match_players_user FOREIGN KEY (user_id) REFERENCES users (user_id)
 );
 -- result Table
 CREATE TABLE result (
