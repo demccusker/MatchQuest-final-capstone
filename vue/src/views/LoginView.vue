@@ -63,12 +63,14 @@ export default {
     },
     nextPage(userId) {
       detailsService.getUserDetails(userId).then(response => {
-        this.$router.push("/");
+        this.$router.push('/');
 
       }).catch(error => {
         if (error) {
           if (error.response.status == 404) {
-            this.$router.push({ name: 'profileEdit', params: { userId: userId } });
+            //{ name: 'profileEdit', params: { userId: userId } }
+            //This pushes to create the userDetailsView for the first time
+            this.$router.push({ name: 'userDetails', params: { userId: userId } });
           }
         }
       });

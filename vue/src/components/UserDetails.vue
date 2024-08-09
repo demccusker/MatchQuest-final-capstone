@@ -42,7 +42,12 @@ export default {
             const authToken = this.$store.state.token;
             UserDetailsService.createUserDetails(this.$store.state.user.id, this.userDetails,authToken).then((response)=>{
                 if(response.status == 201){
-                    this.$router.push("/tournaments");
+                    if(this.userDetails.isStaff==true){
+                        this.$router.push("/organizer")
+                    }else{
+                        this.$router.push("/player/dashboard");
+                    }
+                    
                 }
             }).catch((error)=>{
                 const response = error.response;
