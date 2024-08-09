@@ -38,3 +38,4 @@ public class Match {
         this.isScrim = isScrim;
     }
 }
+
