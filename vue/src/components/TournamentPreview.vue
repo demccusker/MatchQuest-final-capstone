@@ -42,7 +42,7 @@ export default {
     },
     methods:{
         hoverOver(){
-            this.hoverStyle.backgroundColor = 'lightcoral';
+            this.hoverStyle.backgroundColor = 'lightgrey';
         },
         hoverLeave(){
             this.hoverStyle.backgroundColor = 'white';

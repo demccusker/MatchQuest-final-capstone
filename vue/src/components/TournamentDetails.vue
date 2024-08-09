@@ -4,7 +4,13 @@
 
 <script>
 export default{
-    
+    props:{
+        tournament: {
+            type: Object,
+            required: true
+        }
+    },
+
 }
 </script>
 

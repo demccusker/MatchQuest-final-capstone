@@ -64,7 +64,7 @@ const routes = [
     }
   },
   {
-    path: "/tournaments/:id",
+    path: "/tournaments/:tournamentId",
     name: "tournamentDetails",
     component: TournamentDetailsView,
     meta:{

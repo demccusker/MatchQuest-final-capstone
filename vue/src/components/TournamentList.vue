@@ -40,7 +40,7 @@ export default {
     methods:{
         sendToTournamentDetailsPage(tournament){
             console.log(tournament)
-            this.$router.push({ name: 'tournamentDetails',params: { id: tournament.tournamentId }});
+            this.$router.push({ name: 'tournamentDetails',params: { tournamentId: tournament.tournamentId }});
         },
 
     }
