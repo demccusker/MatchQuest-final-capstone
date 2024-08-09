@@ -12,7 +12,8 @@ export default{
         let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
         return http.post(`/users/${userId}`, details,authHeader);
     },
-    updateUserDetails(userId){
-        return http.put(`/users/${userId}/details`);
+    updateUserDetails(userId,details, authToken){
+        let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
+        return http.put(`/users/${userId}/details`,details, authHeader);
     }
 }
