@@ -102,6 +102,24 @@ public class JdbcTournamentDao implements TournamentDao{
         return tournament;
 
     }
+    //WIP needs to be tested
+    @Override
+    public List<Tournament> getTournamentsByCreatorId(int creatorId){
+        String sql = "SELECT * FROM tournament WHERE creator_id = ?";
+        List<Tournament> tournaments = new ArrayList<>();
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql,creatorId);
+            while(results.next()){
+                Tournament tournament = mapRowToTournament(results);
+                tournaments.add(tournament);
+            }
+        }catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+        return tournaments;
+    }
 
     @Override
     public Tournament createTournament(Tournament tournament){

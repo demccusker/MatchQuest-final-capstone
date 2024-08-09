@@ -92,6 +92,21 @@ public class TournamentController {
 
         return tournament;
     }
+    @RequestMapping(path="/organizer/{creatorId}")
+    public List<Tournament> getTournamentsByCreatorID(@PathVariable int creatorId){
+        List <Tournament>  tournamentsFromCreator;
+        try{
+            tournamentsFromCreator = tournamentDao.getTournamentsByCreatorId(creatorId);
+            if(tournamentsFromCreator.isEmpty() ){
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No tournaments are found from creator ID:"+creatorId);
+            }
+        }catch (DaoException ex){
+            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
+        }
+        return tournamentsFromCreator;
+    }
+
+
     @RequestMapping(path = "/active", method = RequestMethod.GET)
     @PreAuthorize("permitAll")
     public List<Tournament> getActiveTournaments() {
@@ -166,5 +181,6 @@ public class TournamentController {
         return updatedTournament;
 
     }
+
 
 }
