@@ -6,14 +6,11 @@ public class Match {
 
     private int gameId;
 
-    private int roundCount;
-
     private boolean isScrim;
 
     public Match(int matchId, int gameId, int roundCount, boolean isScrim) {
         this.matchId = matchId;
         this.gameId = gameId;
-        this.roundCount = roundCount;
         this.isScrim = isScrim;
     }
 
@@ -31,14 +28,6 @@ public class Match {
 
     public void setGameId(int gameId) {
         this.gameId = gameId;
-    }
-
-    public int getRoundCount() {
-        return roundCount;
-    }
-
-    public void setRoundCount(int roundCount) {
-        this.roundCount = roundCount;
     }
 
     public boolean getIsScrim() {

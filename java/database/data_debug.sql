@@ -146,6 +146,13 @@ INSERT INTO match (game_id, is_scrim) VALUES (
       FALSE
   );
 
+INSERT INTO match (game_id, is_scrim) VALUES (
+      (SELECT game_id FROM game WHERE name = 'Golf'),
+      FALSE
+  );
+
+
+
 
 INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     NULL,
@@ -170,22 +177,27 @@ INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     'Fourth bracket'
 );
 INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
-    NULL,
+    1,
     5,
     'Fifth bracket'
 );
 INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
-    NULL,
+    2,
     6,
     'Sixth bracket'
 );
 
 INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
-    NULL,
+    3,
     7,
     'Seventh bracket'
 );
 
+INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
+    4,
+    8,
+    'Eighth bracket'
+);
 
 
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
