@@ -13,10 +13,14 @@ export default {
     createTournament(tournament, authToken) {
         let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
         return http.post('/tournaments', tournament,authHeader)
+    },
+    updateTournament(id, tournament,authToken) {
+        let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
+        return http.put(`/tournaments/${id}/update`, tournament,authHeader)
+    },
+    getTournamentById(id) {
+        return http.get(`/tournaments/${id}`)
     }
-    // updateTournament(id, tournament) {
-    //     return http.put(`/tournaments/${id}`, tournament)
-    // },
     // deleteTournament(id) {
     //     return http.delete(`/tournaments/${id}`)
     // }
