@@ -1,28 +1,79 @@
 BEGIN TRANSACTION;
 
-INSERT INTO users (username,password_hash,role) VALUES ('user1','$2a$10$i6k9Zr2v8gq8wNzWRNYRPO4qmduT8hDKbe9jKw1yTADtTb/SINMQS','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('user2','$2a$10$aQ2Trss22FHPy1QtAJhktOG3Nc6BR86HCYH5jvlI4vBgd.XB6gjvu','ROLE_USER');
-INSERT INTO users (username,password_hash,role) VALUES ('user3','$2a$10$YzW4XQomJq.Or77l39XHFe98sz5PndOuEqy4RmIMhFeQWdGTPmExa','ROLE_USER');
+INSERT INTO win_condition (name) values ('MIN');
+INSERT INTO win_condition (name) values ('MAX');
+
+--Testing data PW is the usernames
+INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO users (username,password_hash,role) VALUES ('andrew500', '$2a$10$VPhB5.Tv16s02uul4lAJ6uahtkdP6M.QUnN0uI06A26IXrETFlzBy', 'ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('andrew501', '$2a$10$CWafZTSVTpRp6.5tpUJgN.0.jEjKIZhQvlZwjaNvlZKjugvIMOShS', 'ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('ale200', '$2a$10$svmq0rFHa4fJK3m.g3fYFOC/vcHrKM.9PNw7Ngz9bXR5sFMuQ7iKC', 'ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('user2', '$2a$10$/67qk31UotdsiEAqPRq4wumVN2y1dVC4kz8gF60R/VuJyEKUG8Jc6', 'ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('user4', '$2a$10$P7bOg1bC0aeTUFAdrM34TeF6BEosqqWwqHPv3pOXSD6Jys4YviCMK', 'ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('user5', '$2a$10$8VvMnODnlWlGL0w6RvekaOlHLqlXjI5JOerJMLY13ewQWVloCbhYS', 'ROLE_USER');
+INSERT INTO users (username,password_hash,role) VALUES ('bob', '$2a$10$sAIk.gDXQ9Sfte43sAIyFeUCAHiBs5MGR219FpUiFOQ5NzROLXZha', 'ROLE_USER');
+
 
 INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
     1,
-    'User1',
-    800,
-    FALSE
-);
-INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
-    2,
-    'User2',
-    1200,
-    TRUE
-);
-INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
-    3,
-    'User3',
-    900,
+    'user',
+    1150,
     FALSE
 );
 
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    2,
+    'admin',
+    1100,
+    TRUE
+);
+
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    3,
+    'Andrew',
+    1200,
+    FALSE
+);
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    4,
+    'Drew',
+    1100,
+    TRUE
+);
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    5,
+    'A-Andrew',
+    1200,
+    TRUE
+);
+
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    6,
+    'user2',
+    900,
+    TRUE
+);
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    7,
+    'Glitter Badger',
+    1250,
+    TRUE
+);
+
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    8,
+    'FalconX',
+    1300,
+    FALSE
+);
+
+INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES (
+    9,
+    'Bob',
+    1250,
+    FALSE
+);
 
 
 INSERT INTO game (name, description, win_type) values (
@@ -210,6 +261,27 @@ INSERT INTO address (tournament_id, city, province, country) VALUES (
 
 INSERT INTO result (is_draw, elo_change, winner_id) VALUES
 (FALSE, 50,  (SELECT user_id FROM users WHERE username = 'andrew501'));
+
+
+
+
+
+
+-- BRIDGE TABLES
+INSERT INTO match_players (match_id, user_id) VALUES (
+    (SELECT match_id FROM match WHERE match_id = 1),
+    (SELECT user_id FROM users WHERE username = 'andrew501')
+);
+--
+--INSERT INTO match_results (match_id, user_id) VALUES (
+--    (SELECT match_id FROM match WHERE match_id = 1),
+--    (SELECT user_id FROM users WHERE username = 'user2')
+--);
+
+INSERT INTO tournament_players (user_id, tournament_id) VALUES (
+    (SELECT user_id FROM users WHERE username = 'andrew501'),
+    (SELECT tournament_id FROM tournament WHERE name = 'Golf Tournament')
+);
 
 
 

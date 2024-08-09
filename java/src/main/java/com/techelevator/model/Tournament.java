@@ -13,13 +13,13 @@ public class Tournament {
     private String name;
     private boolean isScrim;
     private boolean isOnline;
-    private Integer location;
+    private String location;
     private LocalDate startDate;
     private LocalDate endDate;
 
 
     public Tournament(int tournamentId, int bracketId, int gameId, int creatorId, String name,
-                      boolean isScrim, boolean isOnline, Integer location,
+                      boolean isScrim, boolean isOnline, String location,
                       LocalDate startDate, LocalDate endDate) {
         this.tournamentId = tournamentId;
         this.bracketId = bracketId;
@@ -37,7 +37,7 @@ public class Tournament {
         isOnline = IsOnline;
     }
 
-    public void setLocation(Integer location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -53,7 +53,7 @@ public class Tournament {
         return isOnline;
     }
 
-    public Integer getLocation() {
+    public String getLocation() {
         return location;
     }
 

@@ -172,7 +172,7 @@ public class JdbcTournamentDao implements TournamentDao{
         tournament.setName(result.getString("name"));
         tournament.setIsScrim(result.getBoolean("is_scrim"));
         tournament.setIsOnline(result.getBoolean("is_online"));
-        tournament.setLocation(result.getInt("location"));
+        tournament.setLocation(result.getString("location"));
         tournament.setStartDate(result.getDate("start_date").toLocalDate());
         tournament.setEndDate(result.getDate("end_date") != null ? result.getDate("end_date").toLocalDate() : null);
         return tournament;
