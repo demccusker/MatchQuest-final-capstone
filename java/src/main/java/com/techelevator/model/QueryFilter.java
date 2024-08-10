@@ -108,7 +108,7 @@ public class QueryFilter {
             /* If query property is not location */
             if (!tableProperty.isEmpty()) {
                 Object valueObj = filter.get("value");
-                String valueSyntax = (valueObj.getClass().getTypeName().equals(String.class.getTypeName())) ? "'" : "";
+                String valueSyntax = (valueObj != null) ? (valueObj.getClass().getTypeName().equals(String.class.getTypeName())) ? "'" : "" : "";
 
                 clauseBuilder
                         .append(tableProperty)
