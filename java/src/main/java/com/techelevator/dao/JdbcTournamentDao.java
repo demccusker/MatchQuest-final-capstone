@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.AddressFilter;
+import com.techelevator.model.QueryFilter;
 import com.techelevator.model.Tournament;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
@@ -14,6 +15,10 @@ import java.util.List;
 public class JdbcTournamentDao implements TournamentDao{
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String SELECT_TOURNAMENT = "SELECT tournament_id, game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date FROM tournament t ";
+    private static final String JOIN_ADDRESS = "JOIN address a ON t.location = a.address_id ";
+    private static final String SELECT_TOURNAMENT_ADDRESS_BRIDGE = SELECT_TOURNAMENT + JOIN_ADDRESS;
+
     public JdbcTournamentDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -21,9 +26,8 @@ public class JdbcTournamentDao implements TournamentDao{
     @Override
     public List<Tournament> getAllTournaments(){
         List<Tournament> tournaments = new ArrayList<>();
-        String sql = "SELECT * FROM tournament";
         try {
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            SqlRowSet results = jdbcTemplate.queryForRowSet(SELECT_TOURNAMENT);
             while (results.next()) {
                 Tournament tournament = mapRowToTournament(results);
                 tournaments.add(tournament);
@@ -34,10 +38,12 @@ public class JdbcTournamentDao implements TournamentDao{
         return tournaments;
 
     }
+
     @Override
     public List<Tournament> getActiveTournaments() {
         List<Tournament> tournaments = new ArrayList<>();
-        String sql = "SELECT * FROM tournament WHERE start_date <= NOW() AND (end_date IS NULL OR end_date >= NOW())";
+        String sql = SELECT_TOURNAMENT +
+                    "WHERE start_date <= NOW() AND (end_date IS NULL OR end_date >= NOW())";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -49,10 +55,12 @@ public class JdbcTournamentDao implements TournamentDao{
         }
         return tournaments;
     }
+
     @Override
     public List<Tournament> getPastTournaments() {
         List<Tournament> tournaments = new ArrayList<>();
-        String sql = "SELECT * FROM tournament WHERE end_date < NOW()";
+        String sql = SELECT_TOURNAMENT +
+                    "WHERE end_date < NOW()";
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -64,14 +72,12 @@ public class JdbcTournamentDao implements TournamentDao{
         }
         return tournaments;
     }
+
     @Override
-    public List<Tournament> getTournamentByLocation(AddressFilter addressFilter) {
+    public List<Tournament> getTournamentsByLocation(AddressFilter addressFilter) {
         List<Tournament> tournaments = new ArrayList<>();
-        String baseSql = "SELECT * FROM tournament t JOIN address a ON t.location = a.address_id ";
-        String filterClause = addressFilter.getSqlFilterClause("a");
+        String sql = SELECT_TOURNAMENT_ADDRESS_BRIDGE + addressFilter.getSqlFilterClause();
 
-
-        String sql = baseSql + filterClause;
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
             while (results.next()) {
@@ -84,12 +90,28 @@ public class JdbcTournamentDao implements TournamentDao{
         return tournaments;
     }
 
+    @Override
+    public List<Tournament> getTournamentsByFilter(QueryFilter filter) {
+        List<Tournament> tournaments = new ArrayList<>();
+        String sql = filter.getSqlQuery();
 
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+            while (results.next()) {
+                tournaments.add(mapRowToTournament(results));
+            }
+        } catch (CannotGetJdbcConnectionException ex) {
+            throw new DaoException("Unable to connect to server or database", ex);
+        }
+
+        return tournaments;
+    }
 
     @Override
     public Tournament getTournamentById(int tournamentId) {
-        String sql = "SELECT * FROM tournament WHERE tournament_id = ? ";
-        Tournament tournament = null;
+        String sql = SELECT_TOURNAMENT + "WHERE tournament_id = ? ";
+        Tournament tournament;
+
         try {
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql,tournamentId);
             tournament = (results.next()) ? mapRowToTournament(results)  : null;
@@ -126,14 +148,19 @@ public class JdbcTournamentDao implements TournamentDao{
         Tournament newTournament;
 
         String sql = "INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date)\n" +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING tournament_id";
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING tournament_id";
         try {
-            int newTournamentId = jdbcTemplate.queryForObject(sql,int.class,
-                    tournament.getGameId(),tournament.getBracketId(),
-                    tournament.getCreatorId(),tournament.getName(),
-                    tournament.getIsScrim(),tournament.isOnline(),
+            int newTournamentId = jdbcTemplate.queryForObject(sql, int.class,
+                    tournament.getGameId(),
+                    tournament.getBracketId(),
+                    tournament.getCreatorId(),
+                    tournament.getName(),
+                    tournament.getIsScrim(),
+                    tournament.isOnline(),
                     tournament.getLocation(),
-                    tournament.getStartDate(),tournament.getEndDate());
+                    tournament.getStartDate(),
+                    tournament.getEndDate()
+            );
             newTournament = getTournamentById(newTournamentId);
 
         } catch (CannotGetJdbcConnectionException e) {

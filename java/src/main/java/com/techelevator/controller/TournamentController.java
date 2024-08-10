@@ -1,11 +1,8 @@
 package com.techelevator.controller;
 
-import ch.qos.logback.core.joran.conditional.ThenOrElseActionBase;
 import com.techelevator.dao.*;
 import com.techelevator.exception.DaoException;
-import com.techelevator.model.AddressFilter;
-import com.techelevator.model.Tournament;
-import com.techelevator.model.UserDetails;
+import com.techelevator.model.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,8 +11,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/tournaments")
@@ -35,7 +32,7 @@ public class TournamentController {
     public Tournament createTournament(@RequestBody Tournament tournament, Principal caller) {
         Tournament newTournament;
         String name = caller.getName();
-        UserDetails userDetails = detailsDao.getUserDetailsByUsername(caller.getName());
+        UserDetails userDetails = detailsDao.getUserDetailsByUsername(name);
         if (!userDetails.getIsStaff()) throw new ResponseStatusException(
                 HttpStatus.FORBIDDEN, "You are not allowed to access this content."
         );
@@ -56,28 +53,10 @@ public class TournamentController {
     }
 
     @PreAuthorize("permitAll")
-    @RequestMapping( method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.CREATED)
-    public List<Tournament> getAllTournaments() {
-        List<Tournament> tournaments = new ArrayList<>();
-        try {
-            tournaments = tournamentDao.getAllTournaments();
-            if (tournaments.isEmpty()) {
-                throw new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,"Unable to locate tournaments");
-            }
-        } catch (DaoException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
-            );
-        }
-        return tournaments;
-    }
-
     @RequestMapping(path = "/{tournamentId}", method = RequestMethod.GET)
-    @PreAuthorize("permitAll")
     public Tournament getTournamentById(@PathVariable int tournamentId) {
-        Tournament tournament = new Tournament();
+        Tournament tournament;
+
         try {
             tournament = tournamentDao.getTournamentById(tournamentId);
             if (tournament == null) {
@@ -92,70 +71,49 @@ public class TournamentController {
 
         return tournament;
     }
-    @RequestMapping(path="/organizer/{creatorId}")
-    public List<Tournament> getTournamentsByCreatorID(@PathVariable int creatorId){
-        List <Tournament>  tournamentsFromCreator;
-        try{
-            tournamentsFromCreator = tournamentDao.getTournamentsByCreatorId(creatorId);
-            if(tournamentsFromCreator.isEmpty() ){
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No tournaments are found from creator ID:"+creatorId);
-            }
-        }catch (DaoException ex){
-            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
-        }
-        return tournamentsFromCreator;
-    }
 
-
-    @RequestMapping(path = "/active", method = RequestMethod.GET)
     @PreAuthorize("permitAll")
-    public List<Tournament> getActiveTournaments() {
+    @RequestMapping( method = RequestMethod.GET)
+    public List<Tournament> getAllTournaments() {
         List<Tournament> tournaments;
         try {
-            tournaments = tournamentDao.getActiveTournaments();
+            tournaments = tournamentDao.getAllTournaments();
             if (tournaments.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No active tournaments found");
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,"Unable to locate tournaments"
+                );
             }
         } catch (DaoException ex) {
-            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
-        }
-        return tournaments;
-    }
-    @RequestMapping(path = "/past", method = RequestMethod.GET)
-    @PreAuthorize("permitAll")
-    public List<Tournament> getPastTournaments() {
-        List<Tournament> tournaments;
-        try {
-            tournaments = tournamentDao.getPastTournaments();
-            if (tournaments.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No past tournaments found");
-            }
-        } catch (DaoException ex) {
-            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
-        }
-        return tournaments;
-    }
-    @RequestMapping(path = "/filterByLocation", method = RequestMethod.GET)
-    @PreAuthorize("permitAll")
-    public List<Tournament> getTournamentsByLocation(AddressFilter addressFilter) {
-        List<Tournament> tournaments;
-        try {
-            tournaments = tournamentDao.getTournamentByLocation(addressFilter);
-            if (tournaments.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No tournaments found for the specified location filters");
-            }
-        } catch (DaoException ex) {
-            throw new ResponseStatusException(HttpStatus.REQUEST_TIMEOUT, ex.getMessage());
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+            );
         }
         return tournaments;
     }
 
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/query", method = RequestMethod.POST)
+    public List<Tournament> queryTournaments(@RequestBody Map<String, Object> query) {
+        List<Tournament> tournaments;
+        QueryFilter filter = new QueryFilter(query);
+
+        try {
+            tournaments = tournamentDao.getTournamentsByFilter(filter);
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+            );
+        }
+
+        return tournaments;
+    }
+
+    @PreAuthorize("permitAll")
     @RequestMapping(path = "/{tournamentId}/update", method = RequestMethod.PUT)
-    @PreAuthorize("permitAll")
     public Tournament updateTournament(@RequestBody @Valid Tournament tournament, @PathVariable int tournamentId) {
         tournament.setTournamentId(tournamentId);
 
-        Tournament updatedTournament = new Tournament();
+        Tournament updatedTournament;
         try {
 
             int rowsAffected = tournamentDao.updateTournament(tournament);
