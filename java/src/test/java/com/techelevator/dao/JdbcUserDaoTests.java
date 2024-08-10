@@ -13,8 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.List;
 
 public class JdbcUserDaoTests extends BaseDaoTests {
-    protected static final User USER_1 = new User(1, "user1", "user1", "ROLE_USER");
-    protected static final User USER_2 = new User(2, "user2", "user2", "ROLE_USER");
+
+    protected static final User USER_1 = new User(1, "user", "user1", "ROLE_USER");
+    protected static final User USER_2 = new User(6, "user2", "user2", "ROLE_USER");
     private static final User USER_3 = new User(3, "user3", "user3", "ROLE_USER");
 
     private JdbcUserDao sut;
@@ -37,9 +38,9 @@ public class JdbcUserDaoTests extends BaseDaoTests {
 
     @Test
     public void getUserByUsername_given_valid_user_returns_user() {
-        User actualUser = sut.getUserByUsername(USER_1.getUsername());
+        User actualUser = sut.getUserByUsername(USER_2.getUsername());
 
-        Assert.assertEquals(USER_1, actualUser);
+        Assert.assertEquals(USER_2, actualUser);
     }
 
     @Test
@@ -51,9 +52,9 @@ public class JdbcUserDaoTests extends BaseDaoTests {
 
     @Test
     public void getUserById_given_valid_user_id_returns_user() {
-        User actualUser = sut.getUserById(USER_1.getId());
+        User actualUser = sut.getUserById(USER_2.getId());
 
-        Assert.assertEquals(USER_1, actualUser);
+        Assert.assertEquals(USER_2, actualUser);
     }
 
     @Test
@@ -61,7 +62,7 @@ public class JdbcUserDaoTests extends BaseDaoTests {
         List<User> users = sut.getUsers();
 
         Assert.assertNotNull(users);
-        Assert.assertEquals(3, users.size());
+        Assert.assertEquals(9, users.size());
         Assert.assertEquals(USER_1, users.get(0));
         Assert.assertEquals(USER_2, users.get(1));
         Assert.assertEquals(USER_3, users.get(2));

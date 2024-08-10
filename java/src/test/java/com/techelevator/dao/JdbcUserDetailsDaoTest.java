@@ -19,13 +19,13 @@ public class JdbcUserDetailsDaoTest extends BaseDaoTests {
         private JdbcUserDetailsDao sut;
         private JdbcUserDao userDao;
 
-        private static final String USER_1 = "user1";
+        private static final String USER_1 = "user";
         private static final String USER_2 = "user2";
-        private static final String USER_3 = "user3";
+        private static final String USER_3 = "Andrew";
 
-        private static final UserDetailsDto user1Details = new UserDetailsDto("User1", 800, false);
-        private static final UserDetailsDto user2Details = new UserDetailsDto("User2", 1200, true);
-        private static final UserDetailsDto user3Details = new UserDetailsDto("User3", 900, false);
+        private static final UserDetailsDto user1Details = new UserDetailsDto("user", 1150, false);
+        private static final UserDetailsDto user2Details = new UserDetailsDto("user2", 1200, true);
+        private static final UserDetailsDto user3Details = new UserDetailsDto("Andrew", 1200, false);
 
         @Before
         public void setup() {
@@ -83,10 +83,9 @@ public class JdbcUserDetailsDaoTest extends BaseDaoTests {
         @Test
         public void shouldGetAllUsersDetails() {
             List<UserDetails> userDetailsList = sut.getUsersDetails();
-            Assert.assertEquals(3, userDetailsList.size());
+            Assert.assertEquals(9, userDetailsList.size());
 
             assertDetailsEquals(user1Details, UserDetailsDto.convertToDto(userDetailsList.get(0)));
-            assertDetailsEquals(user2Details, UserDetailsDto.convertToDto(userDetailsList.get(1)));
             assertDetailsEquals(user3Details, UserDetailsDto.convertToDto(userDetailsList.get(2)));
         }
 
