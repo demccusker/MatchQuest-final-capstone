@@ -14,7 +14,9 @@
       <main class="dashboard-content">
         <h1>Player Dashboard</h1>
         <h2>Upcoming Tournaments</h2>
-        <tournament-list></tournament-list>
+        <!-- Limit 2 is a placeholder number depending on css styling for flex size -->
+        <tournament-list v-bind:limit="2"
+                         v-bind:filters="upcomingFilter"></tournament-list>
         <div class="section-content">
 
         </div>
@@ -29,6 +31,23 @@
     components: {
       TournamentList,
     },
+    data(){
+      return{
+        upcomingFilter: [
+                          {
+                            filterProperty: "endDate",
+                            value: null,
+                            condition: "IS"
+                          },
+                          {
+                            filterProperty: "startDate",
+                            value: new Date(),
+                            condition: ">"
+                          },
+                        ]
+
+      }
+    }
   
   };
   </script>
