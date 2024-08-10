@@ -170,7 +170,6 @@ INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     3,
     'Third bracket'
 );
-
 INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     NULL,
     4,
@@ -192,22 +191,31 @@ INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     7,
     'Seventh bracket'
 );
-
 INSERT INTO bracket (parent_bracket, match_id, name) VALUES (
     4,
     8,
     'Eighth bracket'
 );
 
-
+INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
+    (SELECT game_id FROM game WHERE name = 'Badminton'),
+    1,
+    3,
+    'Epic Game of Badminton',
+    FALSE,
+    FALSE,
+    '1200 Smith Street',
+    CURRENT_DATE,
+    NULL
+);
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date) VALUES (
     (SELECT game_id FROM game WHERE name = 'Golf'),
     1,
     2,
     'Golf Tournament',
     FALSE,
-    TRUE,
-    1,
+    FALSE,
+    '650 Yankee Avenue',
     CURRENT_DATE,
     NULL
 );
@@ -218,7 +226,7 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_onli
     2,
     'Golfy Tournament',
     TRUE,
-    FALSE,
+    TRUE,
     NULL,
     CURRENT_DATE,
     NULL
@@ -230,7 +238,7 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_onli
     3,
     'Golf Tourney',
     TRUE,
-    FALSE,
+    TRUE,
     NULL,
     CURRENT_DATE,
     NULL
@@ -243,7 +251,12 @@ INSERT INTO address (tournament_id, city, province, country) VALUES (
     'California',
     'USA'
 );
-
+INSERT INTO address (tournament_id, city, province, country) VALUES (
+    2,
+    'Los Angeles',
+    'California',
+    'USA'
+);
 INSERT INTO address (tournament_id, city, province, country) VALUES (
     2,
     'Annapolis',
