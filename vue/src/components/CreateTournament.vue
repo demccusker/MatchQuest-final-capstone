@@ -6,15 +6,11 @@
                 <label for="name">Tournament Name</label>
                 <input type="text" id="tournamentName" v-model="tournament.name" required autofocus />
             </div>
-            <div class="form-input-group"> <!-- this is currently hardcoded for the options in our test data; needs to be dynamic -->
+            <div class="form-input-group">
                 <label for="game_id">Game</label>
-                <select id="game_id" v-model="tournament.gameId" required>
-                <option value=1>Chess</option>
-                <option value=2>Soccer</option>  
-                <option value=3>Golf</option>
-                <option value=4>CS2</option>  
+                <select v-if="gamesLoaded" id="gameId" v-model="tournament.gameId" required>
+                    <option v-for="game in games" v-bind:key="game.gameId" v-bind:value="game.gameId" >{{ game.name }}</option>
                 </select>
-
             </div>
             <div class="form-input-group">
                 <label for="startDate">Start Date</label>
@@ -43,43 +39,66 @@
 </template>
 
 <script>
+import GamesService from '../services/GamesService';
 import TournamentService from '../services/TournamentService';
+
 export default {
     name: 'CreateTournament',
     data() {
         return {
             tournament: {
                 name: '',
-                gameId: 0,  
+                gameId: null,
                 bracketId: 2, // hardcoded for now
-                creatorId: this.$store.state.user.id,  
+                creatorId: this.$store.state.user.id,
                 startDate: '',
                 endDate: '',
                 isOnline: false,
                 isScrim: false,
                 location: '',
 
-            }
+            },
+            games: [],
+            selectedGameName: null,
+            gamesLoaded: false
         }
+    },
+    created() {
+        this.games = this.getGamesHere();
+        
+    },
+    mounted() {
+        console.log("Here are the games: " + this.games);
+        this.gamesLoaded = true;
     },
     methods: {
         createNewTournament() {
             console.log("Creating new tournament");
             console.log(this.tournament);
             TournamentService.createTournament(this.tournament, this.$store.state.token)
-            .then((response) => {
-                console.log(response.status)
-                if (response.status == 201 || response.status == 200) {
-                    
-                    this.$router.push("/tournaments");
+                .then((response) => {
+                    console.log(response.status)
+                    if (response.status == 201 || response.status == 200) {
+
+                        this.$router.push("/tournaments");
+                    }
+                }).catch((error) => {
+                    const response = error.response;
+                    if (response === 400) {
+                        this.registrationErrorMsg = "An error occurred during tournament creation"
+                    }
+                });
+
+        },
+        getGamesHere() {
+            GamesService.getAllGames().then(response => {
+                if (response.status == 200) {
+                    this.games = response.data;
+                    console.log(this.games);
                 }
-            }).catch((error) => {
-                const response = error.response;
-                if (response === 400) {
-                    this.registrationErrorMsg = "An error occurred during tournament creation"
-                }
+            }).catch(error => {
+                console.log(error);
             });
-            
         }
     }
 
@@ -94,8 +113,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
+
 form {
     /* justify-content: center;
     align-items: center; */
