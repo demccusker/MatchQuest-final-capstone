@@ -13,21 +13,25 @@
       </aside>
       <main class="dashboard-content">
         <h1>Organizer Dashboard</h1>
-       
+       <tournament-list-by-creator-id/>
       </main>
     </div>
     
   </template>
 
 <script>
+import TournamentListByCreatorId from '../components/TournamentListByCreatorId.vue';
 export default {
+  components: {
+    TournamentListByCreatorId
+  }
 
 }
 </script>
 <style scoped>
 .dashboard-container {
   display: flex;
-  height: 100vh;
+  height: auto;
 }
 
 .sidebar {
@@ -56,7 +60,7 @@ export default {
   padding: 10px 0;
   margin-bottom: 10px;
   justify-content: center;
-  align-items: center; /* Centers content vertically */
+  align-items: center; 
   padding: 10px;
   margin-bottom: 10px;
   transition: background-color 0.3s ease;
