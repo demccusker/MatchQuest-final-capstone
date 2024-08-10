@@ -3,7 +3,7 @@ BEGIN TRANSACTION;
 DROP TABLE IF EXISTS  users, user_details, game, win_condition, tournament, tournament_players, bracket,
 match, match_players, result, match_results, address
 CASCADE;
-DROP SEQUENCE IF EXISTS seq_detail_id;
+DROP SEQUENCE IF EXISTS seq_detail_id, seq_bracket_id;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -58,17 +58,20 @@ CREATE TABLE match (
     CONSTRAINT fk_match_game FOREIGN KEY (game_id) REFERENCES game (game_id)
 );
 
+CREATE SEQUENCE seq_bracket_id
+    INCREMENT BY 255
+    START WITH 255
+    CYCLE;
+
 -- bracket Table
 CREATE TABLE bracket (
-    bracket_id SERIAL NOT NULL,
+    bracket_id INT NOT NULL,
     parent_bracket INT REFERENCES bracket (bracket_id), -- Self-referencing foreign key
     match_id INT NOT NULL,
     name VARCHAR(50),
     CONSTRAINT pk_bracket PRIMARY KEY (bracket_id),
     CONSTRAINT fk_bracket_match FOREIGN KEY (match_id) REFERENCES match (match_id)
 );
-
-
 
 -- tournament Table
 CREATE TABLE tournament (
@@ -77,6 +80,7 @@ CREATE TABLE tournament (
     game_id INT NOT NULL,
     creator_id INT NOT NULL,
     name VARCHAR(50),
+    max_participants INT CONSTRAINT participants_limit CHECK (max_participants <= 255),
     is_scrim BOOLEAN NOT NULL,
     is_online BOOLEAN NOT NULL,
     location VARCHAR(80) NULL,
@@ -97,7 +101,6 @@ CREATE TABLE tournament_players (
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
     CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
 );
-
 
 -- match_players Table
 CREATE TABLE match_players (
