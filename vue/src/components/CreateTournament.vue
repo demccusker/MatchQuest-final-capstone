@@ -35,7 +35,7 @@
             </div>
             <div class="form-input-group" v-show="!tournament.isOnline">
                 <label for="location">Location</label>
-                <input type="number" id="location" v-model="tournament.location" />
+                <input type="text" id="location" v-model="tournament.location" />
             </div>
             <button type="submit">Create</button>
         </form>
@@ -68,7 +68,9 @@ export default {
             console.log(this.tournament);
             TournamentService.createTournament(this.tournament, this.$store.state.token)
             .then((response) => {
-                if (response.status == 201) {
+                console.log(response.status)
+                if (response.status == 201 || response.status == 200) {
+                    
                     this.$router.push("/tournaments");
                 }
             }).catch((error) => {

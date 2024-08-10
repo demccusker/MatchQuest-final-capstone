@@ -85,7 +85,7 @@ export default {
             TournamentService.updateTournament(this.tournament.tournamentId, this.editTournament, this.$store.state.token) 
                 .then((response) => {
                     if (response.status == 200) {  
-                        this.$router.push("/organizer"); 
+                        this.$router.push("/organizer/dashboard"); 
                     } 
                 })
                 .catch((error) => {
