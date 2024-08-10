@@ -18,8 +18,20 @@ export default {
         let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
         return http.put(`/tournaments/${id}/update`, tournament,authHeader)
     },
-    getTournamentById(id) {
-        return http.get(`/tournaments/${id}`)
+    getTournamentByCreatorId(id) {
+        return http.post('/tournaments/query', {
+            filter: [
+                {
+                    filterProperty: "creatorId",
+                    value: id
+                }
+            ],
+            operator: "&",
+            limit: 1
+        });
+    },
+    getTournamentByFilter(filter) {
+        return http.post('/tournaments/query', filter);
     }
     // deleteTournament(id) {
     //     return http.delete(`/tournaments/${id}`)
