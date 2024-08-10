@@ -1,11 +1,10 @@
 package com.techelevator.model;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class AddressFilter {
-    private Integer buildingNumber = null;
-    private String street = null;
     private String city = null;
     private String province = null;
     private String country = null;
@@ -13,62 +12,59 @@ public class AddressFilter {
     private List<Integer> activeFilters = new ArrayList<>();
 
     public AddressFilter() {}
-    public AddressFilter(Integer buildingNumber, String street, String city, String province, String country) {
-        setFilter(buildingNumber, street, city, province, country);
+    public AddressFilter(String city, String province, String country) {
+        setFilter(city, province, country);
+    }
+    public AddressFilter(LinkedHashMap<String, Object> value) {
+        Object cityFilterObj =  value.getOrDefault("city", null),
+                provinceFilterObj =  value.getOrDefault("province", null),
+                countryFilterObj = value.getOrDefault("country", null);
+
+        setFilter(
+                (cityFilterObj != null) ? cityFilterObj.toString() : null,
+                (provinceFilterObj != null) ? provinceFilterObj.toString() : null,
+                (countryFilterObj != null) ? countryFilterObj.toString() : null
+        );
     }
 
-    public void setFilter(Integer buildingNumber, String street, String city, String province, String country) {
-        this.buildingNumber = buildingNumber;
-        this.street = street;
+    public void setFilter(String city, String province, String country) {
         this.city = city;
         this.province = province;
         this.country = country;
 
         activeFilters = new ArrayList<>();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 3; i++) {
             switch(i) {
                 case 0:
-                    if (buildingNumber != null) activeFilters.add(i);
-                    continue;
-                case 1:
-                    if (street != null) activeFilters.add(i);
-                    continue;
-                case 2:
                     if (city != null) activeFilters.add(i);
                     continue;
-                case 3:
+                case 1:
                     if (province != null) activeFilters.add(i);
                     continue;
-                case 4:
+                case 2:
                     if (country != null) activeFilters.add(i);
             }
         }
     }
 
-    public String getSqlFilterClause(String sqlTournamentAlias) {
+    public String getSqlFilterClause(String sqlAddressAlias) {
         if (isEmpty()) return " ";
 
-        StringBuilder clauseBuilder = new StringBuilder("WHERE ");
+        StringBuilder clauseBuilder = new StringBuilder();
 
         for(int i = 0; i < activeFilters.size(); i++) {
             Integer currentFilter = activeFilters.get(i);
 
             switch(currentFilter) {
                 case 0:
-                    clauseBuilder.append(addFilterToClause(sqlTournamentAlias, "%s.building_number = %d", buildingNumber));
+                    clauseBuilder.append(addFilterToClause(sqlAddressAlias, "%s.city = '%s'", city));
                     break;
                 case 1:
-                    clauseBuilder.append(addFilterToClause(sqlTournamentAlias, "%s.street = '%s'", street));
+                    clauseBuilder.append(addFilterToClause(sqlAddressAlias, "%s.province = '%s'", province));
                     break;
                 case 2:
-                    clauseBuilder.append(addFilterToClause(sqlTournamentAlias, "%s.city = '%s'", city));
-                    break;
-                case 3:
-                    clauseBuilder.append(addFilterToClause(sqlTournamentAlias, "%s.province = '%s'", province));
-                    break;
-                case 4:
-                    clauseBuilder.append(addFilterToClause(sqlTournamentAlias, "%s.country = '%s'", country));
+                    clauseBuilder.append(addFilterToClause(sqlAddressAlias, "%s.country = '%s'", country));
                     break;
             }
 
@@ -78,10 +74,10 @@ public class AddressFilter {
         return clauseBuilder.toString();
     }
 
+    public String getSqlFilterClause() { return getSqlFilterClause(""); }
+
     public boolean isEmpty() {
-        return (buildingNumber == null) &&
-                (street == null) &&
-                (city == null) &&
+        return (city == null) &&
                 (province == null) &&
                 (country == null);
     }

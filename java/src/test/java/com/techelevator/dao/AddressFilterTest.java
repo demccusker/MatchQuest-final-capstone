@@ -7,14 +7,14 @@ import org.junit.Test;
 public class AddressFilterTest {
     @Test
     public void filter_returns_proper_sql_clause() {
-        AddressFilter filter = new AddressFilter(null, null, "Los Angeles", null, null);
+        AddressFilter filter = new AddressFilter("Los Angeles", null, null);
 
-        Assert.assertEquals("WHERE t.city = 'Los Angeles'", filter.getSqlFilterClause("t"));
-        Assert.assertEquals("WHERE p.city = 'Los Angeles'", filter.getSqlFilterClause("p"));
+        Assert.assertEquals("t.city = 'Los Angeles'", filter.getSqlFilterClause("t"));
+        Assert.assertEquals("p.city = 'Los Angeles'", filter.getSqlFilterClause("p"));
 
-        filter = new AddressFilter(1600, "Smith Street", "Los Angeles", "California", "US");
+        filter = new AddressFilter("Los Angeles", "California", "US");
 
-        Assert.assertEquals("WHERE t.building_number = 1600 AND t.street = 'Smith Street' AND t.city = 'Los Angeles' AND t.province = 'California' AND t.country = 'US'", filter.getSqlFilterClause("t"));
+        Assert.assertEquals("t.city = 'Los Angeles' AND t.province = 'California' AND t.country = 'US'", filter.getSqlFilterClause("t"));
     }
 
     @Test
