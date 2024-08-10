@@ -1,5 +1,4 @@
 <template>
-    
         <div class="tournament-list-container">
             <a href=""
                 v-for="tournament in tournaments" 
@@ -8,12 +7,8 @@
                 >
                     <tournament-preview v-bind:tournament="tournament"/>
             </a>
-                        
-        </div>  
-    
-    
+        </div>
 </template>
-
 
 <script>
 import TournamentService from '../services/TournamentService';
@@ -30,7 +25,8 @@ export default {
     },
     created() {
         TournamentService.getTournaments().then(response => {
-            if (response.status == 201) {
+            if (response.status == 200) {
+                console.log(response.data);
                 this.tournaments = response.data;
             }
         }).catch(error => {
