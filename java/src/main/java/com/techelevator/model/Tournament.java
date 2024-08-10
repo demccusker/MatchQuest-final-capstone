@@ -17,7 +17,7 @@ public class Tournament {
     private LocalDate startDate;
     private LocalDate endDate;
 
-
+    public Tournament() {}
     public Tournament(int tournamentId, int bracketId, int gameId, int creatorId, String name,
                       boolean isScrim, boolean isOnline, String location,
                       LocalDate startDate, LocalDate endDate) {
@@ -64,11 +64,6 @@ public class Tournament {
     public LocalDate getEndDate() {
         return endDate;
     }
-
-    public Tournament() {
-
-    }
-
 
     public int getTournamentId() {
         return tournamentId;
