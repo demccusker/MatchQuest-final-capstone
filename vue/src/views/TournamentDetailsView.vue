@@ -35,7 +35,7 @@ export default {
   },
   created() {
     const tournamentId = this.$route.params.tournamentId;
-    TournamentService.getTournamentById(tournamentId)
+    TournamentService.getTournament(tournamentId)
       .then(response => {
         if (response.status === 200) {
           this.tournament = response.data;
