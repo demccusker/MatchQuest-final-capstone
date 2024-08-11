@@ -1,7 +1,7 @@
 <template>
         <div class="tournament-list-container">
             <a href=""
-                v-for="tournament in limitTournamentPreviewList" 
+                v-for="tournament in tournaments" 
                 v-bind:key="tournament.tournament_id"
                 v-on:click="sendToTournamentDetailsPage(tournament)"
                 >
@@ -34,32 +34,24 @@ export default {
         }
     },
     created() {
-        
         //Limit here is tentatively 5 unless flex sizing demands more below
-        const query =   {
-                                filters: this.filters,
-                                operator: "&",
-                                limit: this.limit
-                            }
-            TournamentService.getTournamentByFilter(query)
-            .then((response)=>
-            {
-                if(response.status == 200 ){
-                    console.log(response.data);
-                    this.tournaments = response.data;
-                }
-            }).catch(error=>{
-                console.log(error);
-            })
-            
-            //return this.limit ? this.tournaments.slice(0, this.limit) : this.tournaments;
-    },
-    computed:{
-        limitTournamentPreviewList(){
-            return this.limit ? this.tournaments.slice(0, this.limit) : this.tournaments
+        const query = {
+            filters: this.filters,
+            operator: "&",
+            limit: this.limit
         }
+
+        TournamentService.getTournamentByFilter(query).then((response) => {
+            if (response.status == 200) {
+                console.log(response.data);
+                this.tournaments = response.data;
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+            
+        //return this.limit ? this.tournaments.slice(0, this.limit) : this.tournaments;
     },
-        
     methods:{
         sendToTournamentDetailsPage(tournament){
             console.log(tournament)

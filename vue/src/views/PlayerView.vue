@@ -34,18 +34,17 @@
     data(){
       return{
         upcomingFilter: [
-                          {
-                            filterProperty: "endDate",
-                            value: null,
-                            condition: "IS"
-                          },
-                          {
-                            filterProperty: "startDate",
-                            value: new Date(),
-                            condition: ">"
-                          },
-                        ]
-
+          {
+            filterProperty: "endDate",
+            value: null,
+            condition: "IS"
+          },
+          {
+            filterProperty: "startDate",
+            value: new Date(),
+            condition: ">"
+          },
+        ]
       }
     }
   
