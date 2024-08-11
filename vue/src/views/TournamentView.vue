@@ -8,26 +8,12 @@
 
       <!-- <router-link v-bind:to="{ name: 'userDetails'}">User Details</router-link> -->
     </div>
-    
-  <div class = tournaments>
-    
-    <div class = tournament_row>
-      <h2 class = tournament_title>Upcoming Tournaments</h2>
-      <tournament-list v-bind:filters="upcomingFilter"/> 
+    <div>
+      <h1> Active Tournaments</h1>
     </div>
     
-    <div class = tournament_row>
-      <h2 class = tournament_title>Active Tournaments</h2>
-      <tournament-list v-bind:filters="activeFilter"/>
-    </div>
-    
-    <div class = "tournament_row">
-      <h2 class = tournament_title>Past Tournaments</h2>
-      <tournament-list v-bind:filters="pastFilter"/>
-    </div>
-    
-  </div>
-    
+<div id="tournamentList"><tournament-list/></div>
+  
     
 </template> 
 

@@ -91,7 +91,13 @@ label {
 
 #register{
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-transform: none;
+  font-size: 1.1rem;
+  margin: 0; 
 }
 .form-input-group {
   margin-bottom: 1rem;
