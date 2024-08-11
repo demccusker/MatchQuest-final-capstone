@@ -75,7 +75,7 @@ export default {
     padding: 10px;
     justify-content: space-between;
     gap: 30px;
-    
+    flex-basis: 0%;
 
 }
 

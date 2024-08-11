@@ -7,6 +7,9 @@ const http = axios.create({
 export default {   
      getAllGames() {
          return http.get('/games')
+     },
+     getGameNameById(gameId){
+        return http.get(`/game/${gameId}`)
      }
 }
 
