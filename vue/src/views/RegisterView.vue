@@ -173,4 +173,4 @@ router-link {
   color: #669fdd; 
   text-decoration: none;
 }
-</style>
+</style>../components/CreateUserDetails.vue

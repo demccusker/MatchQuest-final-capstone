@@ -14,6 +14,7 @@ import OrganizerCreateTournamentView from '../views/OrganizerCreateTournamentVie
 import OrganizerView from '../views/OrganizerView.vue';
 import PlayerView from '../views/PlayerView.vue';
 import OrganizerEditTournamentView from '../views/OrganizerEditTournamentView.vue';
+import PlayerProfileView from '../views/PlayerProfileView.vue';
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
  * inside of App.vue depending on the URL.
@@ -119,6 +120,14 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: "/player/profile",
+    name: "playerProfileView",
+    component: PlayerProfileView,
+    meta: {
+      requiresAuth: true
+    }
+  }
 
 ];
 

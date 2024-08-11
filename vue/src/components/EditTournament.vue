@@ -6,15 +6,10 @@
                 <input type="text" id="tournamentName" v-model="editTournament.name" required autofocus />
             </div>
             <div class="form-input-group">
-                <!-- this is currently hardcoded for the options in our test data; needs to be dynamic -->
-                <label for="game_id">Game</label>
-                <select id="game_id" v-model="editTournament.gameId" required>
-                    <option value=1>Chess</option>
-                    <option value=2>Soccer</option>
-                    <option value=3>Golf</option>
-                    <option value=4>CS2</option>
+                <label for="gameId">Game</label>
+                <select v-if="gamesLoaded" id="gameId" v-model="editTournament.gameId" required>
+                    <option v-for="game in games" v-bind:key="game.gameId" v-bind:value="game.gameId" >{{ game.name }}</option>
                 </select>
-
             </div>
             <div class="form-input-group">
                 <label for="startDate">Start Date</label>
@@ -35,7 +30,7 @@
             </div>
             <div class="form-input-group" v-show="!editTournament.isOnline">
                 <label for="location">Location</label>
-                <input type="number" id="location" v-model="editTournament.location" />
+                <input type="text" id="location" v-model="editTournament.location" />
             </div>
             <button type="submit">Edit</button>
         </form>
@@ -46,6 +41,7 @@
 
 <script>
 import TournamentService from '../services/TournamentService';
+import GamesService from '../services/GamesService';
 
 export default {
     name: 'EditTournament',
@@ -57,16 +53,24 @@ export default {
     },
     data() {
         return {
-            editTournament: {} 
-        };
+            editTournament: {} ,
+            games : [],
+            gamesLoaded: false
+        }
+        
+    },
+    created() {
+        this.games = this.getGamesHere();
     },
     mounted() {
         this.fetchTournamentData();
+        this.gamesLoaded = true;
+
     },
     methods: {
         fetchTournamentData() {
             const tournamentId = this.$route.params.id;
-            TournamentService.getTournamentById(tournamentId) 
+            TournamentService.getTournament(tournamentId) 
                 .then((response) => {
                     if (response.status === 200){
                         this.editTournament = response.data; 
@@ -94,6 +98,16 @@ export default {
                         this.registrationErrorMsg = "An error occurred while editing tournament";
                     }
                 });
+        },
+        getGamesHere() {
+            GamesService.getAllGames().then(response => {
+                if (response.status == 200) {
+                    this.games = response.data;
+                    console.log(this.games);
+                }
+            }).catch(error => {
+                console.log(error);
+            });
         }
     }
 };
