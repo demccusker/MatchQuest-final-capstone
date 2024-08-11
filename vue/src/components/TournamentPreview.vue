@@ -12,12 +12,13 @@
         {{ tournament.game_id }}
         </h3> -->
         <p>
-        {{ tournament.isScrim }} 
+        <!-- {{ tournament.isScrim }}  -->
         <!-- make this into an icon -->
-        {{ tournament.location }}
-        Start Date: {{ tournament.startDate }}
-        End Date: {{ tournament.endDate }}
-        {{ tournament.description }}
+        <!-- {{ tournament.location }} -->
+        Sport: {{ tournament.game_id }}
+        Created On: {{ tournament.startDate }}
+        <!-- End Date: {{ tournament.endDate }} -->
+        <!-- {{ tournament.description }} -->
         </p>
     </div>
     

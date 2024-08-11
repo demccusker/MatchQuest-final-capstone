@@ -8,12 +8,26 @@
 
       <!-- <router-link v-bind:to="{ name: 'userDetails'}">User Details</router-link> -->
     </div>
-    <div>
-      <h1> Active Tournaments
-      </h1>
+    
+  <div class = tournaments>
+    
+    <div class = tournament_row>
+      <h2 class = tournament_title>Upcoming Tournaments</h2>
+      <tournament-list v-bind:filters="upcomingFilter"/> 
     </div>
-<div id="tournamentList"><tournament-list/></div>
-  
+    
+    <div class = tournament_row>
+      <h2 class = tournament_title>Active Tournaments</h2>
+      <tournament-list v-bind:filters="activeFilter"/>
+    </div>
+    
+    <div class = "tournament_row">
+      <h2 class = tournament_title>Past Tournaments</h2>
+      <tournament-list v-bind:filters="pastFilter"/>
+    </div>
+    
+  </div>
+    
     
 </template> 
 
@@ -27,6 +41,39 @@ export default{
      components: {
         
         TournamentList
+     },
+     data(){
+      return{
+          activeFilter:   [
+                            {
+                              filterProperty: "startDate",
+                              value: new Date(),
+                              condition: "<"
+                            },
+                            {
+                              filterProperty: "endDate",
+                              value: null,
+                              condition: "IS"
+                            }
+                          ],
+          pastFilter:     [
+                            {
+                              filterProperty: "endDate",
+                              value: new Date(),
+                              condition: "<"
+                            }
+                          ],
+          upcomingFilter: [
+                          {
+                            filterProperty: "startDate",
+                            value: new Date(),
+                            condition: ">"
+                          }
+                          ]
+      }
+      
+      
+
      }
 }
 </script>
@@ -44,6 +91,22 @@ export default{
   display: flex;
   justify-content: center;
 }
+
+/* Title names of each tournament containers */
+.tournament-container h2{
+  font-size: 20px;       /* Adjust the font size */
+  color: black;           /* Change the text color */
+  margin-top: 10px;   /* Add some space below the heading */
+  margin-left: -150px;
+  text-align: center;    /* Center the heading text */
+}
+
+.tournament-container{
+  width: 10%;
+  height: 30%;
+}
+
+
 
 /* .bracket-maker {
   text-align: center;
