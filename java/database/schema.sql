@@ -54,8 +54,17 @@ CREATE TABLE match (
     match_id SERIAL NOT NULL,
     game_id INT NOT NULL,
     is_scrim BOOLEAN NOT NULL,
+    player1_id INT NOT NULL,
+    player2_id INT NOT NULL,
+    player1_score DOUBLE PRECISION NULL,
+    player2_score DOUBLE PRECISION NULL,
+    winner_id INT NULL,
+    is_draw BOOLEAN NOT NULL,
     CONSTRAINT pk_match PRIMARY KEY (match_id),
-    CONSTRAINT fk_match_game FOREIGN KEY (game_id) REFERENCES game (game_id)
+    CONSTRAINT fk_match_game FOREIGN KEY (game_id) REFERENCES game (game_id),
+    CONSTRAINT fk_player1_id FOREIGN KEY (player1_id) REFERENCES users (user_id),
+    CONSTRAINT fk_player2_id FOREIGN KEY (player2_id) REFERENCES users (user_id),
+    CONSTRAINT fk_winner_id FOREIGN KEY (winner_id) REFERENCES users (user_id)
 );
 
 CREATE SEQUENCE seq_bracket_id
@@ -107,33 +116,6 @@ CREATE TABLE tournament_players (
     CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
 );
 
--- match_players Table
-CREATE TABLE match_players (
-    match_id INT NOT NULL,
-    user_id INT NOT NULL,
-    CONSTRAINT pk_match_players PRIMARY KEY (match_id, user_id),
-    CONSTRAINT fk_match_players_match FOREIGN KEY (match_id) REFERENCES match (match_id),
-    CONSTRAINT fk_match_players_user FOREIGN KEY (user_id) REFERENCES users (user_id)
-);
--- result Table
-CREATE TABLE result (
-    result_id SERIAL NOT NULL,
-    is_draw BOOLEAN NOT NULL,
-    elo_change DOUBLE PRECISION NOT NULL DEFAULT 0,
-    winner_id INT NOT NULL,
-    CONSTRAINT pk_result PRIMARY KEY (result_id),
-    CONSTRAINT fk_result_users FOREIGN KEY (winner_id) REFERENCES users(user_id)
-
-);
-
--- match_results Table
-CREATE TABLE match_results (
-    match_id INT NOT NULL,
-    result_id INT NOT NULL,
-    CONSTRAINT pk_match_results PRIMARY KEY (match_id, result_id),
-    CONSTRAINT fk_match_results_match FOREIGN KEY (match_id) REFERENCES match (match_id),
-    CONSTRAINT fk_match_results_result FOREIGN KEY (result_id) REFERENCES result (result_id)
-);
 
 CREATE TABLE address (
     tournament_id INT NOT NULL,

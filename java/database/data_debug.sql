@@ -32,29 +32,29 @@ INSERT INTO users (username,password_hash,role) VALUES
 
 
 
-INSERT INTO user_details(user_id, display_name, elo_rating, is_staff) VALUES
-    (1, 'user', 1150, FALSE),
-    (2, 'admin', 1100, TRUE),
-    (3, 'Andrew', 1200, FALSE),
-    (4, 'Drew', 1100, TRUE),
-    (5, 'A-Andrew', 1200, TRUE),
-    (6, 'user2', 900, TRUE),
-    (7, 'Glitter Badger', 1250, TRUE),
-    (8, 'FalconX', 1300, FALSE),
-    (9, 'Bob', 1250, FALSE),
-    (10, 'usera50', 1250, TRUE),
-    (11, 'usera51', 1250, TRUE),
-    (12, 'user52', 1250, FALSE),
-    (13, 'user53', 1250, FALSE),
-    (14, 'user54', 1250, FALSE),
-    (15, 'user55', 1250, FALSE),
-    (16, 'user56', 1250, FALSE),
-    (17, 'user57', 1250, FALSE),
-    (18, 'user58', 1250, FALSE),
-    (19, 'user59', 1250, FALSE),
-    (20, 'usera60', 1250, FALSE);
-
-
+  INSERT INTO user_details (user_id, display_name, elo_rating, is_staff) VALUES
+      (1, 'user', 1150, FALSE),
+      (2, 'admin', 1100, TRUE),
+      (3, 'Andrew', 1200, FALSE),
+      (4, 'Drew', 1100, TRUE),
+      (5, 'A-Andrew', 1200, TRUE),
+      (6, 'user1', 900, TRUE),
+      (7, 'Glitter Badger', 1250, TRUE),
+      (8, 'user2', 1300, FALSE),
+      (9, 'user4', 1250, FALSE),
+      (10, 'user5', 1250, FALSE),
+      (11, 'Bob', 1250, FALSE),
+      (12, 'usera50', 1250, TRUE),
+      (13, 'usera51', 1250, TRUE),
+      (14, 'user52', 1250, FALSE),
+      (15, 'user53', 1250, FALSE),
+      (16, 'user54', 1250, FALSE),
+      (17, 'user55', 1250, FALSE),
+      (18, 'user56', 1250, FALSE),
+      (19, 'user57', 1250, FALSE),
+      (20, 'user58', 1250, FALSE),
+      (21, 'user59', 1250, FALSE),
+      (22, 'usera60', 1250, FALSE);
 
 INSERT INTO game (name, description, win_type) VALUES
     ('Chess', 'A game of wits', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
@@ -65,38 +65,46 @@ INSERT INTO game (name, description, win_type) VALUES
     ('Badminton', 'Watch it fly!', (SELECT condition_id FROM win_condition WHERE name = 'MAX'));
 
 
-INSERT INTO match (game_id, is_scrim) VALUES
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE),
-      ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE);
+
+---- Inserting Matches
+INSERT INTO match (game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw) VALUES
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 14, 40, 30, 13, FALSE),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 15, 16, 40, 30, 15, FALSE),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 18, 40, 30, 17, FALSE),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 19, 20, 40, 30, 19, FALSE),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 15, 40, 30, 13, FALSE),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 19, 40, 30, 17, FALSE),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 17, 40, 30, 13, FALSE);
 
 
 
+-- Inserting into Bracket
 INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
-    ((SELECT nextval('seq_bracket_id')), null, 2, 'Final'),
-    ((SELECT currval('seq_bracket_id')) + 1, (SELECT currval('seq_bracket_id')), 2, 'Semi-Final'),
-    ((SELECT currval('seq_bracket_id')) + 2, (SELECT currval('seq_bracket_id')), 2, 'Semi-Final'),
-    ((SELECT currval('seq_bracket_id')) + 3, (SELECT currval('seq_bracket_id')) + 1, 2, 'Quarter-Final'),
-    ((SELECT currval('seq_bracket_id')) + 4, (SELECT currval('seq_bracket_id')) + 1, 2, 'Quarter-Final'),
-    ((SELECT currval('seq_bracket_id')) + 5, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),
-    ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),
-    ((SELECT nextval('seq_bracket_id')), null, 7, 'Final'),
-    ((SELECT currval('seq_bracket_id')) + 1, (SELECT currval('seq_bracket_id')), 6, 'Semi-Final'),
-    ((SELECT currval('seq_bracket_id')) + 2, (SELECT currval('seq_bracket_id')), 5, 'Semi-Final'),
-      ((SELECT currval('seq_bracket_id')) + 3, (SELECT currval('seq_bracket_id')) + 1, 4, 'Quarter-Final'),
-        ((SELECT currval('seq_bracket_id')) + 4, (SELECT currval('seq_bracket_id')) + 1, 3, 'Quarter-Final'),
-        ((SELECT currval('seq_bracket_id')) + 5, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),
-        ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 1, 'Quarter-Final');
+    ((SELECT nextval('seq_bracket_id')), NULL, 2, 'Final'),  -- Final match
+    ((SELECT currval('seq_bracket_id')) + 1, (SELECT currval('seq_bracket_id')), 2, 'Semi-Final'),  -- Semi-Final 1
+    ((SELECT currval('seq_bracket_id')) + 2, (SELECT currval('seq_bracket_id')), 2, 'Semi-Final'),  -- Semi-Final 2
+    ((SELECT currval('seq_bracket_id')) + 3, (SELECT currval('seq_bracket_id')) + 1, 2, 'Quarter-Final'),  -- Quarter-Final 1
+    ((SELECT currval('seq_bracket_id')) + 4, (SELECT currval('seq_bracket_id')) + 1, 2, 'Quarter-Final'),  -- Quarter-Final 2
+    ((SELECT currval('seq_bracket_id')) + 5, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),  -- Quarter-Final 3
+    ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),  -- Quarter-Final 4
+    ((SELECT nextval('seq_bracket_id')), NULL, 7, 'Final'),  -- Final match for another bracket
+    ((SELECT currval('seq_bracket_id')) + 1, (SELECT currval('seq_bracket_id')), 6, 'Semi-Final'),  -- Semi-Final 1 for second bracket
+    ((SELECT currval('seq_bracket_id')) + 2, (SELECT currval('seq_bracket_id')), 5, 'Semi-Final'),  -- Semi-Final 2 for second bracket
+    ((SELECT currval('seq_bracket_id')) + 3, (SELECT currval('seq_bracket_id')) + 1, 4, 'Quarter-Final'),  -- Quarter-Final 1 for second bracket
+    ((SELECT currval('seq_bracket_id')) + 4, (SELECT currval('seq_bracket_id')) + 1, 3, 'Quarter-Final'),  -- Quarter-Final 2 for second bracket
+    ((SELECT currval('seq_bracket_id')) + 5, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),  -- Quarter-Final 3 for second bracket
+    ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 1, 'Quarter-Final');  -- Quarter-Final 4 for second bracket
 
+
+--
+---- Inserting into Tournament
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants, is_scrim, is_online, location, start_date, end_date) VALUES
-    ((SELECT game_id FROM game WHERE name = 'Badminton'), 255, 3, 'Epic Game of Badminton', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
+    ((SELECT game_id FROM game WHERE name = 'Badminton'), 255, 1, 'Epic Game of Badminton', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Golf'), 255, 2, 'Golf Tournament', 20, FALSE, FALSE, '650 Yankee Avenue', CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Golf'), 255, 2, 'Golfy Tournament', 15, TRUE, TRUE, NULL, CURRENT_DATE, NULL),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), 510, 3, 'Minecraft Tournament of Champs', 8 , FALSE, TRUE, NULL, '2024-01-01', '2024-01-02');
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), 510, 3, 'Minecraft Tournament of Champs', 8, FALSE, TRUE, NULL, '2024-01-01', '2024-01-02');
+
+
 
 
 
@@ -105,24 +113,50 @@ INSERT INTO address (tournament_id, city, province, country) VALUES
     (2, 'Los Angeles', 'California', 'USA'),
     (2, 'Annapolis', 'Maryland', 'USA'),
     (3, 'Lewes', 'Deleware', 'USA');
+--
+--INSERT INTO result (is_draw, elo_change, winner_id) VALUES
+--    (FALSE, 50,  (SELECT user_id FROM users WHERE username = 'usera51'));
+--
+---- BRIDGE TABLES
+--INSERT INTO match_players (match_id, user_id) VALUES
+--    ((SELECT match_id FROM match WHERE match_id = 1), (SELECT user_id FROM users WHERE username = 'usera51')),
+--    ((SELECT match_id FROM match WHERE match_id = 1), (SELECT user_id FROM users WHERE username = 'usera52')),
+--    ((SELECT match_id FROM match WHERE match_id = 2), (SELECT user_id FROM users WHERE username = 'usera53')),
+--    ((SELECT match_id FROM match WHERE match_id = 2), (SELECT user_id FROM users WHERE username = 'usera54')),
+--    ((SELECT match_id FROM match WHERE match_id = 3), (SELECT user_id FROM users WHERE username = 'usera55')),
+--    ((SELECT match_id FROM match WHERE match_id = 3), (SELECT user_id FROM users WHERE username = 'usera56')),
+--    ((SELECT match_id FROM match WHERE match_id = 4), (SELECT user_id FROM users WHERE username = 'usera57')),
+--    ((SELECT match_id FROM match WHERE match_id = 4), (SELECT user_id FROM users WHERE username = 'usera58')),
+--    ((SELECT match_id FROM match WHERE match_id = 5), (SELECT user_id FROM users WHERE username = 'usera51')),
+--    ((SELECT match_id FROM match WHERE match_id = 5), (SELECT user_id FROM users WHERE username = 'usera53')),
+--    ((SELECT match_id FROM match WHERE match_id = 6), (SELECT user_id FROM users WHERE username = 'usera55')),
+--    ((SELECT match_id FROM match WHERE match_id = 6), (SELECT user_id FROM users WHERE username = 'usera57')),
+--    ((SELECT match_id FROM match WHERE match_id = 7), (SELECT user_id FROM users WHERE username = 'usera51')),
+--    ((SELECT match_id FROM match WHERE match_id = 7), (SELECT user_id FROM users WHERE username = 'usera57'));
+--
+--INSERT INTO result (is_draw, elo_change, winner_id) VALUES
+--    (FALSE, 50,  (SELECT user_id FROM users WHERE username = 'usera51'));
+--
+--INSERT INTO match_results (match_id, result_id) VALUES
+--    (1, 1);
+--
 
-INSERT INTO result (is_draw, elo_change, winner_id) VALUES
-    (FALSE, 50,  (SELECT user_id FROM users WHERE username = 'usera50'));
-
--- BRIDGE TABLES
-INSERT INTO match_players (match_id, user_id) VALUES (
-    (SELECT match_id FROM match WHERE match_id = 1),
-    (SELECT user_id FROM users WHERE username = 'andrew501')
-);
-
---INSERT INTO match_results (match_id, user_id) VALUES (
---    (SELECT match_id FROM match WHERE match_id = 1),
---    (SELECT user_id FROM users WHERE username = 'user2')
---);
-
-INSERT INTO tournament_players (user_id, tournament_id) VALUES (
-    (SELECT user_id FROM users WHERE username = 'andrew501'),
-    (SELECT tournament_id FROM tournament WHERE name = 'Golf Tournament')
-);
+INSERT INTO tournament_players (user_id, tournament_id) VALUES
+    ((SELECT user_id FROM users WHERE username = 'usera51'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera52'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera53'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera54'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera55'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera56'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera57'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera58'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs'));
 
 COMMIT TRANSACTION;
