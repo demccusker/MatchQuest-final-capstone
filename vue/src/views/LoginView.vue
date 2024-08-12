@@ -1,6 +1,8 @@
 <template>
   <div id="login">
-    <header> Tourney</header>
+    <header> 
+      <router-link v-bind:to="{ name: 'home' }">Tourney</router-link>
+    </header>
     <form v-on:submit.prevent="login">
       <h1>Please Sign In</h1>
       <div role="alert" v-if="invalidCredentials">

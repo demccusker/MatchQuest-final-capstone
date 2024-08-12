@@ -7,7 +7,7 @@
                 <input type="text" id="tournamentName" v-model="tournament.name" required autofocus />
             </div>
             <div class="form-input-group">
-                <label for="game_id">Game</label>
+                <label for="gameId">Game</label>
                 <select v-if="gamesLoaded" id="gameId" v-model="tournament.gameId" required>
                     <option v-for="game in games" v-bind:key="game.gameId" v-bind:value="game.gameId" >{{ game.name }}</option>
                 </select>
@@ -68,7 +68,7 @@ export default {
         
     },
     mounted() {
-        console.log("Here are the games: " + this.games);
+        
         this.gamesLoaded = true;
     },
     methods: {
@@ -94,7 +94,7 @@ export default {
             GamesService.getAllGames().then(response => {
                 if (response.status == 200) {
                     this.games = response.data;
-                    console.log(this.games);
+                    
                 }
             }).catch(error => {
                 console.log(error);

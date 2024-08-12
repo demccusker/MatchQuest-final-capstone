@@ -1,21 +1,35 @@
 <template>
-   <div id="nav">
-      <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
-      <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
-      <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link> &nbsp;|&nbsp;
-      <router-link v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link> &nbsp;|&nbsp;
-      <router-link v-bind:to="{ name: 'tournament'}" >Tournament</router-link>
+  <div id="nav">
+    <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
+    <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
+    <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link> &nbsp;|&nbsp;
+    <router-link v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link> &nbsp;|&nbsp;
+    <router-link v-bind:to="{ name: 'tournament' }">Tournament</router-link>
 
-      <!-- <router-link v-bind:to="{ name: 'userDetails'}">User Details</router-link> -->
+    <!-- <router-link v-bind:to="{ name: 'userDetails'}">User Details</router-link> -->
+  </div>
+
+  <div class=tournaments>
+
+    <div class = tournament_row>
+      <h2 class = tournament_title>Upcoming Tournaments</h2>
+      <tournament-list v-bind:filters="upcomingFilter"/> 
     </div>
-    <div>
-      <h1> Active Tournaments
-      </h1>
+
+    <div class=tournament_row>
+      <h2 class=tournament_title>Active Tournaments</h2>
+      <tournament-list v-bind:filters="activeFilterWithEndDate" />
     </div>
-<div id="tournamentList"><tournament-list/></div>
-  
-    
-</template> 
+
+    <div class = "tournament_row">
+      <h2 class = tournament_title>Past Tournaments</h2>
+      <tournament-list v-bind:filters="pastFilter"/>
+    </div>
+
+  </div>
+
+
+</template>
 
 
 <script>
@@ -23,11 +37,71 @@
 import TournamentService from '../services/TournamentService';
 import TournamentList from '../components/TournamentList.vue';
 
-export default{
-     components: {
-        
-        TournamentList
-     }
+export default {
+  components: {
+
+    TournamentList
+  },
+  data() {
+    return {
+      
+      activeFilterWithNull: [
+        {
+          filterProperty: "startDate",
+          value: new Date(),
+          condition: "<"
+        },
+        {
+          filterProperty: "endDate",
+          value: new Date(),
+          condition: ">"
+        }
+
+      ],
+      activeFilterWithEndDate: [
+        {
+          filterProperty: "startDate",
+          value: new Date(),
+          condition: "<="
+        },
+        {
+          filterProperty: "endDate",
+          value: new Date(),
+          condition: ">"
+        }
+
+      ],
+      pastFilter: [
+        {
+          filterProperty: "endDate",
+          value: new Date(),
+          condition: "<"
+        }
+      ],
+      upcomingFilter: [
+        {
+          filterProperty: "startDate",
+          value: new Date(),
+          condition: ">"
+        }
+      ],
+      activeQueries: [
+        {
+          filters: this.activeFilterWithEndDate,
+          operator: "|",
+          limit: 3,
+        },
+        {
+          filters: this.activeFilterWithNull,
+          operator: "&",
+          limit: 3,
+        },
+      ],
+    }
+
+
+
+  }
 }
 </script>
 
@@ -37,7 +111,7 @@ export default{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  
+
 }
 
 #createForm {

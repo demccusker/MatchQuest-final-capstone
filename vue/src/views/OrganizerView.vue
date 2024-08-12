@@ -31,7 +31,7 @@ export default {
 <style scoped>
 .dashboard-container {
   display: flex;
-  height: auto;
+  height: 100vh; /* Ensure full height */
 }
 
 .sidebar {
@@ -41,13 +41,10 @@ export default {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;
+}
 
-}
-.nav-top {
-  display: flex;
-  flex-direction: column;
-}
+.nav-top,
 .nav-bottom {
   display: flex;
   flex-direction: column;
@@ -57,16 +54,13 @@ export default {
   color: white;
   text-decoration: none;
   display: block;
-  padding: 10px 0;
-  margin-bottom: 10px;
-  justify-content: center;
-  align-items: center; 
   padding: 10px;
   margin-bottom: 10px;
+  justify-content: center;
+  align-items: center;
   transition: background-color 0.3s ease;
   border: 1px solid #34495e;
   border-radius: 4px;
-  height: 20px;
 }
 
 .nav-link:hover {

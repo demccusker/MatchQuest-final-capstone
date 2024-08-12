@@ -24,7 +24,7 @@ export default {
     methods: {
         fetchTournamentData() {
             const tournamentId = this.$route.params.id; 
-            TournamentService.getTournamentById(tournamentId) 
+            TournamentService.getTournament(tournamentId) 
                 .then((response) => {
                     if (response.status === 200) { 
                         this.selectedTournament = response.data; 

@@ -23,4 +23,4 @@ export default{
     align-items: center;
 }
 
-</style>
+</style>../components/CreateUserDetails.vue
