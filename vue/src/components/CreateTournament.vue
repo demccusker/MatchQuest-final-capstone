@@ -9,7 +9,8 @@
             <div class="form-input-group">
                 <label for="gameId">Game</label>
                 <select v-if="gamesLoaded" id="gameId" v-model="tournament.gameId" required>
-                    <option v-for="game in games" v-bind:key="game.gameId" v-bind:value="game.gameId" >{{ game.name }}</option>
+                    <option v-for="game in games" v-bind:key="game.gameId" v-bind:value="game.gameId">{{ game.name }}
+                    </option>
                 </select>
             </div>
             <div class="form-input-group">
@@ -19,7 +20,14 @@
             <div class="form-input-group">
                 <label for="endDate">End Date</label>
                 <input type="date" id="endDate" v-model="tournament.endDate" required />
+                <div>
+                    <div class="form-input-group">
+                        <label for="maxParticipants">Max Participants</label>
+                        <input type="number" id="maxParticipants" min="2" max="255"
+                            v-model="tournament.maxParticipants">
 
+                    </div>
+                </div>
             </div>
             <div class="form-input-group">
                 <label for="isOnline">Online Tournament?</label>
@@ -51,6 +59,7 @@ export default {
                 gameId: null,
                 bracketId: 2, // hardcoded for now
                 creatorId: this.$store.state.user.id,
+                maxParticipants: 0,
                 startDate: '',
                 endDate: '',
                 isOnline: false,
@@ -65,10 +74,10 @@ export default {
     },
     created() {
         this.games = this.getGamesHere();
-        
+
     },
     mounted() {
-        
+
         this.gamesLoaded = true;
     },
     methods: {
@@ -94,7 +103,7 @@ export default {
             GamesService.getAllGames().then(response => {
                 if (response.status == 200) {
                     this.games = response.data;
-                    
+
                 }
             }).catch(error => {
                 console.log(error);
