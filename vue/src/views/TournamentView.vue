@@ -18,7 +18,7 @@
 
     <div class=tournament_row>
       <h2 class=tournament_title>Active Tournaments</h2>
-      <tournament-list v-bind:filters="activeFilterWithEndDate" />
+      <tournament-list v-bind:filters="activeFilter" />
     </div>
 
     <div class = "tournament_row">
@@ -33,8 +33,6 @@
 
 
 <script>
-
-import TournamentService from '../services/TournamentService';
 import TournamentList from '../components/TournamentList.vue';
 
 export default {
@@ -44,21 +42,42 @@ export default {
   },
   data() {
     return {
-      
-      activeFilterWithNull: [
+      endDateFilter: {
+        filterProperty: "endDate",
+        value: null,
+        condition: "IS",
+        concat:
+        [
+          {
+            filterProperty: "endDate",
+            value: new Date(),
+            condition: ">",
+            operator: "|"
+          }
+        ]
+      },
+      upcomingFilter: [
         {
           filterProperty: "startDate",
           value: new Date(),
-          condition: "<"
+          condition: ">"
         },
         {
           filterProperty: "endDate",
-          value: new Date(),
-          condition: ">"
+          value: null,
+          condition: "IS",
+          concat:
+          [
+            {
+              filterProperty: "endDate",
+              value: new Date(),
+              condition: ">",
+              operator: "|"
+            }
+          ]
         }
-
       ],
-      activeFilterWithEndDate: [
+      activeFilter: [
         {
           filterProperty: "startDate",
           value: new Date(),
@@ -66,40 +85,32 @@ export default {
         },
         {
           filterProperty: "endDate",
-          value: new Date(),
-          condition: ">"
+          value: null,
+          condition: "IS",
+          concat:
+          [
+            {
+              filterProperty: "endDate",
+              value: new Date(),
+              condition: ">",
+              operator: "|"
+            }
+          ]
         }
-
       ],
       pastFilter: [
         {
           filterProperty: "endDate",
           value: new Date(),
           condition: "<"
-        }
-      ],
-      upcomingFilter: [
-        {
-          filterProperty: "startDate",
-          value: new Date(),
-          condition: ">"
-        }
-      ],
-      activeQueries: [
-        {
-          filters: this.activeFilterWithEndDate,
-          operator: "|",
-          limit: 3,
         },
         {
-          filters: this.activeFilterWithNull,
-          operator: "&",
-          limit: 3,
-        },
-      ],
+          filterProperty: "endDate",
+          value: null,
+          condition: "IS NOT"
+        }
+      ]
     }
-
-
 
   }
 }
