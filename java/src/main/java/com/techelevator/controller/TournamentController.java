@@ -21,10 +21,12 @@ import java.util.Map;
 
 public class TournamentController {
     private final TournamentDao tournamentDao;
+    private final BracketDao bracketDao;
     private final UserDetailsDao detailsDao;
 
     public TournamentController(JdbcTemplate jdbcTemplate) {
         tournamentDao = new JdbcTournamentDao(jdbcTemplate);
+        bracketDao = new JdbcBracketDao(jdbcTemplate);
         detailsDao = new JdbcUserDetailsDao(jdbcTemplate);
     }
 
@@ -140,5 +142,38 @@ public class TournamentController {
 
     }
 
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/create-brackets/{count}", method = RequestMethod.GET)
+    public List<Bracket> createBracketTree(@PathVariable int count) {
+        return bracketDao.createBracketTree(count);
+    }
 
+
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/brackets/{bracketId}/tree", method = RequestMethod.GET)
+    public List<Bracket> getBracketTree(@PathVariable int bracketId) {
+        return bracketDao.getBracketsFromRoot(bracketId);
+    }
+
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/brackets/{bracketId}/ancestors", method = RequestMethod.GET)
+    public List<Bracket> getAncestorBrackets(@PathVariable int bracketId) {
+        return bracketDao.getAncestors(bracketId);
+    }
+
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/brackets/{bracketId}/children", method = RequestMethod.GET)
+    public List<Bracket> getChildrenBrackets(@PathVariable int bracketId) {
+        return bracketDao.getChildBrackets(bracketId);
+    }
+
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/brackets/{bracketId}", method = RequestMethod.DELETE)
+    public void deleteBracketTree(@PathVariable int bracketId) {
+        if (!bracketDao.deleteBracketTree(bracketId))
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error while deleting Bracket Tree"
+            );
+    }
 }
