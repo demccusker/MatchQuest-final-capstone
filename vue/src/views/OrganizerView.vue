@@ -6,24 +6,34 @@
         <router-link to="/organizer/past-tournaments" class="nav-link">Past Tournaments</router-link>
       </div>
       <div class="nav-bottom">
-        <router-link to="/player/dashboard" class="nav-link">Switch to Player</router-link>
+        <router-link to="/player/dashboard" v-on:click="goToPlayerView" class="nav-link">Switch to Player</router-link>
         <router-link to="/organizer/profile" class="nav-link">Profile</router-link>
         <router-link to="/logout" class="nav-link">Logout</router-link>
       </div>
       </aside>
       <main class="dashboard-content">
         <h1>Organizer Dashboard</h1>
+        <h2>This is the user's current role:{{ this.$store.state.currentRole }}</h2>
+        <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2>
        <tournament-list-by-creator-id/>
       </main>
     </div>
     
   </template>
 
+
 <script>
 import TournamentListByCreatorId from '../components/TournamentListByCreatorId.vue';
 export default {
   components: {
     TournamentListByCreatorId
+  },
+  methods:{
+    goToPlayerView(){
+      this.$store.commit("UPDATE_CURRENT_ROLE","player");
+      this.$store.push("/player/dashboard");
+    }
+
   }
 
 }

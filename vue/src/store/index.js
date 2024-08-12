@@ -5,7 +5,10 @@ export function createStore(currentToken, currentUser) {
   let store = _createStore({
     state: {
       token: currentToken || '',
-      user: currentUser || {}
+      user: currentUser || {},
+      currentRole: 'public',
+      isOrganizer: false
+
     },
     mutations: {
       SET_AUTH_TOKEN(state, token) {
@@ -23,7 +26,15 @@ export function createStore(currentToken, currentUser) {
         state.token = '';
         state.user = {};
         axios.defaults.headers.common = {};
+      },
+      UPDATE_CURRENT_ROLE(state, newRole){
+        state.currentRole = newRole;
+      },
+      IS_ORGANIZER(state, status){
+        state.isOrganizer = status;
       }
+        
+      
     },
     
     
