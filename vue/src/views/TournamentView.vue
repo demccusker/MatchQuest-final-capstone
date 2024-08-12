@@ -120,8 +120,6 @@ export default {
       ]
     }
 
-<<<<<<< Updated upstream
-=======
 
 
   },
@@ -136,7 +134,6 @@ export default {
       }else
         return "/";
     }
->>>>>>> Stashed changes
   }
 }
 </script>
