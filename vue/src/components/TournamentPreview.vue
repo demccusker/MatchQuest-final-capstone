@@ -16,8 +16,7 @@
             </p>
         </div>
         <div class="logo">
-            <!-- Replace with your logo or image -->
-            <img src="../assets/match_logo.jpg" alt="Logo" />
+            <img :src=gameLogos[tournament.gameId] alt="Logo" />
     </div>
         
     </div>
@@ -39,6 +38,22 @@ export default {
             gameName: '',
             hoverStyle:{
                 backgroundColor: 'white'
+            },
+            gameLogos:{
+                //Chess
+                1: '/assets/chess_logo.jpg',
+                //Golf
+                2: '/assets/golf_logo.jpg',
+                //CS2
+                3: '/assets/cs2_logo.jpg',
+                //War
+                4: '/assets/war_logo.jpg',
+                //Minecraft
+                5: '/assets/minecraft_logo.jpg',
+                //Badminton
+                6: '/assets/badminton_logo.jpg'
+
+
             }
         }
     },
@@ -105,7 +120,9 @@ export default {
 }
 
 .logo img {
-  max-width: 70px;
-  height: auto;
+  width: 70px; /* Set desired width */
+  height: 70px; /* Set desired height */
+  border-radius: 50%; /* Makes the image circular */
+  object-fit: cover; /* Ensures the image covers the circle without distortion */
 }
 </style>
