@@ -1,6 +1,6 @@
 BEGIN TRANSACTION;
 --ROLLBACK;
-DROP TABLE IF EXISTS  users, user_details, game, win_condition, tournament, tournament_players, bracket,
+DROP TABLE IF EXISTS  users, user_details, game, win_condition, tournament, tournament_players, bracket_id_map, bracket,
 match, match_players, result, match_results, address
 CASCADE;
 DROP SEQUENCE IF EXISTS seq_detail_id, seq_bracket_id;
@@ -63,12 +63,17 @@ CREATE SEQUENCE seq_bracket_id
     START WITH 255
     CYCLE;
 
+CREATE TABLE bracket_record (
+    stored_bracket_id INT CONSTRAINT id_limit CHECK (stored_bracket_id >= 255) UNIQUE,
+    CONSTRAINT pk_bracket_id_record PRIMARY KEY (stored_bracket_id)
+);
+
 -- bracket Table
 CREATE TABLE bracket (
     bracket_id INT NOT NULL,
     parent_bracket INT REFERENCES bracket (bracket_id), -- Self-referencing foreign key
-    match_id INT NOT NULL,
-    name VARCHAR(50),
+    match_id INT NULL,
+    name VARCHAR(50) NULL,
     CONSTRAINT pk_bracket PRIMARY KEY (bracket_id),
     CONSTRAINT fk_bracket_match FOREIGN KEY (match_id) REFERENCES match (match_id)
 );

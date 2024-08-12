@@ -55,7 +55,10 @@ INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
     ((SELECT currval('seq_bracket_id')) + 3, (SELECT currval('seq_bracket_id')) + 1, 2, 'Quarter-Final'),
     ((SELECT currval('seq_bracket_id')) + 4, (SELECT currval('seq_bracket_id')) + 1, 2, 'Quarter-Final'),
     ((SELECT currval('seq_bracket_id')) + 5, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),
-    ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final');
+    ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 2, 'Quarter-Final'),
+    ((SELECT nextval('seq_bracket_id')), null, 2, 'Final'),
+    ((SELECT currval('seq_bracket_id')) + 1, (SELECT currval('seq_bracket_id')), 2, 'Semi-Final'),
+    ((SELECT currval('seq_bracket_id')) + 2, (SELECT currval('seq_bracket_id')), 2, 'Semi-Final');
 
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants, is_scrim, is_online, location, start_date, end_date) VALUES
     ((SELECT game_id FROM game WHERE name = 'Badminton'), 255, 3, 'Epic Game of Badminton', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
