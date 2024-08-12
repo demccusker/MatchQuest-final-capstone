@@ -2,8 +2,9 @@
     <div class="dashboard-container">
       <aside class="sidebar">
         <div class="nav-top">
-            <router-link v-bind:to="{ name: 'home' }" class="nav-link">Home</router-link>
+          <router-link v-bind:to="{ name: 'home' }" class="nav-link">Home</router-link>
           <router-link to="/player/past-tournaments" class="nav-link">Past Tournaments</router-link>
+          <router-link to="/tournaments" class="nav-link">Tournaments</router-link>
          
         </div>
         <div class="nav-bottom">
@@ -17,8 +18,8 @@
       </aside>
       <main class="dashboard-content">
         <h1>Player Dashboard</h1>
-        <h2>This is the user's current role: {{ this.$store.state.currentRole }}</h2>
-        <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2>
+        <!-- <h2>This is the user's current role: {{ this.$store.state.currentRole }}</h2>
+        <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2> -->
 
         <h2>Upcoming Tournaments</h2>
         <!-- Limit 2 is a placeholder number depending on css styling for flex size -->

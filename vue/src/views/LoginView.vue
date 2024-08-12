@@ -76,17 +76,15 @@ export default {
         
         this.userDetails = response.data;
 
-        // console.log("userDetails isStaff is");
-        // console.log(this.userDetails.isStaff);
-        //If isStaff == false then will go to player dashboard
+        
         if(this.userDetails.isStaff===false){
+          //This case is for player users only
           this.$store.commit("UPDATE_CURRENT_ROLE","player");
           this.$store.commit("IS_ORGANIZER",false);
           this.$router.push('/player/dashboard');
         }
         else{
-          console.log("Is organizer");
-          console.log(response.data);
+          //This case is for organizer users only
           this.$store.commit("UPDATE_CURRENT_ROLE", "organizer");
           this.$store.commit("IS_ORGANIZER", true);
           this.$router.push('/organizer/dashboard');

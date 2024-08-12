@@ -1,33 +1,41 @@
 <template>
-  <div id="nav">
-    <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
-    <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
-    <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link> &nbsp;|&nbsp;
-    <router-link v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link> &nbsp;|&nbsp;
-    <router-link v-bind:to="{ name: 'tournament' }">Tournament</router-link>
+  
 
-    <!-- <router-link v-bind:to="{ name: 'userDetails'}">User Details</router-link> -->
-  </div>
+  <div class="dashboard-container">
+      <aside class="sidebar">
+        <div class="nav-top">
+          <router-link v-bind:to="{ name: 'home' }" class="nav-link">Home</router-link>
+          <router-link v-bind:to="nextPage" class="nav-link">Dashboard</router-link>
+          <router-link to="/player/past-tournaments" class="nav-link">Past Tournaments</router-link>
+          <router-link to="/tournaments" class="nav-link">Tournaments</router-link>
+         
+        </div>
+        <div class="nav-bottom">
+            <router-link to="/organizer/dashboard" 
+                v-on:click="goToOrganizerView" 
+                v-if ="isButtonVisible"
+                class="nav-link">Switch to Organizer</router-link>
+            <router-link to="/player/profile" class="nav-link">Profile</router-link>
+            <router-link to="/login" class="nav-link">Logout</router-link>
+        </div>
+      </aside>
+    <main class="dashboard-content">
+        <div class = tournament_row>
+          <h2 class = tournament_title>Upcoming Tournaments</h2>
+          <tournament-list v-bind:filters="upcomingFilter"/> 
+        </div>
 
-  <div class=tournaments>
+        <div class=tournament_row>
+          <h2 class=tournament_title>Active Tournaments</h2>
+          <tournament-list v-bind:filters="activeFilterWithEndDate" />
+        </div>
 
-    <div class = tournament_row>
-      <h2 class = tournament_title>Upcoming Tournaments</h2>
-      <tournament-list v-bind:filters="upcomingFilter"/> 
+        <div class = "tournament_row">
+          <h2 class = tournament_title>Past Tournaments</h2>
+          <tournament-list v-bind:filters="pastFilter"/>
+        </div>
+    </main>
     </div>
-
-    <div class=tournament_row>
-      <h2 class=tournament_title>Active Tournaments</h2>
-      <tournament-list v-bind:filters="activeFilter" />
-    </div>
-
-    <div class = "tournament_row">
-      <h2 class = tournament_title>Past Tournaments</h2>
-      <tournament-list v-bind:filters="pastFilter"/>
-    </div>
-
-  </div>
-
 
 </template>
 
@@ -112,37 +120,75 @@ export default {
       ]
     }
 
+<<<<<<< Updated upstream
+=======
+
+
+  },
+  computed:{
+    nextPage(){
+      
+      const currentRole = this.$store.state.currentRole;
+      if(currentRole==="player"){
+        return "/player/dashboard";
+      }else if(currentRole==="organizer"){
+        return "/organizer/dashboard";
+      }else
+        return "/";
+    }
+>>>>>>> Stashed changes
   }
 }
 </script>
 
 
 <style>
-#tournamentList {
+.dashboard-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-
+  height: 100vh; /* Ensure full height */
 }
 
-#createForm {
+.sidebar {
+  width: 200px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.nav-top,
+.nav-bottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  margin-bottom: 10px;
   justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  border: 1px solid #34495e;
+  border-radius: 4px;
 }
 
-/* .bracket-maker {
-  text-align: center;
-  padding: 2rem;
-  background: linear-gradient(to bottom, #007bff, #6610f2);
-  color: white;
-.create button {
-  background: #343a40;
-  color: white;
-  padding: 0.75rem 2rem;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s;
-} */
+.nav-link:hover {
+  background-color: #34495e;
+}
+
+.dashboard-content {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: rgb(219, 236, 235);
+}
+
+h1 {
+  font-size: 40px;
+  margin-bottom: 20px;
+}
 </style>

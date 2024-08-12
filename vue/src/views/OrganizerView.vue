@@ -4,6 +4,7 @@
         <div class="nav-top">
         <router-link to="/organizer/create-tournament" class="nav-link">Create Tournament</router-link>
         <router-link to="/organizer/past-tournaments" class="nav-link">Past Tournaments</router-link>
+        <router-link to="/tournaments" class = "nav-link">Tournaments</router-link>
       </div>
       <div class="nav-bottom">
         <router-link to="/player/dashboard" v-on:click="goToPlayerView" class="nav-link">Switch to Player</router-link>
@@ -13,8 +14,8 @@
       </aside>
       <main class="dashboard-content">
         <h1>Organizer Dashboard</h1>
-        <h2>This is the user's current role:{{ this.$store.state.currentRole }}</h2>
-        <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2>
+        <!-- <h2>This is the user's current role:{{ this.$store.state.currentRole }}</h2>
+        <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2> -->
        <tournament-list-by-creator-id/>
       </main>
     </div>
