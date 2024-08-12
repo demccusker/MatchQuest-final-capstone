@@ -66,4 +66,22 @@ public class MatchController {
         return match;
     }
 
+    @RequestMapping(path = "/player/{playerId}", method=RequestMethod.GET)
+    @PreAuthorize("permitAll")
+    public List<Match> getMatchesByPlayerId(@PathVariable int playerId){
+        List<Match> matches = new ArrayList<>();
+
+        try {
+            matches = matchDao.getMatchesByPlayerId(playerId);
+            if (matches.isEmpty()) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Unable to locate player's games");
+            }
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+            );
+        }
+        return matches;
+    }
 }
