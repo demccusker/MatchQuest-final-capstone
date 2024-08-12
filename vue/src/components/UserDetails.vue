@@ -45,8 +45,10 @@ export default {
             UserDetailsService.createUserDetails(this.$store.state.user.id, this.userDetails,authToken).then((response)=>{
                 if(response.status == 201){
                     if(this.userDetails.isStaff==true){
+                        this.$store.commit("UPDATE_USER_ROLE","organizer")
                         this.$router.push("/organizer/dashboard")
                     }else{
+                        this.$store.commit("UPDATE_USER_ROLE","player")
                         this.$router.push("/player/dashboard");
                     }
                     

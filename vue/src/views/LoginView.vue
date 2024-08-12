@@ -39,6 +39,10 @@ export default {
         username: "",
         password: ""
       },
+      userRole:{
+        public: true,
+        role: ''
+      },
       invalidCredentials: false,
       userDetails:{}
       
@@ -76,9 +80,15 @@ export default {
         // console.log(this.userDetails.isStaff);
         //If isStaff == false then will go to player dashboard
         if(this.userDetails.isStaff===false){
+          this.$store.commit("UPDATE_CURRENT_ROLE","player");
+          this.$store.commit("IS_ORGANIZER",false);
           this.$router.push('/player/dashboard');
         }
         else{
+          console.log("Is organizer");
+          console.log(response.data);
+          this.$store.commit("UPDATE_CURRENT_ROLE", "organizer");
+          this.$store.commit("IS_ORGANIZER", true);
           this.$router.push('/organizer/dashboard');
         }
         
