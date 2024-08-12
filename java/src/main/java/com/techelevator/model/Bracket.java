@@ -1,17 +1,21 @@
 package com.techelevator.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Bracket {
-
     private int bracketId;
-
-    private int parentBracket;
-
+    @JsonProperty("parentBracket")
+    private int parentId;
+    @JsonIgnore
+    private Bracket parentBracket = null;
     private int matchId;
-
     private String name;
 
-    public Bracket(int bracketId, int parentBracket, int matchId, String name) {
+    public Bracket() {}
+    public Bracket(int bracketId, int parentId, Bracket parentBracket, int matchId, String name) {
         this.bracketId = bracketId;
+        this.parentId = parentId;
         this.parentBracket = parentBracket;
         this.matchId = matchId;
         this.name = name;
@@ -25,11 +29,15 @@ public class Bracket {
         this.bracketId = bracketId;
     }
 
-    public int getParentBracket() {
+    public int getParentId() { return parentId; }
+
+    public void setParentId(int parentId) { this.parentId = parentId; }
+
+    public Bracket getParentBracket() {
         return parentBracket;
     }
 
-    public void setParentBracket(int parentBracket) {
+    public void setParentBracket(Bracket parentBracket) {
         this.parentBracket = parentBracket;
     }
 

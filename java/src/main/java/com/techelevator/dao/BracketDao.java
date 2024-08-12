@@ -5,12 +5,11 @@ import com.techelevator.model.Bracket;
 import java.util.List;
 
 public interface BracketDao {
+    List<Bracket> createBracketTree(int numberOfMatches);
 
-    List<Bracket> getBrackets();
+    List<Bracket> getBracketsFromRoot(int bracketId);
+    List<Bracket> getAncestors(int bracketId);
+    List<Bracket> getChildBrackets(int bracketId);
 
-    Bracket getBracketById (int bracketId);
-
-    Bracket getBracketByName (String name);
-
-
+    boolean deleteBracketTree(int rootId);
 }
