@@ -39,25 +39,30 @@ export default {
             },
             registrationErrors: false,
             registrationErrorMsg: 'There were problems editing this user.',
+            
         };
     },
     created() {
-        console.log(this.userDetails);
+        
     this.editUserDetails = this.userDetails;
+    console.log("userDetails prop received:", this.userDetails);
     },
     
-    // mounted() {
-    //     this.fetchUserDetails();
-    // },
+    mounted() {
+        this.fetchUserDetails();
+    },
 
     methods:{
         fetchUserDetails() {
-            const userId = this.$route.params.id;
+            //const userId = this.$route.params.id;
+            const userId = this.$store.state.user.id;
             console.log(userId);
             UserDetailsService.getUserDetails(userId)
                 .then((response) => {
                     if (response.status === 200){
                         this.editUserDetails = response.data; 
+                        console.log("Fetched user details:", this.editUserDetails);
+                        
                     } else {
                         console.error('Error fetching user data:', response.status);
                     }
@@ -70,9 +75,11 @@ export default {
         updateUserDetails(){
     
             const authToken = this.$store.state.token;
-            UserDetailsService.updateUserDetails(this.$store.state.user.id, this.userDetails,authToken).then((response)=>{
-                if(response.status == 201){
-                    this.$router.push("/tournaments");
+            console.log("Data being sent to updateUserDetails:", this.editUserDetails, authToken)
+            UserDetailsService.updateUserDetails(this.$store.state.user.id, this.editUserDetails,authToken).then((response)=>{
+                console.log("Response from updateUserDetails:", response); 
+                if(response.status == 200){
+                    this.$router.push("/player/profile");
                 }
             }).catch((error)=>{
                 const response = error.response;
@@ -89,7 +96,10 @@ export default {
 <style>
 #form {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    
+}
+
+.form-input-group {
+    margin: 10px;
 }
 </style>

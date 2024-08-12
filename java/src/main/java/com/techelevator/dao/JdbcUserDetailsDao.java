@@ -63,14 +63,16 @@ public class JdbcUserDetailsDao implements UserDetailsDao {
     }
 
     @Override
-    public int  updateUserDetails(  UserDetails userDetails){
+    public int  updateUserDetails(UserDetails userDetails){
 
         String SQL = "UPDATE user_details " +
                 "SET display_name = ? , elo_rating = ?, is_staff = ? " +
-                "WHERE detail_id = ? " ;
+                "WHERE user_id = ? " ;
         try {
+            System.out.println("userId is " + userDetails.getUserId());
             int rowsEffected = jdbcTemplate.update(SQL, userDetails.getDisplayName(),userDetails.getEloRating(),
-                    userDetails.getIsStaff(), userDetails.getDetailId());
+                    userDetails.getIsStaff(), userDetails.getUserId());
+            System.out.println("rows affected: " + rowsEffected);
             return rowsEffected;
         } catch (CannotGetJdbcConnectionException e) {
             throw new DaoException("Unable to connect to server or database", e);
@@ -130,6 +132,14 @@ public class JdbcUserDetailsDao implements UserDetailsDao {
 
         return userDetails;
     }
+
+    @Override
+    public int getDetailIdByUserId(int userId) {
+        UserDetails userDetails = getUserDetailsByUserId(userId);
+        int detailId = userDetails.getDetailId();
+        return detailId;
+    }
+
 
 private UserDetails mapRowToUserDetails(SqlRowSet results)   {
     UserDetails userDetails = new UserDetails();

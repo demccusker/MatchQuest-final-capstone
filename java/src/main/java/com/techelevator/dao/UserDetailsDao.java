@@ -19,4 +19,6 @@ public interface UserDetailsDao {
 
     UserDetails getUserDetailsByUserId(int id);
 
+    int getDetailIdByUserId(int userId);
+
 }

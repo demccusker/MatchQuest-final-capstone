@@ -80,6 +80,7 @@ public class UserController {
         try {
             UserDetails updatedUserDetails;
             int rowsEffected = detailsDao.updateUserDetails(userDetails);
+            System.out.println("number of rows affected in the controller: " + rowsEffected);
             if (rowsEffected == 0) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "unable to update user detail" + userId);
@@ -91,6 +92,7 @@ public class UserController {
                 );
 
             }
+            System.out.println("userDeatils display name after controller: " + updatedUserDetails.getDisplayName());
             return updatedUserDetails;
         }catch (DaoException e){
             throw new ResponseStatusException(
