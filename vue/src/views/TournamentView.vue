@@ -62,7 +62,7 @@ export default {
         {
           filterProperty: "startDate",
           value: new Date(),
-          condition: "<"
+          condition: "<="
         },
         {
           filterProperty: "endDate",
