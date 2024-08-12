@@ -73,41 +73,39 @@ export default {
 
 .tournament-container {
   display: grid;
-  grid-template-columns: 1fr auto; /* Two columns: one flexible and one auto-sized */
-  grid-template-rows: auto; /* Rows will adjust based on content */
-  gap: 1rem; /* Space between columns */
+  grid-template-columns: 1fr auto; /* 1fr allows the first column to take up remaining space */
+  gap: 1rem;
   border-radius: 8px;
   background-color: white;
-  padding: 1rem; /* Adjust padding as needed */
+  padding: 1rem;
+  align-items: stretch; /* Ensure all items stretch to match the height of the tallest item */
+  min-height: 80px; /* Ensure consistent height */
 }
 
 .text-content {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center the text content vertically */
-  
+  justify-content: center;
+  flex-grow: 1; /* Allow the text content to grow and fill available space */
+  overflow: hidden;
 }
 
 .logo {
   display: flex;
-  align-items: center; /* Center the logo vertically */
-  justify-content: center; /* Center the logo horizontally */
+  align-items: center;
+  justify-content: center;
 }
 
-.tournament-container .tournamentName {
-  font-size: 0.75rem; /* Adjust the font size */
-  color: black;
-  margin: 0; /* Remove default margin */
-  text-align: left; /* Align text to the left */
-}
-
+.tournament-container .tournamentName,
 .tournament-container .tournamentShortPreview {
-  font-size: 0.75rem;
-  margin-top: 0.5rem; /* Add some space above */
+  font-size: clamp(0.75rem, 2vw, 1rem); /* Adjusts between 0.75rem and 1rem based on viewport width */
+  color: black;
+  margin: 0;
+  text-align: left;
 }
 
 .logo img {
-  max-width: 70px; /* Adjust size of the logo as needed */
-  height: auto; /* Maintain aspect ratio */
+  max-width: 70px;
+  height: auto;
 }
 </style>
