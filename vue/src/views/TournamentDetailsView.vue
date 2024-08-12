@@ -13,10 +13,11 @@
       </aside>
       <main class="dashboard-content">
         <h1>Tournament Details</h1>
-       
+        <TournamentDetails :tournament="this.tournament"/>
+
       </main>
     </div>
-    <TournamentDetails :tournament="this.tournament"/>
+   
     
 </template>
 
