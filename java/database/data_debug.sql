@@ -100,10 +100,11 @@ INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
 --
 ---- Inserting into Tournament
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants, is_scrim, is_online, location, start_date, end_date) VALUES
-    ((SELECT game_id FROM game WHERE name = 'Badminton'), 255, 1, 'Epic Game of Badminton', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
-    ((SELECT game_id FROM game WHERE name = 'Golf'), 255, 2, 'Golf Tournament', 20, FALSE, FALSE, '650 Yankee Avenue', CURRENT_DATE, NULL),
-    ((SELECT game_id FROM game WHERE name = 'Golf'), 255, 2, 'Golfy Tournament', 15, TRUE, TRUE, NULL, CURRENT_DATE, NULL),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), 510, 3, 'Minecraft Tournament of Champs', 8, FALSE, TRUE, NULL, '2024-01-01', '2024-01-02');
+    ((SELECT game_id FROM game WHERE name = 'Badminton'), null, 1, 'Epic Game of Badminton', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
+    ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golf Tournament', 20, FALSE, FALSE, '650 Yankee Avenue', CURRENT_DATE, NULL),
+    ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golfy Tournament', 15, TRUE, TRUE, NULL, CURRENT_DATE, NULL),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), null, 3, 'Minecraft Tournament of Champs', 8, FALSE, TRUE, NULL, '2024-01-01', '2024-01-02'),
+    ((SELECT game_id FROM game WHERE name = 'Chess'), null, 3, 'Mind Games Tournament', 64, FALSE, TRUE, NULL, 2026-01-01, NULL);
 
 
 INSERT INTO address (tournament_id, city, province, country) VALUES
@@ -129,6 +130,19 @@ INSERT INTO tournament_players (user_id, tournament_id) VALUES
     ((SELECT user_id FROM users WHERE username = 'usera57'),
      (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
     ((SELECT user_id FROM users WHERE username = 'usera58'),
-     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs'));
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'usera58'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+    ((SELECT user_id FROM users WHERE username = 'user1'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament')),
+    ((SELECT user_id FROM users WHERE username = 'user2'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament')),
+    ((SELECT user_id FROM users WHERE username = 'user3'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament')),
+    ((SELECT user_id FROM users WHERE username = 'user4'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament')),
+    ((SELECT user_id FROM users WHERE username = 'user5'),
+     (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament'));
+
 
 COMMIT TRANSACTION;
