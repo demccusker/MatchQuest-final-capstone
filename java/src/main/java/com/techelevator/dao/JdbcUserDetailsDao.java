@@ -141,8 +141,9 @@ public class JdbcUserDetailsDao implements UserDetailsDao {
     }
 
 
-private UserDetails mapRowToUserDetails(SqlRowSet results)   {
+public static UserDetails mapRowToUserDetails(SqlRowSet results)   {
     UserDetails userDetails = new UserDetails();
+
     userDetails.setDetailId(results.getInt("detail_id"));
     userDetails.setUserId(results.getInt("user_id"));
     userDetails.setDisplayName(results.getString("display_name"));

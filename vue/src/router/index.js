@@ -18,6 +18,8 @@ import PlayerProfileView from '../views/PlayerProfileView.vue';
 import UpcomingTournamentsView from '../views/UpcomingTournamentsView.vue';
 import PastTournamentView from '../views/PastTournamentView.vue';
 import ActiveTournamentView from '../views/ActiveTournamentView.vue';
+import MyTournamentsView from '../views/MyTournamentsView.vue';
+import OrganizerCloseTournamentView from '../views/OrganizerCloseTournamentView.vue';
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
  * inside of App.vue depending on the URL.
@@ -124,6 +126,14 @@ const routes = [
     }
   },
   {
+    path: "/organizer/close-tournament",
+    name: "organizerCloseTournament",
+    component: OrganizerCloseTournamentView,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: "/player/profile",
     name: "playerProfileView",
     component: PlayerProfileView,
@@ -153,6 +163,14 @@ const routes = [
     component: ActiveTournamentView,
     meta: {
       requiresAuth: false
+    }
+  },
+  {
+    path: "/tournaments/my",
+    name: "myTournaments",
+    component: MyTournamentsView,
+    meta: {
+      requiresAuth:true
     }
   }
 

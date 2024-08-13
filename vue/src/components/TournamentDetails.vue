@@ -38,6 +38,8 @@
   
   <script>
   import matchService from '../services/MatchService';
+  import TournamentService from '../services/TournamentService';
+
 
 export default {
   props: {
@@ -50,7 +52,8 @@ export default {
     return {
       showConfirmModal: false,
       showSuccessModal: false,
-      registrationStatus: 'Not Registered' 
+      registrationStatus: 'Not Registered' ,
+      tournaments: {}
     };
   },
   methods: {
@@ -59,7 +62,23 @@ export default {
       this.showSuccessModal = true;
       this.registrationStatus = 'Registered'; 
     }
-  }
+  },
+  created() {
+      const tournamentId = this.$route.params.tournamentId;
+      TournamentService.getTournament(tournamentId)
+        .then(response => {
+          if (response.status === 200) {
+            this.tournament = response.data;
+          }
+        })
+        .catch(error => {
+          if (error.response && error.response.status === 404) {
+            this.$router.push({ name: 'notFound' });
+          } else {
+            console.error('Error fetching tournament details:', error);
+          }
+        });
+    }
 };
 </script>
   

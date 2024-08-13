@@ -2,25 +2,11 @@
   
 
   <div class="dashboard-container">
-      <aside class="sidebar">
-        <div class="nav-top">
-          <router-link v-bind:to="{ name: 'home' }" class="nav-link">Home</router-link>
-          <router-link v-bind:to="nextPage" class="nav-link">Dashboard</router-link>
-          <router-link to="/player/past-tournaments" class="nav-link">Past Tournaments</router-link>
-          <router-link to="/tournaments" class="nav-link">Tournaments</router-link>
-         
-        </div>
-        <div class="nav-bottom">
-            <router-link to="/organizer/dashboard" 
-                v-on:click="goToOrganizerView" 
-                v-if ="isButtonVisible"
-                class="nav-link">Switch to Organizer</router-link>
-            <router-link to="/player/profile" class="nav-link">Profile</router-link>
-            <router-link to="/login" class="nav-link">Logout</router-link>
-        </div>
-      </aside>
+      <nav-bar></nav-bar>
     <main class="dashboard-content">
         <div class = tournament_row>
+          <!-- Checking store state -->
+          <h2>{{ this.$store.state }}</h2>
           <h2 class = tournament_title>Upcoming Tournaments</h2>
           <tournament-list v-bind:filters="upcomingFilter"/> 
         </div>
@@ -42,10 +28,10 @@
 
 <script>
 import TournamentList from '../components/TournamentList.vue';
-
+import NavBar from '../components/NavBar.vue';
 export default {
   components: {
-
+    NavBar,
     TournamentList
   },
   data() {
@@ -122,19 +108,8 @@ export default {
 
 
 
-  },
-  computed:{
-    nextPage(){
-      
-      const currentRole = this.$store.state.currentRole;
-      if(currentRole==="player"){
-        return "/player/dashboard";
-      }else if(currentRole==="organizer"){
-        return "/organizer/dashboard";
-      }else
-        return "/";
-    }
   }
+ 
 }
 </script>
 

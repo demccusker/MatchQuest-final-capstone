@@ -33,8 +33,8 @@ public class TournamentController {
     @RequestMapping(method = RequestMethod.POST)
     public Tournament createTournament(@RequestBody Tournament tournament, Principal caller) {
         Tournament newTournament;
-        String name = caller.getName();
-        UserDetails userDetails = detailsDao.getUserDetailsByUsername(name);
+        UserDetails userDetails = getUserDetailsByCaller(detailsDao, caller);
+
         if (!userDetails.getIsStaff()) throw new ResponseStatusException(
                 HttpStatus.FORBIDDEN, "You are not allowed to access this content."
         );
@@ -113,6 +113,7 @@ public class TournamentController {
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{tournamentId}/update", method = RequestMethod.PUT)
     public Tournament updateTournament(@RequestBody @Valid Tournament tournament, @PathVariable int tournamentId) {
+
         tournament.setTournamentId(tournamentId);
 
         Tournament updatedTournament;
@@ -143,15 +144,12 @@ public class TournamentController {
     }
 
     @RequestMapping(path = "/{tournamentId}/join", method = RequestMethod.POST)
-    public int joinTournament(@PathVariable int tournamentId, Principal principal) {
-        String name = principal.getName();
-        UserDetails userDetails = detailsDao.getUserDetailsByUsername(name);
-        int userId = userDetails.getUserId();
-        System.out.println("user id; " + userId);
-        System.out.println("tournament id: " + tournamentId);
-        int rowsAffected = 0;
+    public int joinTournament(@PathVariable int tournamentId, Principal caller) {
+        int userId = getUserIdByCaller(detailsDao, caller);
+        int rowsAffected;
+
         try {
-            rowsAffected = tournamentDao.addPlayerToTournament(userId,tournamentId);
+            rowsAffected = tournamentDao.addPlayerToTournament(userId, tournamentId);
             if (rowsAffected == 0) {
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Unable to add player to tournament");
@@ -163,10 +161,44 @@ public class TournamentController {
         return rowsAffected;
     }
 
+    private static int getUserIdByCaller(UserDetailsDao details, Principal caller) {
+        try {
+            return details.getUserDetailsByUsername(caller.getName()).getUserId();
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT,
+                    ex.getMessage()
+            );
+        }
+    }
+
+    private static UserDetails getUserDetailsByCaller(UserDetailsDao details, Principal caller) {
+        try {
+            return details.getUserDetailsByUsername(caller.getName());
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT,
+                    ex.getMessage()
+            );
+        }
+    }
+
     @PreAuthorize("permitAll")
-    @RequestMapping(path = "/create-brackets/{count}", method = RequestMethod.GET)
-    public List<Bracket> createBracketTree(@PathVariable int count) {
-        return bracketDao.createBracketTree(count);
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "/{tournamentId}/create-brackets", method = RequestMethod.GET)
+    public List<Bracket> createBracketTree(@PathVariable int tournamentId) {
+        List<UserDetails> participants;
+
+        try {
+            participants = tournamentDao.getParticipants(tournamentId);
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT,
+                    ex.getMessage()
+            );
+        }
+
+        return bracketDao.createBracketTree(participants.size());
     }
 
 
