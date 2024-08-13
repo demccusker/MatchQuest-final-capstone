@@ -14,6 +14,7 @@
       <main class="dashboard-content">
         <h1>Tournament Details</h1>
         <TournamentDetails :tournament="this.tournament"/>
+        <tournament-brackets></tournament-brackets>
 
       </main>
     </div>
@@ -22,12 +23,14 @@
 </template>
 
 <script>
+import TournamentBrackets from '../components/TournamentBrackets.vue';
 import TournamentDetails from '../components/TournamentDetails.vue';
 import TournamentService from '../services/TournamentService';
 
 export default {
   components: {
-    TournamentDetails
+    TournamentDetails,
+    TournamentBrackets
   },
   data() {
     return {
