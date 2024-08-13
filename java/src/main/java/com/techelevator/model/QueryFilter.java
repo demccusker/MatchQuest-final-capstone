@@ -179,6 +179,7 @@ public class QueryFilter {
             "%1$s.is_scrim, " +
             "%1$s.is_online, " +
             "%1$s.location, " +
+            "%1$s.max_participants, " +
             "%1$s.start_date, " +
             "%1$s.end_date " +
             "FROM tournament %1$s ", TOURNAMENT_ALIAS);

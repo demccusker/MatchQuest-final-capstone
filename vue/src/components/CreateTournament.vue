@@ -42,6 +42,8 @@
                 <input type="text" id="location" v-model="tournament.location" />
             </div>
             <button type="submit">Create</button>
+
+
         </form>
     </div>
 </template>
@@ -57,7 +59,7 @@ export default {
             tournament: {
                 name: '',
                 gameId: null,
-                bracketId: 2, // hardcoded for now
+                bracketId: 255, // hardcoded for now
                 creatorId: this.$store.state.user.id,
                 maxParticipants: 0,
                 startDate: '',

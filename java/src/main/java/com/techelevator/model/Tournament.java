@@ -16,10 +16,19 @@ public class Tournament {
     private String location;
     private LocalDate startDate;
     private LocalDate endDate;
+    private int maxParticipants;
+
+    public void setMaxParticipants(int maxParticipants) {
+        this.maxParticipants = maxParticipants;
+    }
+
+    public int getMaxParticipants() {
+        return maxParticipants;
+    }
 
     public Tournament() {}
     public Tournament(int tournamentId, int bracketId, int gameId, int creatorId, String name,
-                      boolean isScrim, boolean isOnline, String location,
+                      boolean isScrim, boolean isOnline, String location,int maxParticipants,
                       LocalDate startDate, LocalDate endDate) {
         this.tournamentId = tournamentId;
         this.bracketId = bracketId;
@@ -31,6 +40,8 @@ public class Tournament {
         this.location = location;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.maxParticipants = maxParticipants;
+
     }
 
     public void setIsOnline(boolean IsOnline) {

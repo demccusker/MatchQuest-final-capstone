@@ -90,7 +90,7 @@ CREATE TABLE bracket (
 -- tournament Table
 CREATE TABLE tournament (
     tournament_id SERIAL NOT NULL,
-    bracket_id INT NOT NULL,
+    bracket_id INT NULL,
     game_id INT NOT NULL,
     creator_id INT NOT NULL,
     name VARCHAR(50),

@@ -16,7 +16,7 @@ import java.util.List;
 public class JdbcTournamentDao implements TournamentDao{
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String SELECT_TOURNAMENT = "SELECT tournament_id, game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date FROM tournament t ";
+    private static final String SELECT_TOURNAMENT = "SELECT tournament_id, game_id, bracket_id, creator_id, name, is_scrim, is_online, location,max_participants, start_date, end_date FROM tournament t ";
     private static final String JOIN_ADDRESS = "JOIN address a ON t.location = a.address_id ";
     private static final String SELECT_TOURNAMENT_ADDRESS_BRIDGE = SELECT_TOURNAMENT + JOIN_ADDRESS;
 
@@ -148,8 +148,8 @@ public class JdbcTournamentDao implements TournamentDao{
     public Tournament createTournament(Tournament tournament){
         Tournament newTournament;
 
-        String sql = "INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date)\n" +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING tournament_id";
+        String sql = "INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date,max_participants)\n" +
+                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING tournament_id";
         try {
             int newTournamentId = jdbcTemplate.queryForObject(sql, int.class,
                     tournament.getGameId(),
@@ -160,7 +160,9 @@ public class JdbcTournamentDao implements TournamentDao{
                     tournament.isOnline(),
                     tournament.getLocation(),
                     tournament.getStartDate(),
-                    tournament.getEndDate()
+                    tournament.getEndDate(),
+                    tournament.getMaxParticipants()
+
             );
             newTournament = getTournamentById(newTournamentId);
 
@@ -177,11 +179,11 @@ public class JdbcTournamentDao implements TournamentDao{
         int rowsAffected = 0;
         String sql = "UPDATE tournament " +
                 "SET game_id = ? , bracket_id = ?, creator_id = ?, name = ?, " +
-                "is_scrim = ?, is_online = ?, location = ?, start_date=? , end_date = ? " +
+                "is_scrim = ?, is_online = ?, location = ?,max_participants = ? , start_date=? , end_date = ? " +
                 "WHERE tournament_id = ? ";
         try { rowsAffected = jdbcTemplate.update(sql,tournament.getGameId(),tournament.getBracketId(),
                 tournament.getCreatorId(),tournament.getName(),tournament.getIsScrim(),
-                tournament.isOnline(),tournament.getLocation(),tournament.getStartDate(),
+                tournament.isOnline(),tournament.getLocation(), tournament.getMaxParticipants(),tournament.getStartDate(),
                 tournament.getEndDate(),tournament.getTournamentId());
 
         } catch (CannotGetJdbcConnectionException e) {
@@ -253,6 +255,7 @@ public class JdbcTournamentDao implements TournamentDao{
         tournament.setIsScrim(result.getBoolean("is_scrim"));
         tournament.setIsOnline(result.getBoolean("is_online"));
         tournament.setLocation(result.getString("location"));
+        tournament.setMaxParticipants(result.getInt("max_participants"));
         tournament.setStartDate(result.getDate("start_date").toLocalDate());
         tournament.setEndDate(result.getDate("end_date") != null ? result.getDate("end_date").toLocalDate() : null);
 

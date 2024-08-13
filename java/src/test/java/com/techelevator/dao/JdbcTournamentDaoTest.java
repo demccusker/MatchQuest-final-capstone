@@ -24,10 +24,10 @@ public class JdbcTournamentDaoTest extends BaseDaoTests {
     private static LocalDate date4 = LocalDate.parse("2024-04-23");
 
     private static LocalDate date5 = LocalDate.parse("2024-05-01");
-    protected static final Tournament TOURNAMENT1 = new Tournament(1, 1, 2, 3, "Golf Tournament", false, false, "China", date1, null);
-    protected static final Tournament TOURNAMENT2 = new Tournament (2, 1, 2, 3, "Golf Tournament", false, false, null, date2, date3);
+    protected static final Tournament TOURNAMENT1 = new Tournament(1, 1, 2, 3, "Golf Tournament", false, false, "China",20, date1, null);
+    protected static final Tournament TOURNAMENT2 = new Tournament (2, 1, 2, 3, "Golf Tournament", false, false, null,30, date2, date3);
 
-    protected static final Tournament TOURNAMENT3 = new Tournament(4,5,3,5,"IDONTKNOW", true, true, "Online", date4, date5);
+    protected static final Tournament TOURNAMENT3 = new Tournament(4,5,3,5,"IDONTKNOW", true, true, "Online",40, date4, date5);
 
     private JdbcTournamentDao sut;
     private Object jdbcTournamentDao;
