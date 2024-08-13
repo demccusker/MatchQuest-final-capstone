@@ -1,5 +1,7 @@
 <template>
-    <bracket-element></bracket-element>
+    <ul>
+        <bracket-element></bracket-element>
+    </ul>
 </template>
 
 <script>
