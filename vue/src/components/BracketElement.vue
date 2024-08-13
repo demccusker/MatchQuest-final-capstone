@@ -14,12 +14,12 @@
                     <tr class="tournament-bracket-team">
                         <td class="tournament-bracket-competitor"><abbr class="tournament-bracket-competitor-name"
                                 title="Hikarus Nakamura">Hikaru</abbr></td>
-                        <td class="tournament-bracket-score"><span class="tournament-bracket-number">2</span></td>
+                        <td class="tournament-bracket-score"><span class="tournament-bracket-number">{{ this.matchInfo.player1Score }}</span></td>
                     </tr>
                     <tr class="tournament-bracket-team tournament-bracket-team--winner">
                         <td class="tournament-bracket-competitor"><abbr class="tournament-bracket-competitor-name"
                                 title="Magnus Carlsen">Magnus</abbr></td>
-                        <td class="tournament-bracket-score"><span class="tournament-bracket-number">3</span></td>
+                        <td class="tournament-bracket-score"><span class="tournament-bracket-number">{{ this.mathcInfo.player2Score }}</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -28,8 +28,48 @@
 </template>
 
 <script>
-export default {
+// import MatchService 
 
+export default {
+  props: {
+    bracket: {
+      Type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      assignedBracket: {
+        bracketId: 0,
+        matchId: 0,
+        name: "",
+        parentBracket: 0
+      },
+      matchInfo: {
+        matchId: 0,
+        gameId: 0,
+        isScrim: false,
+        player1Id: 0,
+        player2Id: 0,
+        player1Score: 0.0,
+        player2Score: 0.0,
+        winnerId: 0,
+        isDraw: false
+      }
+    }
+  },
+
+  created() {
+    this.assignedBracket = this.bracket;
+
+    /*matchService.getMatch(this.assignedBracket.matchId).then(response => {
+      if (response.status == 200) {
+        this.matchInfo = response.data;
+      }
+    }).catch(error => {
+      console.log(error);
+    })*/
+  }
 }
 </script>
 
