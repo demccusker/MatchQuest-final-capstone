@@ -5,7 +5,7 @@
             <router-link to="/tournaments/my" v-if="isButtonVisibleForOrganizersOnly" class="nav-link">Your Tournaments</router-link>
             <router-link to="/tournaments/active" class="nav-link">Active Tournaments</router-link>
             <router-link to="/tournaments/upcoming" class="nav-link">Upcoming Tournaments</router-link>
-            <router-link to="/player/past" class="nav-link">Past Tournaments</router-link>
+            <router-link to="/tournaments/past" class="nav-link">Past Tournaments</router-link>
             <router-link to="/tournaments" class="nav-link">Tournaments</router-link>
             <br>
             <br>

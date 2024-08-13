@@ -7,7 +7,6 @@
 
 <script>
 import TournamentList from '../components/TournamentList.vue';
-import TournamentService from '../services/TournamentService'; // Import your service
 
 export default {
     components: {
@@ -15,40 +14,28 @@ export default {
     },
     data() {
         return {
-            selectedTournament: null,
-            activeFilter:   [
+            activeFilter: [
+                {
+                    filterProperty: "startDate",
+                    value: new Date(),
+                    condition: "<="
+                },
+                {
+                    filterProperty: "endDate",
+                    value: null,
+                    condition: "IS",
+                    concat:
+                        [
                             {
-                              filterProperty: "startDate",
-                              value: new Date(),
-                              condition: "<="
-                            },
-                            {
-                              filterProperty: "endDate",
-                              value: new Date(),
-                              condition: ">"
+                                filterProperty: "endDate",
+                                value: new Date(),
+                                condition: ">",
+                                operator: "|"
                             }
-                          ],
+                        ]
+                }
+            ],
         };
-    },
-    mounted() {
-
-        this.fetchTournamentData();
-    },
-    methods: {
-        fetchTournamentData() {
-            const tournamentId = this.$route.params.id;
-            TournamentService.getTournament(tournamentId)
-                .then((response) => {
-                    if (response.status === 200) {
-                        this.selectedTournament = response.data;
-                    } else {
-                        console.error('Error fetching tournament data:', response.status);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error fetching tournament data:', error);
-                });
-        }
     }
 };
 </script>
