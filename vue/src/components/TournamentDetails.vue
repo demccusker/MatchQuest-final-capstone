@@ -53,7 +53,8 @@ export default {
       showConfirmModal: false,
       showSuccessModal: false,
       registrationStatus: 'Not Registered' ,
-      tournaments: {}
+      tournaments: {},
+      matches: []
     };
   },
   methods: {
@@ -61,14 +62,23 @@ export default {
       this.showConfirmModal = false;
       this.showSuccessModal = true;
       this.registrationStatus = 'Registered'; 
-    }
+    },
+    getMatches() {
+        matchService.getMatchesByTournamentId(this.$route.params.tournamentId).then(response => {
+          if (response.status === 200) {
+            this.matches = response.data;
+          }
+        }).catch(error => {
+          console.log(error);
+        })
+      }
   },
   created() {
       const tournamentId = this.$route.params.tournamentId;
       TournamentService.getTournament(tournamentId)
         .then(response => {
           if (response.status === 200) {
-            this.tournament = response.data;
+            this.tournaments = response.data;
           }
         })
         .catch(error => {
@@ -78,7 +88,8 @@ export default {
             console.error('Error fetching tournament details:', error);
           }
         });
-    }
+    }, 
+    
 };
 </script>
   
