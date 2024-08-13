@@ -7,11 +7,17 @@
       <router-link :to="{ name: 'home' }" class="nav-link">Back to Home</router-link>
     </div>
   </template>
-  
-  <script>
-  import TournamentService from '../services/TournamentService';
-  
-  export default {
+
+<script>
+import TournamentService from '../services/TournamentService';
+
+export default {
+    props: {
+        tournament: {
+            type: Object,
+            required: true
+        }
+    },
     data() {
       return {
         tournament: {}
