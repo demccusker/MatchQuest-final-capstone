@@ -7,12 +7,9 @@ import java.util.List;
 public interface MatchDao {
 
     List<Match> getMatches();
-
-    Match getMatchById (int matchId);
-
     List<Match> getMatchesByPlayerId(int playerId);
-
     List<Match> getMatchesByTournamentId(int tournamentId);
 
-
+    Match getMatchById(int matchId);
+    Match createMatch(Match match);
 }

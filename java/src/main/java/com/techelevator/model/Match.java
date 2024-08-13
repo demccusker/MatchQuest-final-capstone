@@ -11,8 +11,8 @@ public class Match {
     private Double player2Score;
     private int winnerId;
     private Boolean isDraw;
-    public Match(){}
 
+    public Match(){}
     public Match(int matchId, int gameId, boolean isScrim, int player1Id, int player2Id, Double player1Score, Double player2Score, int winnerId, Boolean isDraw) {
         this.matchId = matchId;
         this.gameId = gameId;
@@ -89,12 +89,12 @@ public class Match {
         this.winnerId = winnerId;
     }
 
-    public Boolean getDraw() {
+    public Boolean getIsDraw() {
         return isDraw;
     }
 
-    public void setDraw(Boolean draw) {
-        isDraw = draw;
+    public void setIsDraw(Boolean isDraw) {
+        this.isDraw = isDraw;
     }
 }
 
