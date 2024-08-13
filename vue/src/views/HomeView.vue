@@ -77,7 +77,7 @@ export default {
       try {
         const today = new Date().toISOString().split('T')[0];
         const query = {
-          filters: [{ field: 'startDate', operator: '>', value: today }],
+          filters: [{ filterProperty: 'startDate', operator: '>', value: today }],
           operator: "&",
           limit: 255,
         };

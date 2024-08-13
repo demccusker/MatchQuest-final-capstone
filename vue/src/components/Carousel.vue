@@ -1,4 +1,4 @@
-<template>
+n<template>
   <div class="carousel-container" aria-label="Upcoming Tournaments Carousel">
     <Carousel ref="carousel" :itemsToShow="4" :itemsToScroll="1" :autoplay="false" :loop="true" :navigationEnabled="false" @afterChange="updateCurrentIndex">
       <Slide v-for="(tournament, index) in upcomingTournaments" :key="index">
@@ -45,7 +45,7 @@ export default {
       try {
         const today = new Date().toISOString().split('T')[0];
         const query = {
-          filters: [{ field: 'startDate', operator: '>', value: today }],
+          filters: [{ filterProperty: 'startDate', operator: '>', value: today }],
           operator: "&",
           limit: 255,
         };
