@@ -1,13 +1,12 @@
 <template>
-    <tournament-list-by-creator-id/>
+    h2
 </template>
 
 <script>
-import TournamentListByCreatorId from "../components/TournamentListByCreatorId.vue";
 
 export default{
     components:{
-        TournamentListByCreatorId
+        
     }
 }
 </script>
