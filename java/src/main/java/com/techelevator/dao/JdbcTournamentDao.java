@@ -257,7 +257,7 @@ public class JdbcTournamentDao implements TournamentDao{
         }
 
         return participants;
-        }
+    }
 
     private Tournament mapRowToTournament(SqlRowSet result) {
         Tournament tournament = new Tournament();

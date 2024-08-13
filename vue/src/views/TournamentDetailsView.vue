@@ -7,10 +7,9 @@
         <p>{{ tournament.tournamentId }} 
           
         </p>
-        
         <TournamentDetails :tournament="this.tournament"
         />
-        <tournament-brackets v-bind:tournamentId="this.$store.state.tournamentId"></tournament-brackets>
+        <tournament-brackets v-bind:tournamentId="this.$store.state.tournamentId" v-bind:tournamentDate="tournament.startDate"></tournament-brackets>
 
       </main>
     </div>

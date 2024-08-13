@@ -1,6 +1,6 @@
 <template>
     <ul>
-        <bracket-element v-bind:bracket="bracket"></bracket-element>
+        <bracket-element v-for="bracket in brackets" v-bind:key="bracket.bracketId" v-bind:bracket="bracket" v-bind:startDate="tournamentDate"></bracket-element>
     </ul>
 </template>
 
@@ -12,8 +12,12 @@ export default {
         BracketElement
     },
     props: {
-        bracket: {
-            type: Object,
+        brackets: {
+            type: Array,
+            required: true
+        },
+        tournamentDate: {
+            type: String,
             required: true
         }
     },
