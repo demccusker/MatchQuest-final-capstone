@@ -4,6 +4,7 @@ import com.techelevator.exception.DaoException;
 import com.techelevator.model.AddressFilter;
 import com.techelevator.model.QueryFilter;
 import com.techelevator.model.Tournament;
+import com.techelevator.model.UserDetails;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -171,6 +172,7 @@ public class JdbcTournamentDao implements TournamentDao{
         return newTournament;
     }
 
+    @Override
     public int updateTournament(Tournament tournament){
         int rowsAffected = 0;
         String sql = "UPDATE tournament " +
@@ -193,12 +195,56 @@ public class JdbcTournamentDao implements TournamentDao{
     @Override
     public int addPlayerToTournament(int userId, int tournamentId) {
         String sql = "INSERT INTO tournament_players (user_id, tournament_id) VALUES (?, ?)";
-        int rowsAffected = jdbcTemplate.update(sql, userId, tournamentId);
+        int rowsAffected;
+
+        try {
+            rowsAffected = jdbcTemplate.update(sql, userId, tournamentId);
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
         return rowsAffected;
     }
 
+    public int getParticipantCount(int tournamentId) {
+        String sql = "SELECT COUNT(*) FROM tournament_players " +
+                "WHERE tournament_id = ?;";
+        int count;
+
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, tournamentId);
+            count = (result.next()) ? result.getInt("count") : 0;
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return count;
+    }
+
+    @Override
+    public List<UserDetails> getParticipants(int tournamentId) {
+        List<UserDetails> participants = new ArrayList<>();
+        String sql = "SELECT user_id, tournament_id FROM tournament_players " +
+                "WHERE tournament_id = ?;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, tournamentId);
+            while (results.next()) {
+                participants.add(JdbcUserDetailsDao.mapRowToUserDetails(results));
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+
+        return participants;
+        }
+
     private Tournament mapRowToTournament(SqlRowSet result) {
         Tournament tournament = new Tournament();
+
         tournament.setTournamentId(result.getInt("tournament_id"));
         tournament.setBracketId(result.getInt("bracket_id"));
         tournament.setGameId(result.getInt("game_id"));
@@ -209,6 +255,7 @@ public class JdbcTournamentDao implements TournamentDao{
         tournament.setLocation(result.getString("location"));
         tournament.setStartDate(result.getDate("start_date").toLocalDate());
         tournament.setEndDate(result.getDate("end_date") != null ? result.getDate("end_date").toLocalDate() : null);
+
         return tournament;
     }
 }
