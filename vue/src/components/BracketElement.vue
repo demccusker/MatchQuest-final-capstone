@@ -19,7 +19,7 @@
                     <tr class="tournament-bracket-team tournament-bracket-team--winner">
                         <td class="tournament-bracket-competitor"><abbr class="tournament-bracket-competitor-name"
                                 title="Magnus Carlsen">Magnus</abbr></td>
-                        <td class="tournament-bracket-score"><span class="tournament-bracket-number">{{ this.mathcInfo.player2Score }}</span></td>
+                        <td class="tournament-bracket-score"><span class="tournament-bracket-number">{{ this.matchInfo.player2Score }}</span></td>
                     </tr>
                 </tbody>
             </table>
