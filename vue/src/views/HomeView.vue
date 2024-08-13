@@ -4,7 +4,7 @@
     <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
     <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link>&nbsp;|&nbsp;
     <router-link v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link>&nbsp;|&nbsp;
-    <router-link v-bind:to="{ name: 'tournament'}" >Tournament</router-link>
+    <router-link v-bind:to="{ name: 'tournament' }">Tournament</router-link>
   </div>
 
   <div class="home">
@@ -13,16 +13,14 @@
       <p>Your go-to platform for hosting and managing tournaments with ease.</p>
       <router-link to="/register" class="cta-button">Get Started</router-link>
     </div>
-    <!-- <div class="tournament-section">
-      <h2>Upcoming Tournaments</h2>
-      <TournamentList />
-    </div> -->
+   
 
     <div class="content">
       <div class="about-section box">
         <h2>About Tourney</h2>
         <p>
-          Tourney helps you easily create, manage, and track tournaments across various sports and games. Whether you're organizing a small local event or a large-scale competition, Tourney simplifies the process.
+          Tourney helps you easily create, manage, and track tournaments across various sports and games. Whether you're
+          organizing a small local event or a large-scale competition, Tourney simplifies the process.
         </p>
       </div>
 
@@ -33,7 +31,7 @@
         </div>
       </div>
     </div>
-   
+
     <div class="features-section">
       <div class="feature">
         <img src="../assets/easy_to_use.jpg" alt="Easy Setup" id="easy_logo">
@@ -45,21 +43,58 @@
         <h3>Manage Matches</h3>
         <p>Track and manage matches with real-time updates.</p>
       </div>
-      
+
       <div class="feature">
         <img src="../assets/community_logo.jpg" alt="Community" id="community_logo">
         <h3>Join the Community</h3>
         <p>Connect with players and organizers in your area.</p>
       </div>
-      
+
+    </div>
+    <div>
+      <h1>Upcoming Tournaments</h1>
+      <Carousel :tournaments="upcomingTournaments" />
     </div>
   </div>
 </template>
 
+<script>
+import Carousel from '../components/Carousel.vue';
+import TournamentService from '../services/TournamentService';
 
+export default {
+  components: { Carousel },
+  data() {
+    return {
+      upcomingTournaments: [],
+    };
+  },
+  created() {
+    this.fetchUpcomingTournaments();
+  },
+  methods: {
+    async fetchUpcomingTournaments() {
+      try {
+        const today = new Date().toISOString().split('T')[0];
+        const query = {
+          filters: [{ field: 'startDate', operator: '>', value: today }],
+          operator: "&",
+          limit: 255,
+        };
+
+        const response = await TournamentService.getTournamentByFilter(query);
+        if (response.status === 200) {
+          this.upcomingTournaments = response.data;
+        }
+      } catch (error) {
+        console.error('Error fetching upcoming tournaments:', error);
+      }
+    },
+  },
+};
+</script>
 
 <style>
-
 .feature {
   flex: 1;
   text-align: center;
@@ -72,8 +107,8 @@
 }
 
 .feature:hover {
-  transform: scale(1.1); 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); 
+  transform: scale(1.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .feature img {
@@ -83,11 +118,14 @@
 }
 
 
-#match_logo, #easy_logo, #community_logo {
+#match_logo,
+#easy_logo,
+#community_logo {
   width: 50%;
   height: auto;
   margin-bottom: .5rem;
 }
+
 .features-section {
   display: flex;
   justify-content: space-between;
@@ -121,7 +159,9 @@
   color: #555;
 }
 
-#match_logo, #easy_logo, #community_logo {
+#match_logo,
+#easy_logo,
+#community_logo {
   width: 50%;
   height: auto;
   margin-bottom: .5rem;
@@ -155,26 +195,28 @@
   text-align: center;
 }
 
-#nav{
+#nav {
   text-align: right;
   font-family: Verdana;
- padding: 1rem; 
-}
-#nav a {
-  background-color: #6e8fe2;
-  text-decoration: none; 
-  color: black;
-  border: 1px solid light grey; 
-  border-radius: 4px; 
-  padding: 0.5rem 1rem; 
-  transition: background-color 0.3s ease, color 0.3s ease; 
-}
-#nav a:hover {
-  background-color: white; 
-  color: blue; 
+  padding: 1rem;
 }
 
-body{
+#nav a {
+  background-color: #6e8fe2;
+  text-decoration: none;
+  color: black;
+  border: 1px solid light grey;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#nav a:hover {
+  background-color: white;
+  color: blue;
+}
+
+body {
   background-color: #6ba6e6e4;
   font-family: sans-serif;
   color: #070c4df4
@@ -186,13 +228,15 @@ body{
   position: relative;
 
 }
-.bottom_right{
+
+.bottom_right {
   position: absolute;
   bottom: -20px;
   right: 10px;
-  
+
 }
-.title{
+
+.title {
   font-size: xxx-large;
   color: white;
 }
@@ -201,18 +245,22 @@ body{
   width: 100%;
   height: auto;
 }
+
 #match_logo {
   width: 10%;
   height: auto;
 }
+
 #easy_logo {
   width: 10%;
   height: auto;
 }
+
 #community_logo {
   width: 10%;
   height: auto;
 }
+
 #nav {
   text-align: right;
   font-family: Verdana;
@@ -331,6 +379,5 @@ body {
   background-color: #6e8fe2;
   color: white;
 }
-
 </style>
 
