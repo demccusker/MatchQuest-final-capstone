@@ -14,9 +14,14 @@
       </aside>
       <main class="dashboard-content">
         <h1>Organizer Dashboard</h1>
+        <h2> Tournaments Created</h2>
+        <tournament-list-by-creator-id/>
+        <h3> Registered Tournaments</h3>
+        
         <!-- <h2>This is the user's current role:{{ this.$store.state.currentRole }}</h2>
         <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2> -->
        <tournament-list-by-creator-id/>
+       
       </main>
     </div>
     
@@ -53,6 +58,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .nav-top,
@@ -64,9 +70,10 @@ export default {
 .nav-link {
   color: white;
   text-decoration: none;
-  display: block;
-  padding: 10px;
-  margin-bottom: 10px;
+  display: flex;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 4px;;
   justify-content: center;
   align-items: center;
   transition: background-color 0.3s ease;
@@ -80,8 +87,11 @@ export default {
 
 .dashboard-content {
   flex-grow: 1;
-  padding: 20px;
-  background-color: rgb(219, 236, 235);
+  padding: 30px;
+  background-color: white;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); /* Inner shadow for a soft look */
+  border-radius: 8px;
+  margin: 20px;
 }
 
 h1 {

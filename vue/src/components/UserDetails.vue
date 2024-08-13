@@ -26,7 +26,7 @@ import { mapState } from 'vuex';
 import UserDetailsService from '../services/UserDetailsService';
 export default {
 
-    // Your component code here
+    
     data() {
         return {
             userDetails: {

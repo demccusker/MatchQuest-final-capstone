@@ -32,7 +32,12 @@ export default {
     },
     getTournamentByFilter(filter) {
         return http.post('/tournaments/query', filter);
+    },
+    joinTournament(tournamentId, authToken) {
+        let authHeader = {headers: {"Authorization": `Bearer ${authToken}`}};
+        return http.post(`/tournaments/${tournamentId}/join`, {}, authHeader);
     }
+
     // deleteTournament(id) {
     //     return http.delete(`/tournaments/${id}`)
     // }
