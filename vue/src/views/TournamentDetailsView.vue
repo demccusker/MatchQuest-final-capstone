@@ -1,18 +1,9 @@
 <template>
  <div class="dashboard-container">
-      <aside class="sidebar">
-        <div class="nav-top">
-            <router-link v-bind:to="{ name: 'home' }" class="nav-link">Home</router-link>
-            <router-link to="/my-tournaments" class="nav-link">My Tournaments</router-link>
-        <router-link to="/past-tournaments" class="nav-link">Past Tournaments</router-link>
-      </div>
-      <div class="nav-bottom">
-       
-        <router-link to="/logout" class="nav-link">Logout</router-link>
-      </div>
-      </aside>
+      <nav-bar></nav-bar>
       <main class="dashboard-content">
         <h1>Tournament Details</h1>
+        <h2>{{ this.$store.state }}</h2>
         <TournamentDetails :tournament="this.tournament"/>
         <tournament-brackets></tournament-brackets>
 
@@ -26,11 +17,12 @@
 import TournamentBrackets from '../components/TournamentBrackets.vue';
 import TournamentDetails from '../components/TournamentDetails.vue';
 import TournamentService from '../services/TournamentService';
-
+import NavBar from '../components/NavBar.vue';
 export default {
   components: {
     TournamentDetails,
-    TournamentBrackets
+    TournamentBrackets,
+    NavBar
   },
   data() {
     return {
@@ -60,33 +52,7 @@ export default {
   display: flex;
   height: 100vh;
 }
-.nav-top {
-  display: flex;
-  flex-direction: column;
-}
-.nav-bottom {
-  display: flex;
-  flex-direction: column;
-}
-.nav-link {
-  color: white;
-  text-decoration: none;
-  display: block;
-  padding: 10px 0;
-  margin-bottom: 10px;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
-  margin-bottom: 10px;
-  transition: background-color 0.3s ease;
-  border: 1px solid #34495e;
-  border-radius: 4px;
-  height: 20px;
-}
 
-.nav-link:hover {
-  background-color: #34495e;
-}
 
 .dashboard-content {
   flex-grow: 1;
