@@ -84,4 +84,26 @@ public class MatchController {
         }
         return matches;
     }
+
+
+    @RequestMapping(path = "/tournaments/{tournamentId}", method=RequestMethod.GET)
+    @PreAuthorize("permitAll")
+    public List<Match> getMatchesByTournamentId(@PathVariable int tournamentId){
+        List<Match> matches = new ArrayList<>();
+
+        try {
+            matches = matchDao.getMatchesByTournamentId(tournamentId);
+            if (matches.isEmpty()) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Unable to locate matches for tournament " + tournamentId);
+            }
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+            );
+        }
+        return matches;
+    }
+
+
 }

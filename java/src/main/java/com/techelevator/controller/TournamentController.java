@@ -142,6 +142,27 @@ public class TournamentController {
 
     }
 
+    @RequestMapping(path = "/{tournamentId}/join", method = RequestMethod.POST)
+    public int joinTournament(@PathVariable int tournamentId, Principal principal) {
+        String name = principal.getName();
+        UserDetails userDetails = detailsDao.getUserDetailsByUsername(name);
+        int userId = userDetails.getUserId();
+        System.out.println("user id; " + userId);
+        System.out.println("tournament id: " + tournamentId);
+        int rowsAffected = 0;
+        try {
+            rowsAffected = tournamentDao.addPlayerToTournament(userId,tournamentId);
+            if (rowsAffected == 0) {
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Unable to add player to tournament");
+            }
+        } catch (DaoException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+        return rowsAffected;
+    }
+
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/create-brackets/{count}", method = RequestMethod.GET)
     public List<Bracket> createBracketTree(@PathVariable int count) {

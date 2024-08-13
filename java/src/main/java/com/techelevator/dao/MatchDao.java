@@ -12,5 +12,7 @@ public interface MatchDao {
 
     List<Match> getMatchesByPlayerId(int playerId);
 
+    List<Match> getMatchesByTournamentId(int tournamentId);
+
 
 }

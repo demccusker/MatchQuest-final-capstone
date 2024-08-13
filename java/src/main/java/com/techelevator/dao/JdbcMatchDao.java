@@ -65,6 +65,29 @@ public class JdbcMatchDao implements MatchDao {
         return matches;
     }
 
+    @Override
+    public List<Match> getMatchesByTournamentId(int tournamentId) {
+        String sql = "SELECT m.match_id,m.game_id,m.is_scrim,m.player1_id,m.player2_id,m.player1_score,m.player2_score,m.winner_id,m.is_draw \n" +
+                "FROM match m\n" +
+                "JOIN tournament_players tp \n" +
+                "ON m.player1_id = tp.user_id\n" +
+                "JOIN tournament t \n" +
+                "on tp.tournament_id = t.tournament_id\n" +
+                "WHERE t.tournament_id = ? ";
+        List<Match> matches = new ArrayList<>();
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql,tournamentId);
+            while (results.next()) {
+                Match match = mapRowToMatch(results);
+                matches.add(match);
+            }
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return matches;
+    }
+
     public Match mapRowToMatch(SqlRowSet result){
         Match match = new Match();
         match.setMatchId(result.getInt("match_id"));

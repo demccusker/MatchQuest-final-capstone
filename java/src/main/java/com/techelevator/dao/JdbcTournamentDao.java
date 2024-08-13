@@ -190,6 +190,13 @@ public class JdbcTournamentDao implements TournamentDao{
         return rowsAffected;
     }
 
+    @Override
+    public int addPlayerToTournament(int userId, int tournamentId) {
+        String sql = "INSERT INTO tournament_players (user_id, tournament_id) VALUES (?, ?)";
+        int rowsAffected = jdbcTemplate.update(sql, userId, tournamentId);
+        return rowsAffected;
+    }
+
     private Tournament mapRowToTournament(SqlRowSet result) {
         Tournament tournament = new Tournament();
         tournament.setTournamentId(result.getInt("tournament_id"));
