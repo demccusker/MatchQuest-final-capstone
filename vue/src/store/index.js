@@ -1,13 +1,13 @@
 import { createStore as _createStore } from 'vuex';
 import axios from 'axios';
 
-export function createStore(currentToken, currentUser) {
+export function createStore(currentToken, currentUser,currentRole, isOrganizer) {
   let store = _createStore({
     state: {
       token: currentToken || '',
       user: currentUser || {},
-      currentRole: 'public',
-      isOrganizer: false
+      currentRole: currentRole || 'public',
+      isOrganizer: isOrganizer || false
 
     },
     mutations: {
@@ -23,15 +23,21 @@ export function createStore(currentToken, currentUser) {
       LOGOUT(state) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
+        localStorage.removeItem('currentRole');
+        localStorage.removeItem('isOrganizer');
         state.token = '';
         state.user = {};
+        state.currentRole = '';
+        state.isOrganizer = false;
         axios.defaults.headers.common = {};
       },
       UPDATE_CURRENT_ROLE(state, newRole){
         state.currentRole = newRole;
+        localStorage.setItem('currentRole',newRole);
       },
       IS_ORGANIZER(state, status){
         state.isOrganizer = status;
+        localStorage.setItem('isOrganizer',status);
       }
         
       

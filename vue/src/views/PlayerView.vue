@@ -13,14 +13,15 @@
                 v-if ="isButtonVisible"
                 class="nav-link">Switch to Organizer</router-link>
             <router-link to="/player/profile" class="nav-link">Profile</router-link>
-            <router-link to="/login" class="nav-link">Logout</router-link>
+            <router-link to="/login" v-on:click="logOut" class="nav-link">Logout</router-link>
         </div>
       </aside>
       <main class="dashboard-content">
         <h1>Player Dashboard</h1>
         <!-- <h2>This is the user's current role: {{ this.$store.state.currentRole }}</h2>
         <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2> -->
-
+        <!-- Checking store state -->
+        <h2>{{ this.$store.state }}</h2>
         <h2>Upcoming Tournaments</h2>
         <!-- Limit 2 is a placeholder number depending on css styling for flex size -->
         <tournament-list v-bind:limit="2"
@@ -64,6 +65,10 @@
       goToOrganizerView(){
         this.$store.commit("UPDATE_CURRENT_ROLE","organizer");
         this.$store.push("/organizer/dashboard");
+      },
+      logOut(){
+        this.$store.commit("LOGOUT");
+        this.$router.push("/login");
       }
     }
   

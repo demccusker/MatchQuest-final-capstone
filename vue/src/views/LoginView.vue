@@ -23,6 +23,7 @@
       <p>
         <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link>
       </p>
+      <h2>{{ this.$store.state }}</h2>
     </form>
   </div>
 </template>
@@ -38,10 +39,6 @@ export default {
       user: {
         username: "",
         password: ""
-      },
-      userRole:{
-        public: true,
-        role: ''
       },
       invalidCredentials: false,
       userDetails:{}
