@@ -1,31 +1,37 @@
 <template>
-    <div class="dashboard-container">
-      <nav-bar></nav-bar>
-      <main class="dashboard-content">
-        <h1>Organizer Dashboard</h1>
-        <h2> Tournaments Created</h2>
-        <tournament-list-by-creator-id/>
-        <h3> Registered Tournaments</h3>
-        
-        <!-- <h2>This is the user's current role:{{ this.$store.state.currentRole }}</h2>
+  <div class="dashboard-container">
+    <nav-bar></nav-bar>
+    <main class="dashboard-content">
+      <h1>Organizer Dashboard</h1>
+      <!-- <h2>This is the user's current role:{{ this.$store.state.currentRole }}</h2>
         <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2> -->
-        <!-- Checking store state -->
-        <h2>{{ this.$store.state }}</h2>
-       <tournament-list-by-creator-id/>
-       
-      </main>
-    </div>
-    
-  </template>
+      <!-- Checking store state -->
+      <h2>{{ this.$store.state }}</h2>
+      <tournament-list v-bind:filters="creatorFilter"></tournament-list>
+    </main>
+  </div>
+
+</template>
 
 
 <script>
-import TournamentListByCreatorId from '../components/TournamentListByCreatorId.vue';
+import TournamentList from '../components/TournamentList.vue';
 import NavBar from '../components/NavBar.vue';
 export default {
   components: {
-    TournamentListByCreatorId,
-    NavBar
+    NavBar,
+    TournamentList
+  },
+  data() {
+    return {
+      creatorFilter: [
+        {
+          filterProperty: "creatorId",
+          value: this.$store.state.user.id,
+          condition: "="
+        }
+      ]
+    }
   }
 
 }
@@ -33,7 +39,8 @@ export default {
 <style scoped>
 .dashboard-container {
   display: flex;
-  height: 100vh; /* Ensure full height */
+  height: 100vh;
+  /* Ensure full height */
 }
 
 .dashboard-content {

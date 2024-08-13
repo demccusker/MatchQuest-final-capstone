@@ -17,6 +17,8 @@ let currentToken = localStorage.getItem('token');
 let currentUser = JSON.parse(localStorage.getItem('user'));
 let currentUserRole = localStorage.getItem('currentRole');
 let isOrganizer = localStorage.getItem('isOrganizer');
+let currentTournamentId = localStorage.getItem('tournamentId');
+let currentTournamentCreatorId = localStorage.getItem('tournamentCreatorId');
 
 if (currentToken) {
   // Set token axios requests
@@ -24,7 +26,7 @@ if (currentToken) {
 }
 
 // Create the Vuex store passing in the stored credentials
-const store = createStore(currentToken, currentUser, currentUserRole, isOrganizer);
+const store = createStore(currentToken, currentUser, currentUserRole, isOrganizer,currentTournamentId, currentTournamentCreatorId);
 
 const app = createApp(CapstoneApp);
 app.use(store);

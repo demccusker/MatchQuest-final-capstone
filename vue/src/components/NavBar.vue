@@ -13,8 +13,9 @@
                 <h2>Organizer's Features</h2>
                 <router-link 
                 to="/organizer/create-tournament" class="nav-link" id="create">Create Tournament</router-link>
-                <div class="organizer-edit-close" v-if="isTournamentDetailsPage">
-                    <router-link to="/organizer/edit-tournament" class="nav-link" id="edit">Edit Tournament</router-link>
+                <div class="organizer-edit-close" v-if="viewTournamentEditCloseFeatures()">
+                    <!-- {{ currentTournamentId }} -->
+                    <router-link v-bind:to="{name:'organizerEditTournament', params:{id:currentTournamentId}}" class="nav-link" id="edit">Edit Tournament</router-link>
                     <router-link to="/organizer/close-tournament" class="nav-link" id="close">Close Tournament</router-link>
 
                 </div>
@@ -49,11 +50,7 @@ export default {
         isButtonVisibleForOrganizersOnly(){
             return this.$store.state.currentRole === "organizer";
         },
-        isTournamentDetailsPage(){
-            const currentUserId = this.$store.state.user.id;
-
-            return /^\/tournaments\/\d+$/.test(this.$route.path);
-        },
+        
         switchRoleLink() {
             const currentRole = this.$store.state.currentRole;
             if (currentRole === "player") {
@@ -65,6 +62,10 @@ export default {
         alternateRole() {
             const currentRole = this.$store.state.currentRole;
             return currentRole === "player" ? "Switch to Organizer" : "Switch to Player";
+        },
+        currentTournamentId(){
+            console.log("Current tournamentId",this.$store.state.tournamentId);
+            return this.$store.state.tournamentId;
         }
 
     },
@@ -84,6 +85,17 @@ export default {
         logOut() {
             this.$store.commit("LOGOUT");
             this.$router.push("/login");
+        },
+        viewTournamentEditCloseFeatures(){
+            const currentUserId = this.$store.state.user.id;
+            const creatorId = this.$store.state.tournamentCreatorId;
+            console.log("CurrentUserID:",currentUserId);
+            console.log("CreatorID:",creatorId);
+            if(currentUserId === creatorId ){
+                return true;
+            }
+            return false;
+            // return /^\/tournaments\/\d+$/.test(this.$route.path);
         }
     }
 };

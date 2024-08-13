@@ -1,13 +1,15 @@
 import { createStore as _createStore } from 'vuex';
 import axios from 'axios';
 
-export function createStore(currentToken, currentUser, currentRole, isOrganizer) {
+export function createStore(currentToken, currentUser, currentRole, isOrganizer,currentTournamentId,currentTournamentCreatorId) {
   let store = _createStore({
     state: {
       token: currentToken || '',
       user: currentUser || {},
       currentRole: currentRole || 'public',
-      isOrganizer: isOrganizer || false
+      isOrganizer: isOrganizer || false,
+      tournamentId: currentTournamentId || -1,
+      tournamentCreatorId: currentTournamentCreatorId || -1
 
     },
     mutations: {
@@ -25,10 +27,14 @@ export function createStore(currentToken, currentUser, currentRole, isOrganizer)
         localStorage.removeItem('user');
         localStorage.removeItem('currentRole');
         localStorage.removeItem('isOrganizer');
+        localStorage.removeItem('tournamentId');
+        localStorage.removeItem('tournamentCreatorId');
         state.token = '';
         state.user = {};
         state.currentRole = '';
         state.isOrganizer = false;
+        state.tournamentId = -1;
+        state.tournamentCreatorId = -1;
         axios.defaults.headers.common = {};
       },
       UPDATE_CURRENT_ROLE(state, newRole){
@@ -38,9 +44,16 @@ export function createStore(currentToken, currentUser, currentRole, isOrganizer)
       IS_ORGANIZER(state, status){
         state.isOrganizer = status;
         localStorage.setItem('isOrganizer',status);
+      },
+      SET_TOURNAMENT_ID(state, tournamentId){
+        state.tournamentId = tournamentId;
+        localStorage.setItem('tournamentId',tournamentId); 
+      },
+      SET_TOURNAMENT_CREATOR_ID(state, tournamentCreatorId){
+        state.tournamentCreatorId = tournamentCreatorId;
+        localStorage.setItem('tournamentCreatorId',tournamentCreatorId);
       }
-        
-      
+
     },
     
     
