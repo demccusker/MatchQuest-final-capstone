@@ -4,8 +4,13 @@
       <main class="dashboard-content">
         <h1>Tournament Details</h1>
         <h2>{{ this.$store.state }}</h2>
-        <TournamentDetails :tournament="this.tournament"/>
-        <tournament-brackets></tournament-brackets>
+        <p>{{ tournament.tournamentId }} 
+          
+        </p>
+        
+        <TournamentDetails :tournament="this.tournament"
+        />
+        <tournament-brackets v-bind:tournamentId="this.$store.state.tournamentId"></tournament-brackets>
 
       </main>
     </div>

@@ -1,6 +1,6 @@
 <template>
     <ul>
-        <bracket-element></bracket-element>
+        <bracket-element v-bind:bracket="bracket"></bracket-element>
     </ul>
 </template>
 
@@ -10,6 +10,16 @@ import BracketElement from './BracketElement.vue';
 export default {
     components: {
         BracketElement
+    },
+    props: {
+        bracket: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+        }
     }
 }
 </script>

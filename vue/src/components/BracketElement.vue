@@ -28,7 +28,7 @@
 </template>
 
 <script>
-// import MatchService 
+import MatchService from '../services/MatchService';
 
 export default {
   props: {
@@ -62,13 +62,13 @@ export default {
   created() {
     this.assignedBracket = this.bracket;
 
-    /*matchService.getMatch(this.assignedBracket.matchId).then(response => {
+    MatchService.getMatchById(this.assignedBracket.matchId).then(response => {
       if (response.status == 200) {
         this.matchInfo = response.data;
       }
     }).catch(error => {
       console.log(error);
-    })*/
+    })
   }
 }
 </script>
