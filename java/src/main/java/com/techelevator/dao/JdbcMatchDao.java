@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Game;
 import com.techelevator.model.Match;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -31,22 +32,6 @@ public class JdbcMatchDao implements MatchDao {
             throw new DaoException("Unable to connect to server or database", e);
         }
         return matches;
-    }
-
-    @Override
-    public Match getMatchById(int matchId){
-        Match match = null;
-        String sql = "SELECT * FROM match WHERE match_id = ?";
-        try{
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchId);
-            if(results.next()){
-                match = mapRowToMatch(results);
-
-            }
-        }catch (CannotGetJdbcConnectionException e) {
-            throw new DaoException("Unable to connect to server or database", e);
-        }
-        return match;
     }
 
     @Override
@@ -88,12 +73,54 @@ public class JdbcMatchDao implements MatchDao {
         return matches;
     }
 
+    @Override
+    public Match getMatchById(int matchId){
+        Match match;
+        String sql = "SELECT * FROM match WHERE match_id = ?";
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchId);
+            match = (results.next()) ? mapRowToMatch(results) : null;
+
+        }catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        }
+        return match;
+    }
+
+    @Override
+    public Match createMatch(Match match) {
+        Match newMatch;
+        String sql = "INSERT INTO match(game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw) VALUES " +
+                     "(?, ?, ?, ?, ?, ?, ?, ?) RETURNING match_id;";
+
+        try {
+            int matchId = jdbcTemplate.queryForObject(sql, int.class,
+                    match.getGameId(),
+                    match.getIsScrim(),
+                    match.getPlayer1Id(),
+                    match.getPlayer2Id(),
+                    match.getPlayer1Score(),
+                    match.getPlayer2Score(),
+                    match.getWinnerId(),
+                    match.getIsDraw()
+            );
+            newMatch = getMatchById(matchId);
+
+        } catch (CannotGetJdbcConnectionException e) {
+            throw new DaoException("Unable to connect to server or database", e);
+        } catch (DataIntegrityViolationException e) {
+            throw new DaoException("Data integrity violation", e);
+        }
+
+        return newMatch;
+    }
+
     public Match mapRowToMatch(SqlRowSet result){
         Match match = new Match();
         match.setMatchId(result.getInt("match_id"));
         match.setGameId(result.getInt("game_id"));
         match.setScrim(result.getBoolean("is_scrim"));
-        match.setDraw(result.getBoolean("is_draw"));
+        match.setIsDraw(result.getBoolean("is_draw"));
         match.setPlayer1Id(result.getInt("player1_id"));
         match.setPlayer2Id(result.getInt("player2_id"));
         match.setPlayer1Score(result.getDouble("player1_score"));

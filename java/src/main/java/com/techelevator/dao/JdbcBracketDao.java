@@ -112,7 +112,7 @@ public class JdbcBracketDao implements BracketDao {
                     "name, " +
                     "CAST(bracket_id AS varchar) " +
                     "FROM bracket " +
-                    "WHERE parent_bracket IS NULL and bracket_id = ? " +
+                    "WHERE bracket_id = ? " +
                 "UNION " +
                 "SELECT bracket_tree.root, " +
                     "bracket.bracket_id, " +

@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/tournaments")
 @PreAuthorize("isAuthenticated()")
 @CrossOrigin
-
 public class TournamentController {
     private final TournamentDao tournamentDao;
     private final BracketDao bracketDao;
@@ -185,48 +184,103 @@ public class TournamentController {
 
     @PreAuthorize("permitAll")
     @ResponseStatus(HttpStatus.CREATED)
-    @RequestMapping(path = "/{tournamentId}/create-brackets", method = RequestMethod.GET)
+    @RequestMapping(path = "/{tournamentId}/brackets", method = RequestMethod.POST)
     public List<Bracket> createBracketTree(@PathVariable int tournamentId) {
-        List<UserDetails> participants;
+        List<Bracket> tree;
 
         try {
+            Tournament tournament;
+            List<UserDetails> participants;
+            int participantCount;
+
+            tournament = tournamentDao.getTournamentById(tournamentId);
+            if (tournament.getBracketId() != 0) throw new ResponseStatusException(
+                    HttpStatus.ALREADY_REPORTED,
+                    "Bracket has already been created for this tournament. Bracket regeneration currently not supported!"
+            );
+
             participants = tournamentDao.getParticipants(tournamentId);
+            participantCount = tournamentDao.getParticipantCount(tournamentId);
+
+            if (participants.size() != participantCount) throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Number of participants does not match participant count in cloud!"
+            );
+            else if (participantCount < 2) throw new ResponseStatusException(
+                    HttpStatus.NOT_ACCEPTABLE,
+                    "Tournament must have more than one person signed up to create bracket! Currently has: " + participantCount + " signed up participants."
+            );
+
+            int requiredMatches = (participantCount < 3) ? 1 : participantCount - 1;
+            tree = bracketDao.createBracketTree(requiredMatches);
+
+            tournament.setBracketId(tree.get(0).getBracketId());
+            tournamentDao.updateTournament(tournament);
+
         } catch (DaoException ex) {
             throw new ResponseStatusException(
-                    HttpStatus.REQUEST_TIMEOUT,
+                    HttpStatus.INTERNAL_SERVER_ERROR,
                     ex.getMessage()
             );
         }
 
-        return bracketDao.createBracketTree(participants.size());
+        return tree;
     }
 
 
     @PreAuthorize("permitAll")
-    @RequestMapping(path = "/brackets/{bracketId}/tree", method = RequestMethod.GET)
-    public List<Bracket> getBracketTree(@PathVariable int bracketId) {
-        return bracketDao.getBracketsFromRoot(bracketId);
-    }
+    @RequestMapping(path = "/{tournamentId}/brackets", method = RequestMethod.GET)
+    public List<Bracket> getBracketTree(@PathVariable int tournamentId) {
+        try {
+            Tournament tournament = tournamentDao.getTournamentById(tournamentId);
+            int bracketId = tournament.getBracketId();
 
-    @PreAuthorize("permitAll")
-    @RequestMapping(path = "/brackets/{bracketId}/ancestors", method = RequestMethod.GET)
-    public List<Bracket> getAncestorBrackets(@PathVariable int bracketId) {
-        return bracketDao.getAncestors(bracketId);
-    }
+            if (bracketId == 0) throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Cannot retrieve bracket information from a tournament that does not contain a bracket. Please generate a bracket for this tournament!"
+            );
 
-    @PreAuthorize("permitAll")
-    @RequestMapping(path = "/brackets/{bracketId}/children", method = RequestMethod.GET)
-    public List<Bracket> getChildrenBrackets(@PathVariable int bracketId) {
-        return bracketDao.getChildBrackets(bracketId);
-    }
+            return bracketDao.getBracketsFromRoot(bracketId);
 
-    @PreAuthorize("permitAll")
-    @RequestMapping(path = "/brackets/{bracketId}", method = RequestMethod.DELETE)
-    public void deleteBracketTree(@PathVariable int bracketId) {
-        if (!bracketDao.deleteBracketTree(bracketId))
+        } catch (DaoException ex) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Error while deleting Bracket Tree"
+                    ex.getMessage()
             );
+        }
+    }
+
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "/{tournamentId}/brackets", method = RequestMethod.DELETE)
+    public void deleteBracketTree(@PathVariable int tournamentId) {
+        try {
+            Tournament tournament = tournamentDao.getTournamentById(tournamentId);
+            int bracketId = tournament.getBracketId();
+
+            tournament.setBracketId(0);
+            tournamentDao.updateTournament(tournament);
+
+            if (bracketId == 0) throw new ResponseStatusException(
+                    HttpStatus.NO_CONTENT,
+                    "Cannot retrieve bracket information from a tournament that does not contain a bracket. Please generate a bracket for this tournament!"
+            );
+
+            if (!bracketDao.deleteBracketTree(bracketId)) {
+                /* Restore ID if delete was unsuccessful */
+                tournament.setBracketId(bracketId);
+                tournamentDao.updateTournament(tournament);
+
+                throw new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Error while deleting Bracket Tree"
+                );
+            }
+
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    ex.getMessage()
+            );
+        }
     }
 }
