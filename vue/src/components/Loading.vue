@@ -30,7 +30,7 @@
   }
   
   .loading-gif {
-  width: 1000px; 
+  width: 850px; 
   height: auto; 
 }
   </style>
