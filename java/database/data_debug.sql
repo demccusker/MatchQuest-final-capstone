@@ -62,7 +62,13 @@ INSERT INTO game (name, description, win_type) VALUES
     ('CS2', 'The bomb has been planted', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('War', 'A game of luck', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('Minecraft', 'How does one win?', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
-    ('Badminton', 'Watch it fly!', (SELECT condition_id FROM win_condition WHERE name = 'MAX'));
+    ('Badminton', 'Watch it fly!', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
+    ('Pickleball', 'Plink plonk', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
+    ('Breakdancing', 'Lay down the beats!', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
+    ('Pool', 'Billiards is coming back.', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
+    ('Corn Hole', 'Swag the bag.', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
+    ('Horseshoes', 'Throwing irons.', (SELECT condition_id FROM win_condition WHERE name = 'MAX'));
+
 
 
 
