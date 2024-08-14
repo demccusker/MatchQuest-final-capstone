@@ -3,6 +3,7 @@ package com.techelevator.dao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Game;
 import com.techelevator.model.Match;
+import com.techelevator.model.MatchDto;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -113,6 +114,35 @@ public class JdbcMatchDao implements MatchDao {
         }
 
         return newMatch;
+    }
+    @Override
+    public int updateMatch(MatchDto match){
+        int rowsAffected = 0;
+        Match updateMatch = null;
+        String sql = "UPDATE match " +
+                "SET player1_score = ?, player2_score = ?, winner_id = ?, is_draw = ?, " +
+                "match_start_time = ? " +
+                "WHERE match_id = ?";
+
+        try{
+            Integer matchId = match.getMatchId();
+            matchId = matchId == 0 ? null : matchId;
+
+            rowsAffected = jdbcTemplate.update(sql,
+                    match.getPlayer1Score(),
+                    match.getPlayer2Score(),
+                    match.getWinnerId(),
+                    match.getIsDraw(),
+                    match.getMatchStartTime(),
+                    match.getMatchId()
+                    );
+
+        }catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database",e);
+        }catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation",e);
+        }
+        return rowsAffected;
     }
 
     public Match mapRowToMatch(SqlRowSet result){

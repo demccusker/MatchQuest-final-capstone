@@ -1,7 +1,9 @@
 package com.techelevator.dao;
 
 import com.techelevator.model.Match;
+import com.techelevator.model.MatchDto;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface MatchDao {
@@ -12,4 +14,6 @@ public interface MatchDao {
 
     Match getMatchById(int matchId);
     Match createMatch(Match match);
+
+    int updateMatch(@Valid MatchDto match);
 }

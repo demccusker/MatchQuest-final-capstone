@@ -11,9 +11,10 @@ public class Match {
     private Double player2Score;
     private int winnerId;
     private Boolean isDraw;
+    private String matchStartTime;
 
     public Match(){}
-    public Match(int matchId, int gameId, boolean isScrim, int player1Id, int player2Id, Double player1Score, Double player2Score, int winnerId, Boolean isDraw) {
+    public Match(int matchId, int gameId, boolean isScrim, int player1Id, int player2Id, Double player1Score, Double player2Score, int winnerId, Boolean isDraw, String matchStartTime) {
         this.matchId = matchId;
         this.gameId = gameId;
         this.isScrim = isScrim;
@@ -23,6 +24,7 @@ public class Match {
         this.player2Score = player2Score;
         this.winnerId = winnerId;
         this.isDraw = isDraw;
+        this.matchStartTime = matchStartTime;
     }
 
     public int getMatchId() {
@@ -95,6 +97,14 @@ public class Match {
 
     public void setIsDraw(Boolean isDraw) {
         this.isDraw = isDraw;
+    }
+
+    public String getMatchStartTime() {
+        return matchStartTime;
+    }
+
+    public void setMatchStartTime(String matchStartTime) {
+        this.matchStartTime = matchStartTime;
     }
 }
 

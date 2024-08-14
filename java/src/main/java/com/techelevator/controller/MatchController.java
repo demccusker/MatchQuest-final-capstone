@@ -5,12 +5,14 @@ import com.techelevator.dao.JdbcMatchDao;
 import com.techelevator.dao.MatchDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Match;
+import com.techelevator.model.MatchDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,6 +105,39 @@ public class MatchController {
             );
         }
         return matches;
+    }
+    @RequestMapping(path="/{matchId}/update", method = RequestMethod.PUT)
+    public Match updateMatch(@RequestBody @Valid MatchDto match, @PathVariable int matchId){
+        Match updatedMatch;
+
+        try{
+            if(match.getMatchId() != matchId){
+                throw new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "MatchID in the requestBody is not matching the path variable"
+                );
+            }
+
+            int rowsAffected = matchDao.updateMatch(match);
+
+            if (rowsAffected == 0){
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,"Unable to update tournament "+matchId);
+            }
+
+            updatedMatch = matchDao.getMatchById(matchId);
+
+            if(updatedMatch == null){
+                throw new ResponseStatusException(
+                        HttpStatus.REQUEST_TIMEOUT, "Match ID is not valid"
+                );
+            }
+
+        }catch(DaoException e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage()
+            );
+        }
+        return updatedMatch;
     }
 
 
