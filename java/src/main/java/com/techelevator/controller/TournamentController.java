@@ -250,6 +250,20 @@ public class TournamentController {
             );
         }
     }
+    @RequestMapping(path="/{tournamentId}/participants",method = RequestMethod.GET)
+    public List<UserDetails> getParticipants(@PathVariable int tournamentId){
+        List<UserDetails> userDetailsList = null;
+        try{
+            userDetailsList = tournamentDao.getParticipants(tournamentId);
+        }
+        catch(DaoException ex){
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT,
+                    ex.getMessage()
+            );
+        }
+        return userDetailsList;
+    }
 
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{tournamentId}/brackets", method = RequestMethod.DELETE)

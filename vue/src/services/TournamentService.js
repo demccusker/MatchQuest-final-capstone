@@ -36,6 +36,10 @@ export default {
     joinTournament(tournamentId, authToken) {
         let authHeader = {headers: {"Authorization": `Bearer ${authToken}`}};
         return http.post(`/tournaments/${tournamentId}/join`, {}, authHeader);
+    },
+    getTournamentParticipants(tournamentId, authToken){
+        let authHeader = {headers: {"Authorization": `Bearer ${authToken}`}};
+        return http.get(`/tournaments/${tournamentId}/participants`,authHeader)
     }
 
     // deleteTournament(id) {
