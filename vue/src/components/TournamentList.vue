@@ -29,76 +29,76 @@ import TournamentService from '../services/TournamentService';
 import TournamentPreview from './TournamentPreview.vue';
 
 export default {
-    props: {
-        limit: {
-            type: Number,
-            default: 0
-        },
-        filters: {
-            type: Array,
-            default: []
-        }
+  props: {
+    limit: {
+      type: Number,
+      default: 0
     },
-    components: {
-        TournamentPreview,
-        Carousel,
-        Slide
-    },
-    data() {
-        return {
-            tournaments: []
-        };
-    },
-    created() {
-        const query = {
-            filters: this.filters,
-            operator: "&",
-            limit: this.limit
-        };
-
-        TournamentService.getTournamentByFilter(query).then((response) => {
-            if (response.status === 200) {
-                this.tournaments = response.data;
-            }
-        }).catch(error => {
-            console.log(error);
-        });
-    },
-    methods: {
-        sendToTournamentDetailsPage(tournament) {
-            console.log(tournament);
-            this.$store.commit('SET_TOURNAMENT_ID', tournament.tournamentId);
-            this.$store.commit('SET_TOURNAMENT_CREATOR_ID', tournament.creatorId);
-            this.$router.push({ name: 'tournamentDetails', params: { tournamentId: tournament.tournamentId } })
-
-
-
-        },
-        nextSlide() {
-            this.$refs.carousel.next();
-        },
-        prevSlide() {
-            this.$refs.carousel.prev();
-        }
-    },
-    computed: {
-        breakpoints() {
-            return {
-                768: {
-                    itemsToShow: 1,
-                    itemsToScroll: 1
-                },
-                1024: {
-                    itemsToShow: 2,
-                    itemsToScroll: 2
-                },
-                1440: {
-                    itemsToShow: 3,
-                    itemsToScroll: 1
-                }
-            };
-        }
+    filters: {
+      type: Array,
+      default: []
     }
+  },
+  components: {
+    TournamentPreview,
+    Carousel,
+    Slide
+  },
+  data() {
+    return {
+      tournaments: []
+    };
+  },
+  created() {
+    const query = {
+      filters: this.filters,
+      operator: "&",
+      limit: this.limit
+    };
+
+    TournamentService.getTournamentByFilter(query).then((response) => {
+      if (response.status === 200) {
+        this.tournaments = response.data;
+      }
+    }).catch(error => {
+      console.log(error);
+    });
+  },
+  methods: {
+    sendToTournamentDetailsPage(tournament) {
+      console.log(tournament);
+      this.$store.commit('SET_TOURNAMENT_ID', tournament.tournamentId);
+      this.$store.commit('SET_TOURNAMENT_CREATOR_ID', tournament.creatorId);
+      this.$router.push({ name: 'tournamentDetails', params: { tournamentId: tournament.tournamentId } })
+
+
+
+    },
+    nextSlide() {
+      this.$refs.carousel.next();
+    },
+    prevSlide() {
+      this.$refs.carousel.prev();
+    }
+  },
+  computed: {
+    breakpoints() {
+      return {
+        768: {
+          itemsToShow: 1,
+          itemsToScroll: 1
+        },
+        1024: {
+          itemsToShow: 2,
+          itemsToScroll: 2
+        },
+        1440: {
+          itemsToShow: 3,
+          itemsToScroll: 1
+        }
+      };
+    }
+  }
 };
 </script>
 
