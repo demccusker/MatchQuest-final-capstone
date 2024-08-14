@@ -59,7 +59,7 @@ export default {
             tournament: {
                 name: '',
                 gameId: null,
-                bracketId: 255, // hardcoded for now
+                bracketId: null, 
                 creatorId: this.$store.state.user.id,
                 maxParticipants: 0,
                 startDate: '',
