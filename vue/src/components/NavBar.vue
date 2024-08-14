@@ -3,9 +3,7 @@
         <div class="nav-top">
             <router-link v-bind:to="{ name: 'home' }" class="nav-link">Home</router-link>
             <router-link to="/tournaments/my" v-if="isButtonVisibleForOrganizersOnly" class="nav-link">Your Tournaments</router-link>
-            <router-link to="/tournaments/active" class="nav-link">Active Tournaments</router-link>
-            <router-link to="/tournaments/upcoming" class="nav-link">Upcoming Tournaments</router-link>
-            <router-link to="/tournaments/past" class="nav-link">Past Tournaments</router-link>
+           
             <router-link to="/tournaments" class="nav-link">Tournaments</router-link>
             <br>
             <br>
@@ -16,7 +14,6 @@
                 <div class="organizer-edit-close" v-if="viewTournamentEditCloseFeatures()">
                     <!-- {{ currentTournamentId }} -->
                     <router-link v-bind:to="{name:'organizerEditTournament', params:{id:currentTournamentId}}" class="nav-link" id="edit">Edit Tournament</router-link>
-                    <router-link to="/organizer/close-tournament" class="nav-link" id="close">Close Tournament</router-link>
 
                 </div>
             </div>
@@ -102,7 +99,7 @@ export default {
 </script>
 
 <style scoped>
-/* Sidebar CSS styles */
+
 .sidebar {
     width: 220px;
     background: linear-gradient(135deg, #2c3e50, #34495e);
@@ -128,19 +125,19 @@ export default {
   align-items: center;
   transition: all 0.3s ease;
   border-radius: 8px;
-  min-width: 200px; /* Ensures consistent width */
-  text-align: center; /* Centers the text */
+  min-width: 200px;
+  text-align: center; 
 }
 
 .organizer h2{
-  background-color: #f8f9fa; /* Light background color for distinction */
-  border: 1px solid #dee2e6; /* Border to make it stand out */
-  padding: 15px; /* Padding for spacing */
-  margin-bottom: 20px; /* Space below the block */
-  border-radius: 8px; /* Rounded corners */
-  text-align: center; /* Center text alignment */
-  font-size: 1.15rem; /* Font size */
-  color: #343a40; /* Dark text color for readability */
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6; 
+  padding: 15px;
+  margin-bottom: 20px; 
+  border-radius: 8px; 
+  text-align: center; 
+  font-size: 1.15rem; 
+  color: #343a40; 
 }
 #create, #close, #edit  {
   color: black;
@@ -152,8 +149,8 @@ export default {
   align-items: center;
   transition: all 0.3s ease;
   border-radius: 8px;
-  min-width: 200px; /* Ensures consistent width */
-  text-align: center; /* Centers the text */
+  min-width: 200px; 
+  text-align: center; 
 }
 
 .nav-link:hover {
