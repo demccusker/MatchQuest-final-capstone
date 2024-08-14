@@ -12,8 +12,8 @@
         <div class="form-input">
             <label for="winnerId">Match Winner</label>
             <select id="winnerId" v-model="editMatch.winnerId" required>
-                <option value=13>Player 1</option>
-                <option value=14>Player 2</option>
+                <option v-for="player in players" v-bind:value="player" v-bind:key="player">Player {{ players.indexOf(player) + 1 }}</option>
+                
             </select>
         </div>
         <div class="form-input-group">
@@ -53,22 +53,26 @@ export default{
                 matchStartTime: '',
                 matchId: 0
             },
-            
+            players : []
         }
     },
     mounted() {
         this.fetchMatchData();
-        console.log("match id after fetch: ", this.editMatch.matchId)
+        console.log("Player 1 Id: ",this.editMatch.player1Id);
+        
+        console.log("Players: ",this.players);
+        
     },
     methods : {
         editTheMatch() {
             this.editMatchDto = this.matchToMatchDto(this.editMatch);
             console.log("matchId before service call",this.editMatchDto.matchId)
             const matchId = this.$route.params.matchId;
+            const tournamentId = this.$route.params.tournamentId;
             MatchService.updateMatch(matchId,this.editMatchDto,this.$store.state.token)
                 .then((response) => {
                     if (response.status === 200) {
-                        this.$router.push('/organizer/dashboard');
+                        this.$router.push({ name: 'matchDetails', params: {tournamentId:tournamentId, matchId: matchId } });
                     } else {
                         console.error('Error editing match:', response.status);
                     }
@@ -83,6 +87,7 @@ export default{
                 .then((response) => {
                     if (response.status === 200) {
                         this.editMatch = response.data;
+                        this.fillPlayers();
                         
                     } else {
                         console.error('Error fetching match data:', response.status);
@@ -100,6 +105,10 @@ export default{
             this.editMatchDto.matchStartTime = match.matchStartTime;
             this.editMatchDto.matchId = match.matchId;
             return this.editMatchDto;
+        },
+        fillPlayers() {
+            this.players.push(this.editMatch.player1Id);
+            this.players.push(this.editMatch.player2Id);
         }
     },
 }
