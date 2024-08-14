@@ -111,9 +111,9 @@ CREATE TABLE tournament (
 CREATE TABLE tournament_players (
     user_id INT NOT NULL,
     tournament_id INT NOT NULL,
-
     CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
-    CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id)
+    CONSTRAINT fk_tournament_id FOREIGN KEY (tournament_id) REFERENCES tournament (tournament_id),
+    CONSTRAINT unique_user_tournament UNIQUE (user_id, tournament_id)
 );
 
 

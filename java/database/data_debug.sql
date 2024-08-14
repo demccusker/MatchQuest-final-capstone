@@ -104,7 +104,7 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants,
     ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golf Tournament', 20, FALSE, FALSE, '650 Yankee Avenue', CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golfy Tournament', 15, TRUE, TRUE, NULL, CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), null, 3, 'Minecraft Tournament of Champs', 8, FALSE, TRUE, NULL, '2024-01-01', '2024-01-02'),
-    ((SELECT game_id FROM game WHERE name = 'Chess'), null, 3, 'Mind Games Tournament', 64, FALSE, TRUE, NULL, 2026-01-01, NULL);
+    ((SELECT game_id FROM game WHERE name = 'Chess'), null, 3, 'Mind Games Tournament', 64, FALSE, TRUE, NULL, '2026-01-01', NULL);
 
 
 INSERT INTO address (tournament_id, city, province, country) VALUES
@@ -128,8 +128,6 @@ INSERT INTO tournament_players (user_id, tournament_id) VALUES
     ((SELECT user_id FROM users WHERE username = 'usera56'),
      (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
     ((SELECT user_id FROM users WHERE username = 'usera57'),
-     (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
-    ((SELECT user_id FROM users WHERE username = 'usera58'),
      (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
     ((SELECT user_id FROM users WHERE username = 'usera58'),
      (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
