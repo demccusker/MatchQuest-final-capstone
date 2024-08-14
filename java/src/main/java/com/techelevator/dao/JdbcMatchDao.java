@@ -91,8 +91,8 @@ public class JdbcMatchDao implements MatchDao {
     @Override
     public Match createMatch(Match match) {
         Match newMatch;
-        String sql = "INSERT INTO match(game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw) VALUES " +
-                     "(?, ?, ?, ?, ?, ?, ?, ?) RETURNING match_id;";
+        String sql = "INSERT INTO match(game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw,match_start_time) VALUES " +
+                     "(?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING match_id;";
 
         try {
             int matchId = jdbcTemplate.queryForObject(sql, int.class,
@@ -103,7 +103,8 @@ public class JdbcMatchDao implements MatchDao {
                     match.getPlayer1Score(),
                     match.getPlayer2Score(),
                     match.getWinnerId(),
-                    match.getIsDraw()
+                    match.getIsDraw(),
+                    match.getMatchStartTime()
             );
             newMatch = getMatchById(matchId);
 

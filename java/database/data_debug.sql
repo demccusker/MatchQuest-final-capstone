@@ -26,7 +26,17 @@ INSERT INTO users (username,password_hash,role) VALUES
     ('usera57', '$2a$10$.cK/zLVkWLrHLvo1wB3FGuvYJ/wn5g.jrbSlPhpbLkkMptGBqFzNS', 'ROLE_USER'),
     ('usera58', '$2a$10$wq7ExJIecLZ3YwMPVDpGCexgKa/ORYYEov7L.5oRquHtm4kgDVX1K', 'ROLE_USER'),
     ('usera59', '$2a$10$hnwjnSGuve27jqzdCRSo3.VcmF1c26K5i3S.JU4LSn.iUDZUYj5FO', 'ROLE_USER'),
-    ('usera60', '$2a$10$2DtfOEfKdImZfyM7ROkTceXdAUwZOHVfFpTOcgfirXbCTq40geGsS', 'ROLE_USER');
+    ('usera60', '$2a$10$2DtfOEfKdImZfyM7ROkTceXdAUwZOHVfFpTOcgfirXbCTq40geGsS', 'ROLE_USER'),
+        ('usera61', '$2a$10$zFZLtKvPXfg9hkbiufxulOUyEHaaC6x4zCf.WVliBumIZJREYKK7G', 'ROLE_USER'),
+        ('usera62', '$2a$10$De5kBhRe3y.g0CEXNzutTOqoGaV9rgV/NdPcPtXJ/ezKHao7i0z0u', 'ROLE_USER'),
+        ('usera63', '$2a$10$glU1uDfZTVuJ5V5b1DoRx.e7Bp.V0qmrdSysfOpIguvUY/aoYKBnG', 'ROLE_USER'),
+        ('usera64', '$2a$10$78vOGVOFhLDVYVX6AhWbJONFCvI44dXXMhs80mJV6wEO0LELWZVm2', 'ROLE_USER'),
+        ('usera65', '$2a$10$GSlE0q/T1s55aVVkt99jVeP1VT7INkTu9VWJQLr54Ef/5zh.9lc.m', 'ROLE_USER'),
+        ('usera66', '$2a$10$TzW44uP8QMymtImBjSpAyeAMKftP5vW5TMSBNTvnoYOxEpOvOVOY2', 'ROLE_USER'),
+        ('usera67', '$2a$10$z0cw6r1vqyfGL0/FcLhHiO3D7hdIYdIWMc2QrD9/IelfgIDJVzGMi', 'ROLE_USER'),
+        ('usera68', '$2a$10$IEh6jRYiU3yQ5LUKcU7qEeIMhzzez2OY/zm.CwzlKUDPTBvyaahL6', 'ROLE_USER'),
+        ('usera69', '$2a$10$8bXjpYjP0ukdxB96vRCF5ObBctkP2Wun8Z0oYvGqU0r/Z94S3Oabm', 'ROLE_USER'),
+        ('usera70', '$2a$10$GYt187Q4AQly1YXQX0NwDO11QrFj7J8Zy55U5Sl3hXY2yGvZJsaV.', 'ROLE_USER');
 
 
 
@@ -54,7 +64,17 @@ INSERT INTO users (username,password_hash,role) VALUES
       (19, 'user57', 1250, FALSE),
       (20, 'user58', 1250, FALSE),
       (21, 'user59', 1250, FALSE),
-      (22, 'usera60', 1250, FALSE);
+      (22, 'usera60', 1250, FALSE),
+      (23, 'Raygun-61', 0, FALSE),
+      (24, 'Jenny-62', 5000, FALSE),
+      (25, 'Darcy-63', 9050, TRUE),
+      (26, 'Phyo-64', 5000, TRUE),
+      (27, 'Christine-65', 50, TRUE),
+      (28, 'Andrew-66', 4000, FALSE),
+      (29, 'Isaac-67', 10000, FALSE),
+      (30, 'Sarah-68', 2000, TRUE),
+      (31, 'Goofy-69', 300, FALSE),
+      (31, 'Ashon-70', 500, TRUE);
 
 INSERT INTO game (name, description, win_type) VALUES
     ('Chess', 'A game of wits', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
@@ -73,7 +93,6 @@ INSERT INTO game (name, description, win_type) VALUES
 
 
 ---- Inserting Matches
-
 INSERT INTO match (game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw, match_start_time) VALUES
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 14, 40, 30, 13, FALSE, '10:00 AM'),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 15, 16, 40, 30, 15, FALSE, '10:00 AM'),

@@ -9,7 +9,7 @@
 
   <div class="home">
     <div class="banner">
-      <h1>Welcome to Tourney!</h1>
+      <h1>Welcome to MatchQuest!</h1>
       <p>Your go-to platform for hosting and managing tournaments with ease.</p>
       <router-link to="/register" class="cta-button">Get Started</router-link>
     </div>
@@ -17,17 +17,17 @@
 
     <div class="content">
       <div class="about-section box">
-        <h2>About Tourney</h2>
+        <h2>About MatchQuest</h2>
         <p>
-          Tourney helps you easily create, manage, and track tournaments across various sports and games. Whether you're
-          organizing a small local event or a large-scale competition, Tourney simplifies the process.
+          MatchQuest helps you easily create, manage, and track tournaments across various sports and games. Whether you're
+          organizing a small local event or a large-scale competition, MatchQuest simplifies the process.
         </p>
       </div>
 
       <div class="container">
         <img src="../assets/pickleball_pic.jpg" alt="" id="pickleball_pic">
         <div class="bottom_right">
-          <h1 class="title">Tourney</h1>
+          <h1 class="title">MatchQuest</h1>
         </div>
       </div>
     </div>
