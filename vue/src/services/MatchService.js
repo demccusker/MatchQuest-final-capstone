@@ -15,5 +15,9 @@ export default {
     },
     getMatchesByTournamentId(tournamentId) {
       return http.get(`/matches/tournaments/${tournamentId}`);
+    },
+    updateMatch(matchId, matchDto,authToken) {
+      let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
+      return http.put(`/matches/${matchId}/update`, matchDto,authHeader);
     }
   };

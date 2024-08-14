@@ -21,6 +21,7 @@ import ActiveTournamentView from '../views/ActiveTournamentView.vue';
 import MyTournamentsView from '../views/MyTournamentsView.vue';
 import OrganizerCloseTournamentView from '../views/OrganizerCloseTournamentView.vue';
 import MatchView from '../views/MatchView.vue';
+import EditMatchView from '../views/EditMatchView.vue';
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
  * inside of App.vue depending on the URL.
@@ -181,7 +182,16 @@ const routes = [
     meta: {
       requiresAuth: false
     }
+  },
+  {
+    path: "/tournaments/:tournamentId/:matchId/update",
+    name: "editMatch",
+    component: EditMatchView,
+    meta: {
+      requiresAuth: true
+    }
   }
+
 
 ];
 
