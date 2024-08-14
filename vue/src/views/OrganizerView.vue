@@ -40,14 +40,14 @@ export default {
 .dashboard-container {
   display: flex;
   height: 100vh;
-  /* Ensure full height */
+  
 }
 
 .dashboard-content {
   flex-grow: 1;
   padding: 30px;
   background-color: white;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); /* Inner shadow for a soft look */
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); 
   border-radius: 8px;
   margin: 20px;
 }
