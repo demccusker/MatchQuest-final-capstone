@@ -32,6 +32,8 @@ public class BracketController {
             switch(get) {
                 case "tree":
                     return bracketDao.getBracketsFromRoot(bracketId);
+                case "idOrderList":
+                    return bracketDao.getBracketsIdOrder(bracketId);
                 case "ancestors":
                     return bracketDao.getAncestors(bracketId);
                 case "children":

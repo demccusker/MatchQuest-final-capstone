@@ -140,5 +140,24 @@ public class MatchController {
         return updatedMatch;
     }
 
+    @RequestMapping(method = RequestMethod.POST)
+    public Match createMatch(@RequestBody Match match){
+        Match newMatch;
+
+        try{
+            newMatch = matchDao.createMatch(match);
+            if(newMatch == null) throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Unable locate match"
+            );
+
+        }catch(DaoException ex){
+            throw new ResponseStatusException(
+            HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+            );
+
+        }
+        return newMatch;
+    }
+
 
 }

@@ -161,28 +161,6 @@ public class TournamentController {
         return rowsAffected;
     }
 
-    private static int getUserIdByCaller(UserDetailsDao details, Principal caller) {
-        try {
-            return details.getUserDetailsByUsername(caller.getName()).getUserId();
-        } catch (DaoException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.REQUEST_TIMEOUT,
-                    ex.getMessage()
-            );
-        }
-    }
-
-    private static UserDetails getUserDetailsByCaller(UserDetailsDao details, Principal caller) {
-        try {
-            return details.getUserDetailsByUsername(caller.getName());
-        } catch (DaoException ex) {
-            throw new ResponseStatusException(
-                    HttpStatus.REQUEST_TIMEOUT,
-                    ex.getMessage()
-            );
-        }
-    }
-
     @PreAuthorize("permitAll")
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/{tournamentId}/brackets", method = RequestMethod.POST)
@@ -241,7 +219,7 @@ public class TournamentController {
                     "Cannot retrieve bracket information from a tournament that does not contain a bracket. Please generate a bracket for this tournament!"
             );
 
-            return bracketDao.getBracketsFromRoot(bracketId);
+            return bracketDao.getBracketsIdOrder(bracketId);
 
         } catch (DaoException ex) {
             throw new ResponseStatusException(
@@ -294,6 +272,28 @@ public class TournamentController {
         } catch (DaoException ex) {
             throw new ResponseStatusException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
+                    ex.getMessage()
+            );
+        }
+    }
+
+    private static int getUserIdByCaller(UserDetailsDao details, Principal caller) {
+        try {
+            return details.getUserDetailsByUsername(caller.getName()).getUserId();
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT,
+                    ex.getMessage()
+            );
+        }
+    }
+
+    private static UserDetails getUserDetailsByCaller(UserDetailsDao details, Principal caller) {
+        try {
+            return details.getUserDetailsByUsername(caller.getName());
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT,
                     ex.getMessage()
             );
         }

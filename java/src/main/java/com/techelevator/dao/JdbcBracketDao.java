@@ -44,6 +44,7 @@ public class JdbcBracketDao implements BracketDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public List<Bracket> createBracketTree(int numberOfMatches) {
         StringBuilder bracketBuilder = new StringBuilder("INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES ");
         SqlRowSet row;
@@ -102,6 +103,7 @@ public class JdbcBracketDao implements BracketDao {
         return getBracketsFromRoot(rootId);
     }
 
+    @Override
     public List<Bracket> getBracketsFromRoot(int bracketId) {
         List<Bracket> tree = new ArrayList<>();
         String sql = "WITH RECURSIVE bracket_tree(root, bracket_id, parent_bracket , match_id, name, sort) AS ( " +
@@ -140,6 +142,43 @@ public class JdbcBracketDao implements BracketDao {
         return tree;
     }
 
+    @Override
+    public List<Bracket> getBracketsIdOrder(int bracketId) {
+        List<Bracket> tree = new ArrayList<>();
+        String sql = "WITH RECURSIVE bracket_tree(root, bracket_id, parent_bracket , match_id, name) AS ( " +
+                "SELECT bracket_id AS root, " +
+                    "bracket_id, " +
+                    "parent_bracket, " +
+                    "match_id, " +
+                    "name " +
+                    "FROM bracket " +
+                    "WHERE bracket_id = ? " +
+                "UNION " +
+                "SELECT bracket_tree.root, " +
+                    "bracket.bracket_id, " +
+                    "bracket.parent_bracket, " +
+                    "bracket.match_id, " +
+                    "bracket.name " +
+                    "FROM bracket " +
+                    "JOIN bracket_tree " +
+                    "ON bracket.parent_bracket = bracket_tree.bracket_id " +
+                ") " +
+                "SELECT bracket_id, parent_bracket, match_id, name FROM bracket_tree;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, bracketId);
+            while (results.next()) {
+                tree.add(mapRowsetToBracket(results));
+            }
+
+        } catch (CannotGetJdbcConnectionException ex) {
+            throw new DaoException("Unable to connect to server or database", ex);
+        }
+
+        return tree;
+    }
+
+    @Override
     public List<Bracket> getAncestors(int bracketId) {
         List<Bracket> tree = new ArrayList<>();
         String sql = "WITH RECURSIVE bracket_tree(root, bracket_id, parent_bracket , match_id, name) AS ( " +
@@ -175,6 +214,7 @@ public class JdbcBracketDao implements BracketDao {
         return tree;
     }
 
+    @Override
     public List<Bracket> getChildBrackets(int bracketId) {
         List<Bracket> tree = new ArrayList<>();
         String sql = "WITH RECURSIVE bracket_tree(root, bracket_id, parent_bracket , match_id, name) AS ( " +
@@ -212,6 +252,7 @@ public class JdbcBracketDao implements BracketDao {
         return tree;
     }
 
+    @Override
     public boolean deleteBracketTree(int rootId) {
         if (rootId % 255 != 0) return false;
 
@@ -280,5 +321,16 @@ public class JdbcBracketDao implements BracketDao {
 
         results.last();
         return bracket;
+    }
+
+    private Bracket mapRowsetToBracket(SqlRowSet result) {
+        Bracket newBracket = new Bracket();
+
+        newBracket.setBracketId(result.getInt("bracket_id"));
+        newBracket.setParentId(result.getInt("parent_bracket"));
+        newBracket.setMatchId(result.getInt("match_id"));
+        newBracket.setName(result.getString("name"));
+
+        return newBracket;
     }
 }

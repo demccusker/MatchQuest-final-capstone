@@ -29,6 +29,10 @@ if (currentToken) {
 const store = createStore(currentToken, currentUser, currentUserRole, isOrganizer,currentTournamentId, currentTournamentCreatorId);
 
 const app = createApp(CapstoneApp);
+app.directive('visible', function(el, binding) {
+  el.style.visibility = !!binding.value ? 'visible' : 'hidden';
+}); 
+
 app.use(store);
 app.use(router);
 app.mount('#app');
