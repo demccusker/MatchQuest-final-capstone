@@ -8,6 +8,7 @@ public interface BracketDao {
     List<Bracket> createBracketTree(int numberOfMatches);
 
     List<Bracket> getBracketsFromRoot(int bracketId);
+    List<Bracket> getBracketsIdOrder(int bracketId);
     List<Bracket> getAncestors(int bracketId);
     List<Bracket> getChildBrackets(int bracketId);
 
