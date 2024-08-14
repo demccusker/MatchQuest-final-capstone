@@ -20,6 +20,7 @@ import PastTournamentView from '../views/PastTournamentView.vue';
 import ActiveTournamentView from '../views/ActiveTournamentView.vue';
 import MyTournamentsView from '../views/MyTournamentsView.vue';
 import OrganizerCloseTournamentView from '../views/OrganizerCloseTournamentView.vue';
+import MatchView from '../views/MatchView.vue';
 /**
  * The Vue Router is used to "direct" the browser to render a specific view component
  * inside of App.vue depending on the URL.
@@ -171,6 +172,14 @@ const routes = [
     component: MyTournamentsView,
     meta: {
       requiresAuth:true
+    }
+  },
+  {
+    path: "/tournaments/:tournamentId/:matchId",
+    name: "matchDetails",
+    component: MatchView,
+    meta: {
+      requiresAuth: false
     }
   }
 
