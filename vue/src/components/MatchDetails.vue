@@ -1,12 +1,16 @@
 <template>
     <div class="container">
+        <div class = "editButton">
+            <h2>Edit Match Details</h2>
+            <button v-on:click="sendToEditMatchForm">Edit</button>
+        </div>
         <h3>
-            Match Players: {{ player1UserDetails.displayName }} vs. 
-    {{ player2UserDetails.displayName }}
+            Match Players: {{ player1UserDetails.displayName }} vs.
+            {{ player2UserDetails.displayName }}
         </h3>
         <h4>
             Tournament: {{ tournament.name }}
-            
+
             Location: {{ tournament.online ? "Online" : tournament.location }}
             Date: {{ tournament.startDate }}
             <!-- Time: add start time later  -->
@@ -14,9 +18,11 @@
         </h4>
         <p>
             Final Scores: {{ match.player1Score }} - {{ match.player2Score }}
-            Match Winner: {{ match.winnerId == match.player1Id ? player1UserDetails.displayName : player2UserDetails.displayName }}
+            Match Winner: {{ match.winnerId == match.player1Id ? player1UserDetails.displayName :
+                player2UserDetails.displayName }}
             Tournament id: {{ tournament.tournamentId }}
         </p>
+        
     </div>
     <!-- <div class="bracket">
         <tournament-brackets v-bind:tournamentId="tournament.tournamentId"
@@ -32,12 +38,12 @@ import TournamentService from '../services/TournamentService';
 import UserDetailsService from '../services/UserDetailsService';
 import TournamentBrackets from '../components/TournamentBrackets.vue';
 export default {
-    components : {
+    components: {
         TournamentBrackets
     },
     data() {
         return {
-            match : {
+            match: {
 
             },
             tournament: {
@@ -49,14 +55,14 @@ export default {
             player2UserDetails: {
 
             }
-        
+
         }
     },
     created() {
         this.getMatch();
         this.getTournament();
-        
-        
+
+
     },
     methods: {
         getMatch() {
@@ -102,16 +108,21 @@ export default {
                 .catch(error => {
                     console.error('Error fetching user details:', error);
                 });
+        },
+        sendToEditMatchForm(){
+            const tournamentId = this.$route.params.tournamentId;
+            const matchId = this.$route.params.matchId;
+            this.$router.push(`/tournaments/${tournamentId}/${matchId}/update`);
         }
     },
     watch: {
-        'match.player1Id': function(newPlayer1Id) {
-            if (newPlayer1Id) { 
+        'match.player1Id': function (newPlayer1Id) {
+            if (newPlayer1Id) {
                 this.getUserDetailsPlayer1();
             }
         },
-        'match.player2Id': function(newPlayer2Id) {
-            if (newPlayer2Id) { 
+        'match.player2Id': function (newPlayer2Id) {
+            if (newPlayer2Id) {
                 this.getUserDetailsPlayer2();
             }
         }
