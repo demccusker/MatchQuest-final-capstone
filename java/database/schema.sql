@@ -60,6 +60,7 @@ CREATE TABLE match (
     player2_score DOUBLE PRECISION NULL,
     winner_id INT NULL,
     is_draw BOOLEAN NOT NULL,
+    match_start_time VARCHAR (25) NULL,
     CONSTRAINT pk_match PRIMARY KEY (match_id),
     CONSTRAINT fk_match_game FOREIGN KEY (game_id) REFERENCES game (game_id),
     CONSTRAINT fk_player1_id FOREIGN KEY (player1_id) REFERENCES users (user_id),

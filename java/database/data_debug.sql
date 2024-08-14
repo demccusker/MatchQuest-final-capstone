@@ -67,15 +67,16 @@ INSERT INTO game (name, description, win_type) VALUES
 
 
 ---- Inserting Matches
-INSERT INTO match (game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw) VALUES
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 14, 40, 30, 13, FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 15, 16, 40, 30, 15, FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 18, 40, 30, 17, FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 19, 20, 40, 30, 19, FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 15, 40, 30, 13, FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 19, 40, 30, 17, FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 17, 40, 30, 13, FALSE),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 1, 2, 40, 30, 1, FALSE);
+
+INSERT INTO match (game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw, match_start_time) VALUES
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 14, 40, 30, 13, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 15, 16, 40, 30, 15, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 18, 40, 30, 17, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 19, 20, 40, 30, 19, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 15, 40, 30, 13, FALSE, '12:00 PM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 19, 40, 30, 17, FALSE, '12:00 PM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 17, 40, 30, 13, FALSE, '03:00 PM'),
+    ((SELECT game_id FROM game WHERE name = 'Badminton'), FALSE, 1, 2, 40, 30, 1, FALSE, '02:00 PM');
 
 
 
