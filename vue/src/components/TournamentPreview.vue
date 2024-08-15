@@ -51,7 +51,7 @@ export default {
                 //Minecraft
                 5: '/assets/minecraft_logo.jpg',
                 //Tennis
-                6: '/assets/tennis_logo.jpg',
+                6: '/assets/tennis_logo.png',
                 //Pickleball
                 7: '/assets/pickleball.png',
                 //Breakdance
@@ -61,7 +61,9 @@ export default {
                 //Corn Hole
                 10: '/assets/cornhole.png',
                 //Horshoes
-                11: '/assets/horseshoe.png'
+                11: '/assets/horseshoe.png',
+                //Badminton
+                12: '/assets/badminton_logo.jpg'
 
 
             }
