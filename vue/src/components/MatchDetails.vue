@@ -132,8 +132,8 @@ export default {
 
 <style>
 #container {
-    display: flex;
-    flex-direction: column;
+    display: block;
+    flex-direction: row;
     align-items: center;
 }
 </style>

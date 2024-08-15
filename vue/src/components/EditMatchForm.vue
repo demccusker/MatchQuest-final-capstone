@@ -9,9 +9,12 @@
             <label for="player2Score">Player 2 Score</label>
             <input type="text" id="player2Score" v-model="editMatch.player2Score" required />
         </div>
+
+        <span>{{ this.editMatch.winnerId }}</span>
         <div class="form-input">
             <label for="winnerId">Match Winner</label>
             <select id="winnerId" v-model="editMatch.winnerId" required>
+                <option value=0>TBD</option>
                 <option v-for="player in players" v-bind:value="player" v-bind:key="player">Player {{ players.indexOf(player) + 1 }}</option>
                 
             </select>

@@ -1,9 +1,14 @@
 <template>
     <div class="bracket-tree-container">
-        <h1> Tournament Bracket </h1>
-        <h2> Tournament Name Goes Here </h2>
+        <h5>{{ this.tournamentName }}</h5>
         <div class="tournament-bracket tournament-bracket--rounded">
-            <bracket-list v-for="(brackets, index) in bracketTree.slice().reverse()" v-bind:brackets="brackets" v-bind:treeFloor="index" v-bind:treeFloorTotal="treeHeight" v-bind:tournamentDate="tournamentDate"></bracket-list>
+            <bracket-list 
+                v-for="(brackets, index) in bracketTree.slice().reverse()" 
+                v-bind:brackets="brackets" 
+                v-bind:treeFloor="index" 
+                v-bind:treeFloorTotal="treeHeight" 
+                v-bind:tournamentDate="tournamentDate"
+            ></bracket-list>
         </div>
     </div>
 </template>
@@ -19,6 +24,10 @@ export default {
             required: true
         },
         tournamentDate: {
+            type: String,
+            required: true
+        },
+        tournamentName: {
             type: String,
             required: true
         }
@@ -43,8 +52,6 @@ export default {
         getBracket() {
             BracketService.getBracketsByTournamentId(this.tournamentId).then(response => {
                 if (response.status !== 200) return;
-
-                console.log(response.data);
                 const treeHeight = Math.floor(Math.log2(response.data.length) + 1);
 
                 for (let level = 0, bracketCount = 0; level < treeHeight; level++) {
@@ -52,16 +59,12 @@ export default {
                     let brackets = [];
 
                     for (let bracketPos = 0; bracketPos < maxBracketsPerFloor; bracketPos++) {
-                        // if (!(bracketCount < response.data.length)) break;
                         let matchBracket = (response.data[bracketCount] != null) ? response.data[bracketCount] : {
                             bracketId: 0,
                             matchId: 0,
                             name: 'INVALID',
                             parentBracket: 0
                         };
-
-                        // console.log("matchBracket: ");
-                        // console.log(matchBracket);
 
                         brackets.push(matchBracket);
                         bracketCount++;
@@ -133,17 +136,17 @@ table {
     min-width: 18em;
     margin: 20px auto;
 
-    & h1, h2 {
+    & h4, h5 {
         text-align: center;
     }
 
-    & h1 {
+    & h4 {
         font-size: 2rem;
         font-weight: 700;
         margin-bottom: 0.5em;
     }
 
-    & h2 {
+    & h5 {
         font-size: 1.4rem;
         font-weight: 600;
         margin-bottom: 2em;
@@ -177,7 +180,7 @@ table {
 }
 
 .tournament-bracket-round-title {
-    color: #9e9e9e;
+    color: #2c3e50;
     font-size: 0.95rem;
     font-weight: 400;
     text-align: center;
@@ -249,7 +252,7 @@ table {
 
     @media (min-width: 38em) {
         padding: 0.5em 1em;
-        flex-grow: 2;
+        /* flex-grow: 2; */
         width: 100%;
 
         &:nth-child(odd),
@@ -317,13 +320,12 @@ table {
 .tournament-bracket-match {
     display: flex;
     width: 100%;
-    background-color: #ffffff;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
     padding: 1em;
     border: 1px solid transparent;
     border-radius: 0.5em;
     box-shadow: 0 2px 0 0 #e5e5e5;
     outline: none;
-    cursor: pointer;
     transition: padding 0.2s ease-in-out, border 0.2s linear;
 
     &:focus {
@@ -345,7 +347,7 @@ table {
         &::after {
             position: absolute;
             left: 0;
-            z-index: 1;
+            z-index: 0;
             content: '';
             display: block;
             width: 1em;
@@ -524,6 +526,10 @@ table {
         .tournament-bracket-code {
             margin-top: 0.2em;
         }
+    }
+
+    & .tournament-bracket-competitor-name {
+        color: #ffffff;
     }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <li v-visible="isValid" class="tournament-bracket-item">
-    <div class="tournament-bracket-match" tabindex="0">
+    <div class="tournament-bracket-match" tabindex="0" :style="{ cursor: getCursor }" v-on:click="goToMatchInfo">
       <table class="tournament-bracket-table">
         <caption class="tournament-bracket-caption"><time :datetime="this.startDate">{{ this.startDate }}</time>
         </caption>
@@ -13,12 +13,12 @@
         <tbody class="tournament-bracket-content">
           <tr class="tournament-bracket-team" :class="{ 'tournament-bracket-team--winner': isP1Winner }">
             <td class="tournament-bracket-competitor"><abbr class="tournament-bracket-competitor-name"
-                title="Hikarus Nakamura">{{ this.player1Name }}</abbr></td>
+                :title="this.getPlayer1Name">{{ this.getPlayer1Abv }}</abbr></td>
             <td class="tournament-bracket-score"><span class="tournament-bracket-number">{{ this.matchInfo.player1Score }}</span></td>
           </tr>
           <tr class="tournament-bracket-team" :class="{ 'tournament-bracket-team--winner': isP2Winner }">
             <td class="tournament-bracket-competitor"><abbr class="tournament-bracket-competitor-name"
-                title="Magnus Carlsen">{{ this.player2Name }}</abbr></td>
+                :title="this.getPlayer2Name">{{ this.getPlayer2Abv }}</abbr></td>
             <td class="tournament-bracket-score"><span class="tournament-bracket-number">{{ this.matchInfo.player2Score }}</span></td>
           </tr>
         </tbody>
@@ -44,9 +44,8 @@ export default {
   },
   data() {
     return {
-      isValid: false,
       assignedBracket: {
-        bracketId: 0,
+        bracketId: null,
         matchId: 0,
         name: "",
         parentBracket: 0
@@ -67,11 +66,35 @@ export default {
     }
   },
   computed: {
+    getCursor() {
+      return (this.matchInfo.matchId == 0 || this.player1Name === "" || this.player2Name === "") ? `` : `pointer`
+    },
     isP1Winner() {
-      return this.matchInfo.winnerId === this.matchInfo.player1Id;
+      return this.matchInfo.winnerId === this.matchInfo.player1Id && this.matchInfo.player1Id != 0;
     },
     isP2Winner() {
-      return this.matchInfo.winnerId === this.matchInfo.player2Id;
+      return this.matchInfo.winnerId === this.matchInfo.player2Id && this.matchInfo.player2Id != 0;
+    },
+    getPlayer1Abv() {
+      return (this.player1Name === "") ? "TBD" : [...this.player1Name].reduce((word, char, i) => {
+        word += (i % 2 == 0) ? char : "";
+        return word;
+      });
+    },
+    getPlayer2Abv() {
+      return (this.player2Name === "") ? "TBD" : [...this.player2Name].reduce((word, char, i) => {
+        word += (i % 2 == 0) ? char : "";
+        return word;
+      });
+    },
+    getPlayer1Name() {
+      return (this.player1Name === "") ? "TBD" : this.player1Name;
+    },
+    getPlayer2Name() {
+      return (this.player2Name === "") ? "TBD" : this.player2Name;
+    },
+    isValid() {
+      return (this.assignedBracket.bracketId !== 0);
     }
   },
   created() {
@@ -82,8 +105,6 @@ export default {
       if (response.status == 200) {
         this.matchInfo = response.data;
         this.grabPlayerNames();
-
-        this.isValid = true;
       }
     }).catch(error => {
       console.log(error);
@@ -91,6 +112,8 @@ export default {
   },
   methods: {
     grabPlayerNames() {
+      if (this.matchInfo.player1Id == 0) return;
+
       UserDetailsService.getUserDetails(this.matchInfo.player1Id).then(response => {
         if (response.status == 200) {
           this.player1Name = response.data.displayName;
@@ -99,6 +122,8 @@ export default {
         console.log(error);
       });
 
+      if (this.matchInfo.player2Id == 0) return;
+
       UserDetailsService.getUserDetails(this.matchInfo.player2Id).then(response => {
         if (response.status == 200) {
           this.player2Name = response.data.displayName;
@@ -106,17 +131,12 @@ export default {
       }).catch(error => {
         console.log(error);
       })
+    },
+    goToMatchInfo() {
+      if (this.matchInfo.matchId == 0 || this.player1Name === "" || this.player2Name === "") return;
+
+      this.$router.push({ name: "matchDetails", params: { tournamentId: this.tournamentId, matchId: this.matchInfo.matchId } });
     }
   }
 }
 </script>
-
-<style scoped>
-.hidden {
-  margin:60px
-}
-
-.li {
-  
-}
-</style>
