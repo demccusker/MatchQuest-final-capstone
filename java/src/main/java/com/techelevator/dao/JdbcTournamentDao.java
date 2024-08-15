@@ -151,9 +151,11 @@ public class JdbcTournamentDao implements TournamentDao{
         String sql = "INSERT INTO tournament (game_id, bracket_id, creator_id, name, is_scrim, is_online, location, start_date, end_date,max_participants)\n" +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) RETURNING tournament_id";
         try {
+            Integer bracketId = tournament.getBracketId();
+            bracketId = (bracketId == 0) ? null: bracketId;
             int newTournamentId = jdbcTemplate.queryForObject(sql, int.class,
                     tournament.getGameId(),
-                    tournament.getBracketId(),
+                    bracketId,
                     tournament.getCreatorId(),
                     tournament.getName(),
                     tournament.getIsScrim(),
