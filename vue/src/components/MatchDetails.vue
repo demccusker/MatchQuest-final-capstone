@@ -35,7 +35,7 @@
           
         </p>
       </div>
-  
+
     </div>
   </template>
 
@@ -43,8 +43,13 @@
 import MatchService from '../services/MatchService';
 import TournamentService from '../services/TournamentService';
 import UserDetailsService from '../services/UserDetailsService';
+import TournamentBrackets from './TournamentBrackets.vue';
+
 
 export default {
+    components: {
+        TournamentBrackets
+    },
 
     data() {
         return {
@@ -150,9 +155,13 @@ export default {
 </script>
 
 <style scoped>
-<style scoped>
 .container {
-  background-color: black;
+ border: 1px solid #ddd;
+  padding: 1rem;
+  margin: 1rem;
+  background-color: #f9f9f9;
+  height: 35%;
+  
   display: flex;
   flex-direction: column; /* Stack children vertically */
 }
