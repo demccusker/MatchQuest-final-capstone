@@ -19,7 +19,7 @@
             </div>
             <div class="form-input-group">
                 <label for="endDate">End Date</label>
-                <input type="date" id="endDate" v-model="tournament.endDate" required />
+                <input type="date" id="endDate" v-model="tournament.endDate" />
                 <div>
                     <div class="form-input-group">
                         <label for="maxParticipants">Max Participants</label>
