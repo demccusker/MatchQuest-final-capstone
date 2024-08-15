@@ -50,8 +50,8 @@ export default {
                 4: '/assets/war_logo.jpg',
                 //Minecraft
                 5: '/assets/minecraft_logo.jpg',
-                //Badminton
-                6: '/assets/badminton_logo.jpg',
+                //Tennis
+                6: '/assets/tennis_logo.jpg',
                 //Pickleball
                 7: '/assets/pickleball.png',
                 //Breakdance

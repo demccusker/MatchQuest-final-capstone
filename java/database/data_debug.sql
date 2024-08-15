@@ -82,12 +82,12 @@ INSERT INTO game (name, description, win_type) VALUES
     ('CS2', 'The bomb has been planted', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('War', 'A game of luck', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('Minecraft', 'How does one win?', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
-    ('Badminton', 'Watch it fly!', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
+    ('Tennis', 'Watch it fly!', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('Pickleball', 'Plink plonk', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('Breakdancing', 'Lay down the beats!', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('Pool', 'Billiards is coming back.', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
     ('Corn Hole', 'Swag the bag.', (SELECT condition_id FROM win_condition WHERE name = 'MAX')),
-    ('Horseshoes', 'Throwing irons.', (SELECT condition_id FROM win_condition WHERE name = 'MAX'));
+    ('Ping Pong', 'Ping ping ping.', (SELECT condition_id FROM win_condition WHERE name = 'MAX'));
 
 
 
@@ -101,7 +101,7 @@ INSERT INTO match (game_id, is_scrim, player1_id, player2_id, player1_score, pla
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 15, 40, 30, 13, FALSE, '12:00 PM'),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 19, 40, 30, 17, FALSE, '12:00 PM'),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 17, 40, 30, 13, FALSE, '03:00 PM'),
-    ((SELECT game_id FROM game WHERE name = 'Badminton'), FALSE, 1, 2, 40, 30, 1, FALSE, '02:00 PM');
+    ((SELECT game_id FROM game WHERE name = 'Tennis'), FALSE, 1, 2, 40, 30, 1, FALSE, '02:00 PM');
 
 
 
@@ -126,11 +126,14 @@ INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
 --
 ---- Inserting into Tournament
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants, is_scrim, is_online, location, start_date, end_date) VALUES
-    ((SELECT game_id FROM game WHERE name = 'Badminton'), null, 1, 'Epic Game of Badminton', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
+    ((SELECT game_id FROM game WHERE name = 'Tennis'), null, 1, 'Epic Game of Tennis', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golf Tournament', 20, FALSE, FALSE, '650 Yankee Avenue', CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golfy Tournament', 15, TRUE, TRUE, NULL, CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), null, 3, 'Minecraft Tournament of Champs', 8, FALSE, TRUE, NULL, '2024-01-01', '2024-01-02'),
-    ((SELECT game_id FROM game WHERE name = 'Chess'), null, 3, 'Mind Games Tournament', 64, FALSE, TRUE, NULL, '2026-01-01', NULL);
+    ((SELECT game_id FROM game WHERE name = 'Chess'), null, 3, 'Mind Games Tournament', 64, FALSE, TRUE, NULL, '2026-01-01', NULL),
+        ((SELECT game_id FROM game WHERE name = 'Pickleball'), null, 3, 'PT pickky', 64, FALSE, FALSE, NULL, '2024-08-16', NULL),
+             ((SELECT game_id FROM game WHERE name = 'Pool'), null, 3, 'Pooly', 64, FALSE, FALSE, NULL, '2026-08-16', NULL),
+                  ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 3, 'Cornholllllleeeoooo', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL);
 
 
 INSERT INTO address (tournament_id, city, province, country) VALUES
