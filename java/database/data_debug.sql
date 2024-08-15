@@ -27,19 +27,16 @@ INSERT INTO users (username,password_hash,role) VALUES
     ('usera58', '$2a$10$wq7ExJIecLZ3YwMPVDpGCexgKa/ORYYEov7L.5oRquHtm4kgDVX1K', 'ROLE_USER'),
     ('usera59', '$2a$10$hnwjnSGuve27jqzdCRSo3.VcmF1c26K5i3S.JU4LSn.iUDZUYj5FO', 'ROLE_USER'),
     ('usera60', '$2a$10$2DtfOEfKdImZfyM7ROkTceXdAUwZOHVfFpTOcgfirXbCTq40geGsS', 'ROLE_USER'),
-        ('usera61', '$2a$10$zFZLtKvPXfg9hkbiufxulOUyEHaaC6x4zCf.WVliBumIZJREYKK7G', 'ROLE_USER'),
-        ('usera62', '$2a$10$De5kBhRe3y.g0CEXNzutTOqoGaV9rgV/NdPcPtXJ/ezKHao7i0z0u', 'ROLE_USER'),
-        ('usera63', '$2a$10$glU1uDfZTVuJ5V5b1DoRx.e7Bp.V0qmrdSysfOpIguvUY/aoYKBnG', 'ROLE_USER'),
-        ('usera64', '$2a$10$78vOGVOFhLDVYVX6AhWbJONFCvI44dXXMhs80mJV6wEO0LELWZVm2', 'ROLE_USER'),
-        ('usera65', '$2a$10$GSlE0q/T1s55aVVkt99jVeP1VT7INkTu9VWJQLr54Ef/5zh.9lc.m', 'ROLE_USER'),
-        ('usera66', '$2a$10$TzW44uP8QMymtImBjSpAyeAMKftP5vW5TMSBNTvnoYOxEpOvOVOY2', 'ROLE_USER'),
-        ('usera67', '$2a$10$z0cw6r1vqyfGL0/FcLhHiO3D7hdIYdIWMc2QrD9/IelfgIDJVzGMi', 'ROLE_USER'),
-        ('usera68', '$2a$10$IEh6jRYiU3yQ5LUKcU7qEeIMhzzez2OY/zm.CwzlKUDPTBvyaahL6', 'ROLE_USER'),
-        ('usera69', '$2a$10$8bXjpYjP0ukdxB96vRCF5ObBctkP2Wun8Z0oYvGqU0r/Z94S3Oabm', 'ROLE_USER'),
-        ('usera70', '$2a$10$GYt187Q4AQly1YXQX0NwDO11QrFj7J8Zy55U5Sl3hXY2yGvZJsaV.', 'ROLE_USER');
-
-
-
+    ('usera61', '$2a$10$zFZLtKvPXfg9hkbiufxulOUyEHaaC6x4zCf.WVliBumIZJREYKK7G', 'ROLE_USER'),
+    ('usera62', '$2a$10$De5kBhRe3y.g0CEXNzutTOqoGaV9rgV/NdPcPtXJ/ezKHao7i0z0u', 'ROLE_USER'),
+    ('usera63', '$2a$10$glU1uDfZTVuJ5V5b1DoRx.e7Bp.V0qmrdSysfOpIguvUY/aoYKBnG', 'ROLE_USER'),
+    ('usera64', '$2a$10$78vOGVOFhLDVYVX6AhWbJONFCvI44dXXMhs80mJV6wEO0LELWZVm2', 'ROLE_USER'),
+    ('usera65', '$2a$10$GSlE0q/T1s55aVVkt99jVeP1VT7INkTu9VWJQLr54Ef/5zh.9lc.m', 'ROLE_USER'),
+    ('usera66', '$2a$10$TzW44uP8QMymtImBjSpAyeAMKftP5vW5TMSBNTvnoYOxEpOvOVOY2', 'ROLE_USER'),
+    ('usera67', '$2a$10$z0cw6r1vqyfGL0/FcLhHiO3D7hdIYdIWMc2QrD9/IelfgIDJVzGMi', 'ROLE_USER'),
+    ('usera68', '$2a$10$IEh6jRYiU3yQ5LUKcU7qEeIMhzzez2OY/zm.CwzlKUDPTBvyaahL6', 'ROLE_USER'),
+    ('usera69', '$2a$10$8bXjpYjP0ukdxB96vRCF5ObBctkP2Wun8Z0oYvGqU0r/Z94S3Oabm', 'ROLE_USER'),
+    ('usera70', '$2a$10$GYt187Q4AQly1YXQX0NwDO11QrFj7J8Zy55U5Sl3hXY2yGvZJsaV.', 'ROLE_USER');
 
 
   INSERT INTO user_details (user_id, display_name, elo_rating, is_staff) VALUES
@@ -90,20 +87,16 @@ INSERT INTO game (name, description, win_type) VALUES
     ('Ping Pong', 'Ping ping ping.', (SELECT condition_id FROM win_condition WHERE name = 'MAX'));
 
 
-
-
 ---- Inserting Matches
 INSERT INTO match (game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw, match_start_time) VALUES
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 14, 40, 30, 13, FALSE, '10:00 AM'),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 15, 16, 40, 30, 15, FALSE, '10:00 AM'),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 18, 40, 30, 17, FALSE, '10:00 AM'),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 19, 20, 40, 30, 19, FALSE, '10:00 AM'),
-    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 15, 40, 30, 13, FALSE, '12:00 PM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 14, 67, 30, 13, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 15, 16, 43, 80, 16, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 18, 50, 20, 17, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 19, 20, 90, 100, 19, FALSE, '10:00 AM'),
+    ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 16, 13, 10, 20, 13, FALSE, '12:00 PM'),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 17, 19, 40, 30, 17, FALSE, '12:00 PM'),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), FALSE, 13, 17, 40, 30, 13, FALSE, '03:00 PM'),
     ((SELECT game_id FROM game WHERE name = 'Tennis'), FALSE, 1, 2, 40, 30, 1, FALSE, '02:00 PM');
-
-
 
 -- Inserting into Bracket
 INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
@@ -126,14 +119,14 @@ INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
 --
 ---- Inserting into Tournament
 INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants, is_scrim, is_online, location, start_date, end_date) VALUES
-    ((SELECT game_id FROM game WHERE name = 'Tennis'), null, 1, 'Epic Game of Tennis', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
+    ((SELECT game_id FROM game WHERE name = 'Tennis'), 510, 1, 'Epic Game of Tennis', 30, FALSE, FALSE, '1200 Smith Street', CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golf Tournament', 20, FALSE, FALSE, '650 Yankee Avenue', CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golfy Tournament', 15, TRUE, TRUE, NULL, CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), null, 3, 'Minecraft Tournament of Champs', 8, FALSE, TRUE, NULL, '2024-01-01', '2024-01-02'),
     ((SELECT game_id FROM game WHERE name = 'Chess'), null, 3, 'Mind Games Tournament', 64, FALSE, TRUE, NULL, '2026-01-01', NULL),
-        ((SELECT game_id FROM game WHERE name = 'Pickleball'), null, 3, 'PT pickky', 64, FALSE, FALSE, NULL, '2024-08-16', NULL),
-             ((SELECT game_id FROM game WHERE name = 'Pool'), null, 3, 'Pooly', 64, FALSE, FALSE, NULL, '2026-08-16', NULL),
-                  ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 3, 'Cornholllllleeeoooo', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL);
+    ((SELECT game_id FROM game WHERE name = 'Pickleball'), null, 3, 'PT pickky', 64, FALSE, FALSE, NULL, '2024-08-16', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Pool'), null, 3, 'Pooly', 64, FALSE, FALSE, NULL, '2026-08-16', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 3, 'Cornholllllleeeoooo', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL);
 
 
 INSERT INTO address (tournament_id, city, province, country) VALUES
@@ -168,8 +161,22 @@ INSERT INTO tournament_players (user_id, tournament_id) VALUES
      (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament')),
     ((SELECT user_id FROM users WHERE username = 'user4'),
      (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament')),
-    ((SELECT user_id FROM users WHERE username = 'user5'),
-     (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament'));
+    (23,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis')),
+    (24,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis')),
+    (25,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis')),
+    (26,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis')),
+    (27,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis')),
+    (28,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis')),
+    (29,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis')),
+    (30,
+     (SELECT tournament_id FROM tournament WHERE name = 'Epic Game of Tennis'));
 
 
 COMMIT TRANSACTION;
