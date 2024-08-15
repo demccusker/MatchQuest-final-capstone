@@ -107,4 +107,9 @@ button:active {
   background-color: #004080;
   border-color: #00264d;
 }
+body {
+  background-color: #6ba6e6e4;
+  font-family: sans-serif;
+  color: #070c4df4;
+}
 </style>

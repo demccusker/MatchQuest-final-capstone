@@ -1,9 +1,9 @@
 <template>
   <div id="nav">
-    <router-link v-bind:to="{ name: 'home' }">Home</router-link>&nbsp;|&nbsp;
+    <router-link v-bind:to="{ name: 'home' }">Home</router-link>
     <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link>
-    <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link>&nbsp;|&nbsp;
-    <router-link v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link>&nbsp;|&nbsp;
+    <router-link v-bind:to="{ name: 'login' }" v-else>Login</router-link>
+    <router-link v-bind:to="{ name: 'register' }" v-if="$store.state.token == ''">Register</router-link>
     <router-link v-bind:to="{ name: 'tournament' }">Tournament</router-link>
   </div>
 
@@ -13,21 +13,37 @@
       <p>Your go-to platform for hosting and managing tournaments with ease.</p>
       <router-link to="/register" class="cta-button">Get Started</router-link>
     </div>
-   
+
+    <div>
+      <h1 id="upcoming">Upcoming Tournaments</h1>
+      <Carousel :tournaments="upcomingTournaments" />
+    </div>
 
     <div class="content">
-      <div class="about-section box">
-        <h2>About MatchQuest</h2>
-        <p>
-          MatchQuest helps you easily create, manage, and track tournaments across various sports and games. Whether you're
-          organizing a small local event or a large-scale competition, MatchQuest simplifies the process.
-        </p>
-      </div>
+      <div class="info-image-container">
+        <div class="info-section">
+          <div class="about-section box">
+            <h2>About MatchQuest</h2>
+            <p>
+              MatchQuest is your all-in-one solution for creating, managing, and tracking tournaments across a wide range of sports and games. We aim to make tournament management accessible and straightforward, so you can focus on what matters most—enjoying the game!
+            </p>
+          </div>
 
-      <div class="container">
-        <img src="../assets/pickleball_pic.jpg" alt="" id="pickleball_pic">
-        <div class="bottom_right">
-          <h1 class="title">MatchQuest</h1>
+          <div class="reviews-section">
+            <h2>What Our Users Are Saying</h2>
+            <div class="review">
+              <h3>Kim Thilavanh</h3>
+              <p>"I would pay for this App for sure!!!!!!"</p>
+            </div>
+            <div class="review">
+              <h3>Issac Chow</h3>
+              <p>"I have a church group and we want to organize a pickleball tournament this app can definitely help us organize a pickle ball tournaments!!!!! "</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="image-container">
+          <img src="../assets/pickleball_pic.jpg" alt="Pickleball" id="pickleball_pic">
         </div>
       </div>
     </div>
@@ -43,20 +59,19 @@
         <h3>Manage Matches</h3>
         <p>Track and manage matches with real-time updates.</p>
       </div>
-
       <div class="feature">
         <img src="../assets/community_logo.jpg" alt="Community" id="community_logo">
         <h3>Join the Community</h3>
         <p>Connect with players and organizers in your area.</p>
       </div>
-
-    </div>
-    <div>
-      <h1 id = 'upcoming'>Upcoming Tournaments</h1>
-      <Carousel :tournaments="upcomingTournaments" />
     </div>
   </div>
+
+  <footer class="footer">
+    <p>&copy; 2024 MatchQuest. All rights reserved. Creators: Andrew Le, Christine Urban, Darcy McCusker, Jenny Rodriguez, Phyo Naung </p>
+  </footer>
 </template>
+
 
 <script>
 import Carousel from '../components/Carousel.vue';
@@ -94,13 +109,92 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+#nav {
+  display: flex;
+  justify-content: center;
+
+  padding: 1rem;
+  font-family: Verdana;
+  margin: 0; 
+}
+
+#nav a {
+  color: black; 
+  background-color: white; 
+  text-decoration: none;
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+  padding: 0.5rem 2rem; 
+  margin: 0 0.5rem;
+  width: 500px; 
+  text-align: center; 
+  display: inline-block; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+#nav a:hover {
+  background-color:#6e8fe2 ; 
+  color: white;
+}
+
+
+.banner {
+  text-align: center;
+  background: linear-gradient(to right, #6e8fe2, #34495e);
+  color: white;
+  padding: 4rem 2rem;
+  margin: 0; 
+}
+
+.banner h1 {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.banner p {
+  font-size: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.cta-button {
+  background-color: white;
+  color: #6e8fe2;
+  padding: 1rem 3rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 1.25rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #6e8fe2;
+  color: white;
+}
+
+#upcoming {
+  font-size: 2rem;
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  color: black;
+  border-radius: 10px;
+  width: fit-content;
+  margin: 0 auto 2rem auto;
+}
+
+.features-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 2rem 0 3rem 0;
+}
+
 .feature {
-  flex: 1;
+  flex: 1 1 30%;
+  margin: 1rem;
   text-align: center;
   padding: 1.5rem;
   border-radius: 8px;
-  margin: 0 1rem;
   background-color: #f9f9f9;
   border: 2px solid #34495e;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -112,291 +206,103 @@ export default {
 }
 
 .feature img {
-  width: 80px;
-  height: auto;
-  margin-bottom: 1rem;
-}
-
-
-#match_logo,
-#easy_logo,
-#community_logo {
   width: 50%;
-  height: auto;
-  margin-bottom: .5rem;
-}
-
-.features-section {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-}
-
-
-.feature {
-  flex: 1;
-  text-align: center;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin: 0 1rem;
-  background-color: #f9f9f9;
-  border: 2px solid #34495e;
-}
-
-.feature img {
-  width: 80px;
   height: auto;
   margin-bottom: 1rem;
 }
 
 .feature h3 {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
   margin-bottom: 0.5rem;
 }
 
 .feature p {
-  font-size: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
   color: #555;
 }
 
-#match_logo,
-#easy_logo,
-#community_logo {
-  width: 50%;
-  height: auto;
-  margin-bottom: .5rem;
-}
-
-
 .content {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 3rem;
 }
 
-.about-section {
+.info-image-container {
+  display: flex;
   flex: 1;
-  margin-right: 2rem;
-  text-align: left;
+  align-items: flex-start;
+  gap: 2rem;
 }
 
-
-.box {
-  border: 2px solid #34495e;
-  padding: 1.5rem;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+.info-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.container {
-  flex: 1;
-  position: relative;
-  text-align: center;
-}
-
-#nav {
-  text-align: right;
-  font-family: Verdana;
+.about-section, .reviews-section {
   padding: 1rem;
-}
-
-#nav a {
-  background-color: #6e8fe2;
-  text-decoration: none;
-  color: black;
-  border: 1px solid light grey;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-#nav a:hover {
   background-color: white;
-  color: blue;
-}
-
-body {
-  background-color: #6ba6e6e4;
-  font-family: sans-serif;
-  color: #070c4df4
-}
-
-
-.container {
-  text-align: center;
-  position: relative;
-
-}
-
-.bottom_right {
-  position: absolute;
-  bottom: -20px;
-  right: 10px;
-
-}
-
-.title {
-  font-size: xxx-large;
-  color: white;
-}
-
-#pickleball_pic {
+  border: 2px solid #34495e;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
-  height: auto;
 }
 
-#match_logo {
-  width: 10%;
-  height: auto;
-}
-
-#easy_logo {
-  width: 10%;
-  height: auto;
-}
-
-#community_logo {
-  width: 10%;
-  height: auto;
-}
-
-#nav {
-  text-align: right;
-  font-family: Verdana;
-  padding: 1rem;
-}
-
-#nav a {
-  background-color: #6e8fe2;
-  text-decoration: none;
-  color: black;
-  border: 1px solid lightgrey;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-#nav a:hover {
-  background-color: white;
-  color: blue;
-}
-
-body {
-  background-color: #6ba6e6e4;
-  font-family: sans-serif;
-  color: #070c4df4;
-}
-
-.home {
-  padding: 2rem;
-}
-
-.banner {
-  text-align: center;
-  background: linear-gradient(to right, #6e8fe2, #34495e);
-  color: white;
-  padding: 2rem 1rem;
-  margin-bottom: 2rem;
-}
-
-.banner h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.banner p {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.cta-button {
-  background-color: white;
-  color: #6e8fe2;
-  padding: 0.75rem 2rem;
-  border-radius: 4px;
-  text-decoration: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.cta-button:hover {
-  background-color: #6e8fe2;
-  color: white;
-}
-
-/* New styles added */
-.content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.about-section {
-  flex: 1;
-  margin-right: 2rem;
-  text-align: left;
-}
-
-/* Added box styling */
-.box {
-  border: 2px solid #34495e;
-  padding: 1.5rem;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-}
-
-.about-section h2 {
+.about-section h2, .reviews-section h2 {
   font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-section p, .review p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.reviews-section {
+  margin-top: 1rem;
+}
+
+.review {
   margin-bottom: 1rem;
 }
 
-.container {
+.review h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.review p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.image-container {
   flex: 1;
-  position: relative;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #pickleball_pic {
   width: 100%;
   height: auto;
-}
-
-.bottom_right {
-  position: absolute;
-  bottom: -20px;
-  right: 10px;
-}
-
-.title {
-  font-size: xxx-large;
-  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .footer {
   text-align: center;
-  padding: 1rem;
-  background-color: #6e8fe2;
-  color: white;
-}
-
-#upcoming{
-  font-size: 28px;
-  padding-bottom: 1.3 rem;
-  padding-top: 0.5rem;
-  background-color: white;
-  border-radius: 10px;
-  width: 20%;
-  height: 20%;
-  text-align: center;
-  position: relative;
-  left: 780px;  
-  bottom: -10px;
-}
-
-.tournament-list-container{
-  padding: 10px;
-
+  padding: 2rem 1rem;
+  background-color: #6ba6e6e4;
+  color: black;
+  font-family: Verdana;
+  bottom: 0;
+  width: 100%;
 }
 </style>
-
