@@ -84,11 +84,13 @@ export default {
     },
     methods: {
         createNewTournament() {
-            console.log("Creating new tournament");
-            console.log(this.tournament);
+            // console.log("Creating new tournament");
+            // console.log(this.tournament);
+            // console.log(this.$store.state.token);
             TournamentService.createTournament(this.tournament, this.$store.state.token)
                 .then((response) => {
-                    console.log(response.status)
+                    // console.log("Response is:", response);
+                    // console.log(response.status)
                     if (response.status == 201 || response.status == 200) {
 
                         this.$router.push("/tournaments");

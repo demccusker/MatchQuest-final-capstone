@@ -23,7 +23,7 @@
       <p>
         <router-link v-bind:to="{ name: 'register' }">Need an account? Sign up.</router-link>
       </p>
-      <h2>{{ this.$store.state }}</h2>
+      <!-- <h2>{{ this.$store.state }}</h2> -->
     </form>
   </div>
 </template>

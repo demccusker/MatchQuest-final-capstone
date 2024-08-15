@@ -37,7 +37,7 @@ export default {
                 .then((response) => {
                     if (response.status === 200){
                         this.userDetails = response.data; 
-                        console.log("Fetched user details:", this.userDetails);
+                        // console.log("Fetched user details:", this.userDetails);
                         
                     } else {
                         console.error('Error fetching user data:', response.status);

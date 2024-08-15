@@ -2,7 +2,7 @@
     <aside class="sidebar">
         <div class="nav-top">
             <router-link v-bind:to="{ name: 'home' }" class="nav-link">Home</router-link>
-            <router-link to="/tournaments/my" v-if="isButtonVisibleForOrganizersOnly" class="nav-link">Your Tournaments</router-link>
+            <!-- <router-link to="/tournaments/my" v-if="isButtonVisibleForOrganizersOnly" class="nav-link">Your Tournaments</router-link> -->
            
             <router-link to="/tournaments" class="nav-link">Tournaments</router-link>
             <br>
@@ -86,12 +86,15 @@ export default {
         viewTournamentEditCloseFeatures(){
             const currentUserId = this.$store.state.user.id;
             const creatorId = this.$store.state.tournamentCreatorId;
-            console.log("CurrentUserID:",currentUserId);
-            console.log("CreatorID:",creatorId);
-            if(currentUserId === creatorId ){
-                return true;
-            }
-            return false;
+            const editTournamentRoute = /^\/tournaments\/\d+$/.test(this.$route.path);
+            // console.log("CurrentUserID:",currentUserId);
+            // console.log("CreatorID:",creatorId);
+            // if(currentUserId === creatorId ){
+            //     return true;
+            // }
+            // return false;
+
+            return currentUserId === creatorId && editTournamentRoute;
             // return /^\/tournaments\/\d+$/.test(this.$route.path);
         }
     }

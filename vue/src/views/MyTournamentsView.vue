@@ -1,15 +1,31 @@
 <template>
-    h2
+    <div class="dashboard-content">
+        <div v-bind:class="computeClasses()">
+
+        </div>
+    </div>
 </template>
 
 <script>
 
 export default{
-    components:{
-        
+    data(){
+        return {
+            currentRole: this.$store.state.currentRole,
+            
+            
+        }
+    },
+    methods:{
+        computeClasses(){
+            // if(currentRole==='organizer'){
+                
+            // }
+        }
     }
 }
 </script>
 
 <style>
+
 </style>

@@ -6,7 +6,7 @@
     <main class="dashboard-content">
         <div class = tournament_row>
           <!-- Checking store state -->
-          <h2>{{ this.$store.state }}</h2>
+          <!-- <h2>{{ this.$store.state }}</h2> -->
           <h2 class = tournament_title>Upcoming Tournaments</h2>
           <tournament-list v-bind:filters="upcomingFilter"/> 
         </div>

@@ -52,7 +52,7 @@
 
     </div>
     <div>
-      <h1>Upcoming Tournaments</h1>
+      <h1 id = 'upcoming'>Upcoming Tournaments</h1>
       <Carousel :tournaments="upcomingTournaments" />
     </div>
   </div>
@@ -378,6 +378,25 @@ body {
   padding: 1rem;
   background-color: #6e8fe2;
   color: white;
+}
+
+#upcoming{
+  font-size: 28px;
+  padding-bottom: 1.3 rem;
+  padding-top: 0.5rem;
+  background-color: white;
+  border-radius: 10px;
+  width: 20%;
+  height: 20%;
+  text-align: center;
+  position: relative;
+  left: 780px;  
+  bottom: -10px;
+}
+
+.tournament-list-container{
+  padding: 10px;
+
 }
 </style>
 

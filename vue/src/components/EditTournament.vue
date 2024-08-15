@@ -84,8 +84,8 @@ export default {
                 });
         },
         editTournamentMethod() {
-            console.log("Editing tournament");
-            console.log(this.tournament);
+            // console.log("Editing tournament");
+            // console.log(this.tournament);
             TournamentService.updateTournament(this.tournament.tournamentId, this.editTournament, this.$store.state.token) 
                 .then((response) => {
                     if (response.status == 200) {  
@@ -103,7 +103,7 @@ export default {
             GamesService.getAllGames().then(response => {
                 if (response.status == 200) {
                     this.games = response.data;
-                    console.log(this.games);
+                    // console.log(this.games);
                 }
             }).catch(error => {
                 console.log(error);

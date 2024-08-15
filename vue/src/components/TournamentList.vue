@@ -5,8 +5,8 @@
             <Slide v-for="tournament in tournaments" :key="tournament.tournament_id">
                 <div v-on:click="sendToTournamentDetailsPage(tournament)" class="tournament-slide">
                     <tournament-preview :tournament="tournament" />
-                    TournamentID: {{ tournament.tournamentId }}
-                    Tournament creatorID: {{ tournament.creatorId }}
+                    <!-- TournamentID: {{ tournament.tournamentId }}
+                    Tournament creatorID: {{ tournament.creatorId }} -->
                 </div>
             </Slide>
         </Carousel>
@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     sendToTournamentDetailsPage(tournament) {
-      console.log(tournament);
+      // console.log(tournament);
       this.$store.commit('SET_TOURNAMENT_ID', tournament.tournamentId);
       this.$store.commit('SET_TOURNAMENT_CREATOR_ID', tournament.creatorId);
       this.$router.push({ name: 'tournamentDetails', params: { tournamentId: tournament.tournamentId } })

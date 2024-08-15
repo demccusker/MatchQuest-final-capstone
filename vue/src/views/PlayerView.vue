@@ -3,8 +3,8 @@
     <nav-bar></nav-bar>
     <main class="dashboard-content">
       <h1>Player Dashboard</h1>
-      <!-- Checking store state -->
-      <h2>{{ this.$store.state }}</h2>
+      <!-- Checking store state
+      <h2>{{ this.$store.state }}</h2> -->
       <h2>Upcoming Tournaments</h2>
       <tournament-list v-bind:limit="2" v-bind:filters="upcomingFilter"></tournament-list>
       <div class="section-content"></div>

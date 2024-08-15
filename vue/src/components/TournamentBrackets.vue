@@ -60,8 +60,8 @@ export default {
                             parentBracket: 0
                         };
 
-                        console.log("matchBracket: ");
-                        console.log(matchBracket);
+                        // console.log("matchBracket: ");
+                        // console.log(matchBracket);
 
                         brackets.push(matchBracket);
                         bracketCount++;

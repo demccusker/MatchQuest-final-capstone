@@ -6,7 +6,7 @@
       <!-- <h2>This is the user's current role:{{ this.$store.state.currentRole }}</h2>
         <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2> -->
       <!-- Checking store state -->
-      <h2>{{ this.$store.state }}</h2>
+      <!-- <h2>{{ this.$store.state }}</h2> -->
       <tournament-list v-bind:filters="creatorFilter"></tournament-list>
     </main>
   </div>

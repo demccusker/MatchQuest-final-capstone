@@ -45,7 +45,7 @@ export default {
     created() {
         
     this.editUserDetails = this.userDetails;
-    console.log("userDetails prop received:", this.userDetails);
+    // console.log("userDetails prop received:", this.userDetails);
     },
     
     mounted() {
@@ -56,12 +56,12 @@ export default {
         fetchUserDetails() {
             //const userId = this.$route.params.id;
             const userId = this.$store.state.user.id;
-            console.log(userId);
+            // console.log(userId);
             UserDetailsService.getUserDetails(userId)
                 .then((response) => {
                     if (response.status === 200){
                         this.editUserDetails = response.data; 
-                        console.log("Fetched user details:", this.editUserDetails);
+                        // console.log("Fetched user details:", this.editUserDetails);
                         
                     } else {
                         console.error('Error fetching user data:', response.status);
@@ -75,9 +75,9 @@ export default {
         updateUserDetails(){
     
             const authToken = this.$store.state.token;
-            console.log("Data being sent to updateUserDetails:", this.editUserDetails, authToken)
+            // console.log("Data being sent to updateUserDetails:", this.editUserDetails, authToken)
             UserDetailsService.updateUserDetails(this.$store.state.user.id, this.editUserDetails,authToken).then((response)=>{
-                console.log("Response from updateUserDetails:", response); 
+                // console.log("Response from updateUserDetails:", response); 
                 if(response.status == 200){
                     this.$router.push("/player/profile");
                 }

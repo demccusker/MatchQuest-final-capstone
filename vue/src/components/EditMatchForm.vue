@@ -58,15 +58,15 @@ export default{
     },
     mounted() {
         this.fetchMatchData();
-        console.log("Player 1 Id: ",this.editMatch.player1Id);
+        // console.log("Player 1 Id: ",this.editMatch.player1Id);
         
-        console.log("Players: ",this.players);
+        // console.log("Players: ",this.players);
         
     },
     methods : {
         editTheMatch() {
             this.editMatchDto = this.matchToMatchDto(this.editMatch);
-            console.log("matchId before service call",this.editMatchDto.matchId)
+            // console.log("matchId before service call",this.editMatchDto.matchId)
             const matchId = this.$route.params.matchId;
             const tournamentId = this.$route.params.tournamentId;
             MatchService.updateMatch(matchId,this.editMatchDto,this.$store.state.token)
