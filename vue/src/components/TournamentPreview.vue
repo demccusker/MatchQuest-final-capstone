@@ -10,7 +10,9 @@
             </h2>
         
             <p class = "tournamentShortPreview">
+                <br>
                 {{ gameName }}
+                <br>
                 <br>
                 {{ tournament.startDate }}
             </p>

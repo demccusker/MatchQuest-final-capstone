@@ -40,6 +40,10 @@ export default {
     getTournamentParticipants(tournamentId, authToken){
         let authHeader = {headers: {"Authorization": `Bearer ${authToken}`}};
         return http.get(`/tournaments/${tournamentId}/participants`,authHeader)
+    },
+    getTournamentsRegisteredByUserId(userId, authToken){
+        let authHeader = {headers: {"Authorization": `Bearer ${authToken}`}};
+        return http.get(`/tournaments/registered/${userId}`,authHeader);
     }
 
     // deleteTournament(id) {

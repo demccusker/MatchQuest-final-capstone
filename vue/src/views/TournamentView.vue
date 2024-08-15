@@ -5,17 +5,17 @@
       <div class=tournament_row>
         <!-- Checking store state -->
         <!-- <h2>{{ this.$store.state }}</h2> -->
-        <h2 class=tournament_title>Upcoming Tournaments</h2>
+        <h2 class="tournament_title upcoming">Upcoming Tournaments</h2>
         <tournament-list v-bind:filters="upcomingFilter" />
       </div>
 
       <div class=tournament_row>
-        <h2 class=tournament_title>Active Tournaments</h2>
+        <h2 class="tournament_title active">Active Tournaments</h2>
         <tournament-list v-bind:filters="activeFilter" />
       </div>
 
       <div class="tournament_row">
-        <h2 class=tournament_title>Past Tournaments</h2>
+        <h2 class="tournament_title past">Past Tournaments</h2>
         <tournament-list v-bind:filters="pastFilter" />
       </div>
     </main>
@@ -148,5 +148,29 @@ export default {
 h1 {
   font-size: 40px;
   margin-bottom: 20px;
+}
+
+.tournament_title{
+  width: 100%;
+  padding: 30px;
+  padding-left: 20px;
+  font-family: 'Arial', sans-serif;
+  font-size: 30px;
+  color: white;
+}
+
+.upcoming {
+  background: linear-gradient(135deg, #6e8fe2, #34495e);
+  border-radius: 10px;
+}
+
+.active {
+  background: linear-gradient(135deg,#6e8fe2, #34495e);
+  border-radius: 10px;
+}
+
+.past {
+  background: linear-gradient(135deg, #0701018d, #070000);
+  border-radius: 10px;
 }
 </style>

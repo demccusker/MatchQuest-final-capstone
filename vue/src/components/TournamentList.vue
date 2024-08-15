@@ -128,6 +128,8 @@ export default {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* Minimum size of the tournament container in the carousel */
+    min-width: 250px;
 }
 
 .tournament-slide:hover {
