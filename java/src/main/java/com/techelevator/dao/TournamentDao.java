@@ -15,6 +15,8 @@ public interface TournamentDao {
     List<Tournament> getTournamentsByLocation(AddressFilter addressFilter);
     List<Tournament> getTournamentsByFilter(QueryFilter filter);
 
+    List<Tournament> getTournamentsRegisteredByUserId(int userId);
+
     Tournament createTournament(Tournament tournament);
     Tournament getTournamentById(int tournamentId);
 

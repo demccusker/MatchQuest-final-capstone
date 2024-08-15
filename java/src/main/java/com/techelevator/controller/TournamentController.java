@@ -283,6 +283,22 @@ public class TournamentController {
         }
     }
 
+    @RequestMapping(path="/registered/{userId}", method= RequestMethod.GET)
+    public List<Tournament> getTournamentsRegisteredByUserId(@PathVariable int userId) {
+
+        List<Tournament> tournamentsRegistered;
+        try {
+            tournamentsRegistered = tournamentDao.getTournamentsRegisteredByUserId(userId);
+
+        } catch (DaoException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, e.getMessage()
+            );
+        }
+
+        return tournamentsRegistered;
+    }
+
     private static int getUserIdByCaller(UserDetailsDao details, Principal caller) {
         try {
             return details.getUserDetailsByUsername(caller.getName()).getUserId();

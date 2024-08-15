@@ -5,6 +5,7 @@ import com.techelevator.model.AddressFilter;
 import com.techelevator.model.QueryFilter;
 import com.techelevator.model.Tournament;
 import com.techelevator.model.UserDetails;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -260,6 +261,24 @@ public class JdbcTournamentDao implements TournamentDao{
 
         return participants;
     }
+    @Override
+    public  List<Tournament> getTournamentsRegisteredByUserId(int userId){
+        List <Tournament> tournamentsRegistered = new ArrayList<>();
+        String sql = "SELECT * FROM tournament t " +
+                "JOIN tournament_players tp ON t.tournament_id = tp.tournament_id " +
+                "WHERE user_id = ?";
+
+        try{
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+            while (results.next()){
+                tournamentsRegistered.add(mapRowToTournament(results));
+            }
+        }catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database",e);
+        }
+        return tournamentsRegistered;
+    }
+
 
     private Tournament mapRowToTournament(SqlRowSet result) {
         Tournament tournament = new Tournament();
