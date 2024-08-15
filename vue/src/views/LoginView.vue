@@ -1,7 +1,12 @@
 <template>
   <div id="login">
     <header> 
-      <router-link v-bind:to="{ name: 'home' }">Tourney</router-link>
+      <img 
+        src="/assets/matchQuest.png" 
+        alt="Logo" 
+        :style="{ cursor: `pointer` }"
+        v-on:click="this.$router.push({name: 'home'})"
+        />
     </header>
     <form v-on:submit.prevent="login">
       <h1>Please Sign In</h1>
@@ -117,7 +122,9 @@ input {
   border-radius: 4px;
 }
 #login {
+  position: fixed;
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -125,6 +132,15 @@ input {
   text-transform: none;
   font-size: 1.1rem;
   margin: 0; 
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+
+  & img {
+    width: 200px;
+  }
 }
 
 form {

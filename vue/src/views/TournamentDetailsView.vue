@@ -3,14 +3,7 @@
       <nav-bar></nav-bar>
       <main class="dashboard-content">
         <h1>Tournament Details</h1>
-        <!-- <h2>{{ this.$store.state }}</h2> -->
-        <!-- <p>{{ tournament.tournamentId }}  -->
-          
-        <!-- </p> -->
-        <TournamentDetails :tournament="this.tournament"
-        />
-        <tournament-brackets v-bind:tournamentId="this.$route.params.tournamentId" v-bind:tournamentDate="this.tournament.startDate"></tournament-brackets>
-        <span>{{ this.tournament.startDate }}</span>
+        <TournamentDetails :tournament="this.tournament"/>
 
       </main>
     </div>

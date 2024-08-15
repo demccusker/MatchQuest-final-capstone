@@ -1,27 +1,25 @@
 <template>
-  
-
   <div class="dashboard-container">
-      <nav-bar></nav-bar>
+    <nav-bar></nav-bar>
     <main class="dashboard-content">
-        <div class = tournament_row>
-          <!-- Checking store state -->
-          <!-- <h2>{{ this.$store.state }}</h2> -->
-          <h2 class = tournament_title>Upcoming Tournaments</h2>
-          <tournament-list v-bind:filters="upcomingFilter"/> 
-        </div>
+      <div class=tournament_row>
+        <!-- Checking store state -->
+        <!-- <h2>{{ this.$store.state }}</h2> -->
+        <h2 class=tournament_title>Upcoming Tournaments</h2>
+        <tournament-list v-bind:filters="upcomingFilter" />
+      </div>
 
-        <div class=tournament_row>
-          <h2 class=tournament_title>Active Tournaments</h2>
-          <tournament-list v-bind:filters="activeFilterWithEndDate" />
-        </div>
+      <div class=tournament_row>
+        <h2 class=tournament_title>Active Tournaments</h2>
+        <tournament-list v-bind:filters="activeFilter" />
+      </div>
 
-        <div class = "tournament_row">
-          <h2 class = tournament_title>Past Tournaments</h2>
-          <tournament-list v-bind:filters="pastFilter"/>
-        </div>
+      <div class="tournament_row">
+        <h2 class=tournament_title>Past Tournaments</h2>
+        <tournament-list v-bind:filters="pastFilter" />
+      </div>
     </main>
-    </div>
+  </div>
 
 </template>
 
@@ -36,20 +34,6 @@ export default {
   },
   data() {
     return {
-      endDateFilter: {
-        filterProperty: "endDate",
-        value: null,
-        condition: "IS",
-        concat:
-        [
-          {
-            filterProperty: "endDate",
-            value: new Date(),
-            condition: ">",
-            operator: "|"
-          }
-        ]
-      },
       upcomingFilter: [
         {
           filterProperty: "startDate",
@@ -105,9 +89,6 @@ export default {
         }
       ]
     }
-
-
-
   }
  
 }
@@ -117,6 +98,8 @@ export default {
 <style>
 .dashboard-container {
   display: flex;
+  position: fixed;
+  width: 100%;
   height: 100vh; /* Ensure full height */
 }
 
@@ -155,6 +138,8 @@ export default {
 
 .dashboard-content {
   flex-grow: 1;
+  position: relative;
+  width: 100rem;
   padding: 20px;
   background-color: rgb(219, 236, 235);
 }

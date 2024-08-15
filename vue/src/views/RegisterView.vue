@@ -1,5 +1,13 @@
 <template>
   <div id="register" v-if ='!userRegistrationSuccess' class="text-center">
+    <header>
+    <img 
+        src="/assets/matchQuest.png" 
+        alt="Logo" 
+        :style="{ cursor: `pointer` }"
+        v-on:click="this.$router.push({name: 'home'})"
+        />
+  </header>
     <form v-on:submit.prevent="register">
       <h1>Create Account</h1>
       <div role="alert" v-if="registrationErrors">
@@ -89,7 +97,18 @@ label {
   margin-right: 0.5rem;
 }
 
+header {
+  display: flex;
+  flex-direction: column;
+
+  & img {
+    width: 200px;
+  }
+}
+
 #register{
+  position: fixed;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
