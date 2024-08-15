@@ -7,6 +7,8 @@
         <h2>This is user's intended role: {{ this.$store.state.isOrganizer }}</h2> -->
       <!-- Checking store state -->
       <!-- <h2>{{ this.$store.state }}</h2> -->
+
+      <h2>Your Tournaments</h2>
       <tournament-list v-bind:filters="creatorFilter"></tournament-list>
     </main>
   </div>
@@ -48,8 +50,6 @@ export default {
   padding: 30px;
   background-color: white;
   box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05); 
-  border-radius: 8px;
-  margin: 20px;
 }
 
 h1 {

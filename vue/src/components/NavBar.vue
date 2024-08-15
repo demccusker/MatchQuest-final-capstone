@@ -104,13 +104,14 @@ export default {
 <style scoped>
 
 .sidebar {
-    width: 220px;
+    width: 300;
     background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    height: 100vh;
 }
 
 .nav-top,
@@ -128,7 +129,7 @@ export default {
   align-items: center;
   transition: all 0.3s ease;
   border-radius: 8px;
-  min-width: 200px;
+  min-width: 150px;
   text-align: center; 
 }
 
@@ -152,7 +153,7 @@ export default {
   align-items: center;
   transition: all 0.3s ease;
   border-radius: 8px;
-  min-width: 200px; 
+  min-width: 75px;
   text-align: center; 
 }
 

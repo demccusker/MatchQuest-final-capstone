@@ -52,12 +52,13 @@ export default {
 
 /* this is the css for the player dashboard */
 .dashboard-content {
-  flex: 1;
-  padding: 40px;
+  flex-grow: 1;
+  padding: 30px;
   background-color: #ecf0f1;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .dashboard-title {
