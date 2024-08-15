@@ -1,8 +1,6 @@
 <template>
     <div class="dashboard-container">
-        <nav-bar></nav-bar>
         <main class="dashboard-content">
-            <h1>Edit Match</h1>
             <edit-match-form v-if="selectedMatch" v-bind:match="selectedMatch"></edit-match-form>
         </main>
     </div>
@@ -10,13 +8,13 @@
 </template>
 
 <script>
-import NavBar from '../components/NavBar.vue';
+
 import EditMatchForm from '../components/EditMatchForm.vue';
 import MatchService from '../services/MatchService';
 
 export default {
     components: {
-        NavBar,
+        
         EditMatchForm
     },
     data() {
@@ -47,3 +45,47 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+/* 
+.dashboard-container {
+     
+    background-color: black;
+    display: flex;
+    height: 100vh;
+} */
+
+.dashboard-content {
+    background-color: #6ba6e6e4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+
+#form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    
+}
+
+edit-match-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+
+</style>

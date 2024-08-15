@@ -2,9 +2,11 @@
     <div class="dashboard-container">
         <nav-bar></nav-bar>
         <main class="dashboard-content">
-            <h1>Match Details</h1>
+            <h5>Match Details</h5>
             <match-details></match-details>
-    
+            
+            
+            
         </main>
     </div>
 </template>
@@ -31,3 +33,25 @@ export default {
 
 }
 </script>
+
+<style scoped>
+div.container {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: top;
+    
+}
+#returnButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+h5 {
+    font-size: 40px;
+    margin-top: 10px;
+}
+</style>

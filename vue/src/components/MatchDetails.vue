@@ -1,46 +1,51 @@
 <template>
     <div class="container">
-        <div class = "editButton">
-            <h2>Edit Match Details</h2>
-            <button v-on:click="sendToEditMatchForm">Edit</button>
+  
+      <div class="header-section"> 
+        <h2>
+          Match Players: {{ player1UserDetails.displayName }} vs.
+          {{ player2UserDetails.displayName }}
+        </h2>
+        <div class="buttons">
+          <button v-on:click="sendToEditMatchForm">Edit</button>
+          
+          
         </div>
-        <h3>
-            Match Players: {{ player1UserDetails.displayName }} vs.
-            {{ player2UserDetails.displayName }}
-        </h3>
+      </div> 
+  
+      <div class="next-row">
+        <div class="tournament-info">
         <h4>
-            Tournament: {{ tournament.name }}
-
-            Location: {{ tournament.online ? "Online" : tournament.location }}
-            Date: {{ tournament.startDate }}
-            <!-- Time: add start time later  -->
-
+          Tournament: {{ tournament.name }} <br>
+          Location: {{ tournament.online ? "Online" : tournament.location }} <br>
+          Date: {{ tournament.startDate }} <br>
+          <div v-show="time"> Time: {{ match.matchStartTime }} <br></div>
         </h4>
-        <p>
-            Final Scores: {{ match.player1Score }} - {{ match.player2Score }}
-            Match Winner: {{ match.winnerId == match.player1Id ? player1UserDetails.displayName :
-                player2UserDetails.displayName }}
-            Tournament id: {{ tournament.tournamentId }}
-        </p>
-        
     </div>
-    <!-- <div class="bracket">
-        <tournament-brackets v-bind:tournamentId="tournament.tournamentId"
-        v-bind:tournamentDate="tournament.startDate"></tournament-brackets>
-
-    </div> -->
-
-</template>
+        <div class="buttons">
+            <button v-on:click="sendToTournament">Return to Tournament</button>
+        </div>
+      </div>
+  
+      <div class="bottom-row">
+        <p>
+          Final Scores: {{ match.player1Score }} - {{ match.player2Score }} <br>
+          Match Winner: {{ match.winnerId == match.player1Id ? player1UserDetails.displayName :
+          player2UserDetails.displayName }}
+          
+        </p>
+      </div>
+  
+    </div>
+  </template>
 
 <script>
 import MatchService from '../services/MatchService';
 import TournamentService from '../services/TournamentService';
 import UserDetailsService from '../services/UserDetailsService';
-import TournamentBrackets from '../components/TournamentBrackets.vue';
+
 export default {
-    components: {
-        TournamentBrackets
-    },
+
     data() {
         return {
             match: {
@@ -54,13 +59,15 @@ export default {
             },
             player2UserDetails: {
 
-            }
+            },
+            time: false
 
         }
     },
     created() {
         this.getMatch();
         this.getTournament();
+        
 
 
     },
@@ -109,10 +116,17 @@ export default {
                     console.error('Error fetching user details:', error);
                 });
         },
-        sendToEditMatchForm(){
+        sendToEditMatchForm() {
             const tournamentId = this.$route.params.tournamentId;
             const matchId = this.$route.params.matchId;
             this.$router.push(`/tournaments/${tournamentId}/${matchId}/update`);
+        },
+        sendToTournament() {
+            const tournamentId = this.$route.params.tournamentId;
+            this.$router.push(`/tournaments/${tournamentId}`);
+        },
+        isThereATime() {
+            time = (this.match.matchStartTime != null);
         }
     },
     watch: {
@@ -125,15 +139,65 @@ export default {
             if (newPlayer2Id) {
                 this.getUserDetailsPlayer2();
             }
+        },
+        'match.matchStartTime': function (newMatchStartTime) {
+            if (newMatchStartTime) {
+                this.isThereATime();
+            }
         }
     },
 }
 </script>
 
-<style>
-#container {
-    display: block;
-    flex-direction: row;
-    align-items: center;
+<style scoped>
+<style scoped>
+.container {
+  background-color: black;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
 }
+
+.header-section {
+width: 100%;
+  display: flex;
+  flex-direction: row; 
+  align-items: flex-start; 
+    justify-content: space-between; 
+}
+
+.next-row {
+  width: 100%;
+  display: flex;
+  flex-direction: row; 
+  align-items: flex-start; 
+  justify-content: space-between; 
+}
+
+.bottom-row {
+width: 100%;
+  display: flex;
+  flex-direction: row; 
+  align-items: flex-start; 
+    justify-content: space-between; 
+}
+
+.tournament-info {
+    align-items: left;
+    justify-content: left;
+    align-items: left;
+    text-align: left;
+}
+
+.tournament-info h4 { 
+  margin: 0; 
+}
+.buttons { 
+
+  display: flex; 
+  flex-direction: column;
+  align-self: flex-end; 
+  padding: 10px;
+  justify-content: space-between;
+}
+
 </style>
