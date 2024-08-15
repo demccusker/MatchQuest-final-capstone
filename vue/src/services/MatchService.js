@@ -17,7 +17,11 @@ export default {
       return http.get(`/matches/tournaments/${tournamentId}`);
     },
     updateMatch(matchId, matchDto,authToken) {
-      let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
-      return http.put(`/matches/${matchId}/update`, matchDto,authHeader);
+      let authHeader = { headers:{"Authorization": `Bearer ${authToken}`} };
+      return http.put(`/matches/${matchId}/update`, matchDto, authHeader);
+    },
+    createMatches(matches, authToken) {
+      let authHeader = { headers:{"Authorization": `Bearer ${authToken}`} };
+      return http.post('/matches/array-create', matches, authHeader);
     }
   };

@@ -12,7 +12,7 @@ export default {
     },
     createTournament(tournament, authToken) {
         let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
-        return http.post('/tournaments', tournament,authHeader)
+        return http.post('/tournaments', tournament, authHeader)
     },
     updateTournament(id, tournament,authToken) {
         let authHeader = {headers:{"Authorization": `Bearer ${authToken}`}};
