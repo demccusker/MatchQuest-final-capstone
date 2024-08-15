@@ -119,7 +119,7 @@ CREATE TABLE tournament_players (
 
 
 CREATE TABLE address (
-    tournament_id INT NOT NULL,
+    tournament_id INT NOT NULL UNIQUE,
     city VARCHAR(50) NULL,
     province VARCHAR(50) NULL,
     country VARCHAR(50) NULL,

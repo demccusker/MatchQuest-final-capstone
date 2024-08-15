@@ -2,22 +2,34 @@
   <div class="tournament-details">
     <div class="tournament-header">
       <h2>{{ tournament.name }}</h2>
+      <p>Location: {{ (tournament.online) ? "Online" : tournamentLocation }}</p>
       <p>Start Date: {{ tournament.startDate }}</p>
-      <p>End Date: {{ tournament.endDate }}</p>
+      <p>End Date: {{ (tournament.endDate === null) ? "TBD" : tournament.endDate }}</p>
       <h3>Registration Status: {{ isUserRegistered ? 'Registered' : 'Not Registered' }}</h3>
     </div>
 
     <div class="tournament-actions">
-      <button v-on:click="showGenerateConfirmModal = true" :disabled='this.hasEnoughPlayers'>Generate Bracket</button>
-      <button v-on:click="showCloseConfirmModal = true" v-if="!tournament.closed">Close Tournament</button>
-      <button v-on:click="showConfirmModal = true" v-if="!isUserRegistered && !tournament.started && !tournament.closed">Register</button>
+      <button v-show="this.$store.state.user.id === this.tournament.creatorId && this.tournament.bracketId === 0"
+        v-on:click="showGenerateConfirmModal = true" :disabled='this.hasEnoughPlayers'
+        :style="{ cursor: (this.hasEnoughPlayers) ? `default` : `pointer` }">
+
+        Generate Bracket
+      </button>
+      <button
+        v-show="this.$store.state.user.id === this.tournament.creatorId && this.tournament.endDate !== null && new Date() > this.tournament.endDate"
+        v-on:click="showCloseConfirmModal = true" v-if="!tournament.closed">
+
+        Close Tournament
+      </button>
+      <button v-show="!isUserRegistered && this.tournament.bracketId === 0" v-on:click="showConfirmModal = true">
+
+        Register
+      </button>
     </div>
 
     <div class="brackets" v-if="hasBracket">
-      <tournament-brackets 
-        v-bind:tournamentId="this.$route.params.tournamentId"
-        v-bind:tournamentDate="this.tournament.startDate"
-        v-bind:tournamentName="this.tournament.name">
+      <tournament-brackets v-bind:tournamentId="this.$route.params.tournamentId"
+        v-bind:tournamentDate="this.tournament.startDate" v-bind:tournamentName="this.tournament.name">
       </tournament-brackets>
     </div>
 
@@ -55,6 +67,7 @@
 </template>
 
 <script>
+import AddressService from '../services/AddressService';
 import BracketService from '../services/BracketService';
 import matchService from '../services/MatchService';
 import TournamentService from '../services/TournamentService';
@@ -77,6 +90,7 @@ export default {
       showCloseConfirmModal: false,
       showGenerateConfirmModal: false,
       registrationStatus: 'Not Registered',
+      tournamentAddress: {},
       matches: [],
       registeredParticipants: []
     };
@@ -99,6 +113,10 @@ export default {
     },
     hasBracket() {
       return this.tournament.bracketId != 0 && this.tournament.bracketId != null;
+    },
+    tournamentLocation() {
+      const address = this.tournamentAddress;
+      return address.streetNumber + " " + address.city + ", " + address.province + " " + address.country;
     }
   },
   methods: {
@@ -210,10 +228,10 @@ export default {
           }
         });
     },
-    getMatches() {
+    getMatches(tournamentId) {
       if (this.tournament.bracketId == null) return;
 
-      matchService.getMatchesByTournamentId(this.$route.params.tournamentId).then(response => {
+      matchService.getMatchesByTournamentId(tournamentId).then(response => {
         if (response.status === 200) {
           this.matches = response.data;
         }
@@ -236,6 +254,15 @@ export default {
           console.log("Error checking registration status:", error);
         });
     },
+    fetchAddress(tournamentId) {
+      AddressService.getAddress(tournamentId, this.$store.state.token).then(response => {
+        if (response.status == 200) {
+          this.tournamentAddress = response.data;
+        }
+      }).catch(error => {
+        console.log(error);
+      })
+    },
     fetchTournamentRegistrations(tournamentId) {
       const authToken = this.$store.state.token;
       TournamentService.getTournamentParticipants(tournamentId, authToken)
@@ -252,7 +279,8 @@ export default {
   created() {
     const tournamentId = this.$route.params.tournamentId;
     this.fetchTournamentRegistrations(tournamentId);
-    this.getMatches();
+    this.fetchAddress(tournamentId);
+    this.getMatches(tournamentId);
   }
 };
 </script>

@@ -38,7 +38,6 @@ INSERT INTO users (username,password_hash,role) VALUES
     ('usera69', '$2a$10$8bXjpYjP0ukdxB96vRCF5ObBctkP2Wun8Z0oYvGqU0r/Z94S3Oabm', 'ROLE_USER'),
     ('usera70', '$2a$10$GYt187Q4AQly1YXQX0NwDO11QrFj7J8Zy55U5Sl3hXY2yGvZJsaV.', 'ROLE_USER');
 
-
   INSERT INTO user_details (user_id, display_name, elo_rating, is_staff) VALUES
       (1, 'user', 1150, FALSE),
       (2, 'admin', 1100, TRUE),
@@ -151,7 +150,6 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants,
 INSERT INTO address (tournament_id, city, province, country) VALUES
     (1, 'Los Angeles', 'California', 'USA'),
     (2, 'Los Angeles', 'California', 'USA'),
-    (2, 'Annapolis', 'Maryland', 'USA'),
     (3, 'Lewes', 'Deleware', 'USA');
 
 
