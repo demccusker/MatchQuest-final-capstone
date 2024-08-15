@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -26,6 +27,53 @@ public class BracketController {
     @PreAuthorize("permitAll")
     @RequestMapping(path = "/{bracketId}", method = RequestMethod.GET)
     public List<Bracket> getBracketTree(@PathVariable int bracketId, @RequestParam(required = false) String get) {
+        return getBrackets(bracketId, get);
+    }
+
+    @PreAuthorize("permitAll")
+    @RequestMapping(path = "match/{matchId}", method = RequestMethod.GET)
+    public List<Bracket> getBracket(@PathVariable int matchId, @RequestParam(required = false) String get) {
+        Bracket bracket;
+        try {
+            bracket = bracketDao.getBracketByMatchId(matchId);
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    ex.getMessage()
+            );
+        }
+
+        return getBrackets(bracket.getBracketId(), get);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public LinkedHashMap<String, Object> updateBrackets(@RequestBody List<Bracket> brackets) {
+        try {
+            bracketDao.updateBrackets(brackets);
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    ex.getMessage()
+            );
+        }
+
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        List<Bracket> ancestors = bracketDao.getAncestors(brackets.get(0).getBracketId());
+
+        if (!ancestors.isEmpty()) {
+            response.put("root",
+                    ancestors.get(0).getBracketId()
+            );
+        } else {
+            response.put("root",
+                    brackets.get(0).getBracketId()
+            );
+        }
+
+        return response;
+    }
+
+    private List<Bracket> getBrackets(int bracketId, String get) {
         get = (get == null) ? "tree" : get;
 
         try {

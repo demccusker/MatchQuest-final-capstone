@@ -11,9 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/tournaments")
@@ -166,6 +164,7 @@ public class TournamentController {
     @RequestMapping(path = "/{tournamentId}/brackets", method = RequestMethod.POST)
     public List<Bracket> createBracketTree(@PathVariable int tournamentId) {
         List<Bracket> tree;
+        HashMap<Integer, Bracket> nodeMap = new HashMap<>();
 
         try {
             Tournament tournament;
@@ -203,7 +202,13 @@ public class TournamentController {
             );
         }
 
-        return tree;
+        List<Bracket> availableNodes = new ArrayList<>();
+        for (Bracket node : tree) {
+            List<Bracket> children = bracketDao.getChildBrackets(node.getBracketId());
+            if (children.size() < 2) availableNodes.add(node);
+        }
+
+        return availableNodes;
     }
 
 
@@ -228,6 +233,7 @@ public class TournamentController {
             );
         }
     }
+
     @RequestMapping(path="/{tournamentId}/participants",method = RequestMethod.GET)
     public List<UserDetails> getParticipants(@PathVariable int tournamentId){
         List<UserDetails> userDetailsList = null;

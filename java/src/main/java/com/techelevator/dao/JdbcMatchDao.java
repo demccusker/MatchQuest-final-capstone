@@ -91,18 +91,26 @@ public class JdbcMatchDao implements MatchDao {
     @Override
     public Match createMatch(Match match) {
         Match newMatch;
-        String sql = "INSERT INTO match(game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw,match_start_time) VALUES " +
+        String sql = "INSERT INTO match(game_id, is_scrim, player1_id, player2_id, player1_score, player2_score, winner_id, is_draw, match_start_time) VALUES " +
                      "(?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING match_id;";
 
         try {
+            Integer player1Id = match.getPlayer1Id(),
+                    player2Id = match.getPlayer2Id(),
+                    winnerId = match.getWinnerId();
+
+            player1Id = (player1Id == 0) ? null : player1Id;
+            player2Id = (player2Id == 0) ? null : player2Id;
+            winnerId = (winnerId == 0) ? null : winnerId;
+
             int matchId = jdbcTemplate.queryForObject(sql, int.class,
                     match.getGameId(),
                     match.getIsScrim(),
-                    match.getPlayer1Id(),
-                    match.getPlayer2Id(),
+                    player1Id,
+                    player2Id,
                     match.getPlayer1Score(),
                     match.getPlayer2Score(),
-                    match.getWinnerId(),
+                    winnerId,
                     match.getIsDraw(),
                     match.getMatchStartTime()
             );
@@ -126,13 +134,14 @@ public class JdbcMatchDao implements MatchDao {
                 "WHERE match_id = ?";
 
         try{
-            Integer matchId = match.getMatchId();
-            matchId = matchId == 0 ? null : matchId;
+            Integer winnerId = match.getWinnerId();
+
+            winnerId = (winnerId == 0) ? null : winnerId;
 
             rowsAffected = jdbcTemplate.update(sql,
                     match.getPlayer1Score(),
                     match.getPlayer2Score(),
-                    match.getWinnerId(),
+                    winnerId,
                     match.getIsDraw(),
                     match.getMatchStartTime(),
                     match.getMatchId()

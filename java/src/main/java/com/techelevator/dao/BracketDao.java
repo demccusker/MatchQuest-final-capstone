@@ -12,5 +12,7 @@ public interface BracketDao {
     List<Bracket> getAncestors(int bracketId);
     List<Bracket> getChildBrackets(int bracketId);
 
+    Bracket getBracketByMatchId(int matchId);
+    void updateBrackets(List<Bracket> brackets);
     boolean deleteBracketTree(int rootId);
 }

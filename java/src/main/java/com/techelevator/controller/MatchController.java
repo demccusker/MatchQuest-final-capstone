@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -106,9 +107,10 @@ public class MatchController {
         }
         return matches;
     }
+
     @RequestMapping(path="/{matchId}/update", method = RequestMethod.PUT)
     public Match updateMatch(@RequestBody @Valid MatchDto match, @PathVariable int matchId){
-        Match updatedMatch;
+        Match updatedMatch, previous = matchDao.getMatchById(matchId);
 
         try{
             if(match.getMatchId() != matchId){
@@ -125,12 +127,9 @@ public class MatchController {
             }
 
             updatedMatch = matchDao.getMatchById(matchId);
-
-            if(updatedMatch == null){
-                throw new ResponseStatusException(
-                        HttpStatus.REQUEST_TIMEOUT, "Match ID is not valid"
-                );
-            }
+/*            if (updatedMatch.getWinnerId() != previous.getWinnerId()) {
+                matchDao.
+            }*/
 
         }catch(DaoException e){
             throw new ResponseStatusException(
@@ -141,6 +140,7 @@ public class MatchController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public Match createMatch(@RequestBody Match match){
         Match newMatch;
 
@@ -157,6 +157,39 @@ public class MatchController {
 
         }
         return newMatch;
+    }
+
+    @RequestMapping(path = "/{matchId}/add-player", method = RequestMethod.PUT)
+    public void addPlayer(@RequestBody LinkedHashMap<String, Object> playerId) {
+
+    }
+
+    @RequestMapping(path = "/{matchId}/remove-player", method = RequestMethod.PUT)
+    public void removePlayer(@RequestBody LinkedHashMap<String, Object> playerId) {
+
+    }
+
+    @RequestMapping(path = "/array-create", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public List<Match> createMatches(@RequestBody List<Match> matches) {
+        List<Match> newMatches = new ArrayList<>();
+
+        try {
+            for (Match match : matches) {
+                Match newMatch = matchDao.createMatch(match);
+                if (newMatch == null) throw new ResponseStatusException (
+                        HttpStatus.NOT_FOUND, "Unable locate match"
+                );
+
+                newMatches.add(newMatch);
+            }
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+            );
+        }
+
+        return newMatches;
     }
 
 

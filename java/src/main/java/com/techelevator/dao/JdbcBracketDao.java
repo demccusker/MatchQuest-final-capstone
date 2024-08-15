@@ -96,11 +96,13 @@ public class JdbcBracketDao implements BracketDao {
             else
                 throw new DaoException("Inserted incomplete or mal-formed bracket tree!");
 
-        } catch (CannotGetJdbcConnectionException ex) {
-            throw new DaoException("Unable to connect to server or database", ex);
+        } catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database",e);
+        }   catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation",e);
         }
 
-        return getBracketsFromRoot(rootId);
+        return getBracketsIdOrder(rootId);
     }
 
     @Override
@@ -250,6 +252,47 @@ public class JdbcBracketDao implements BracketDao {
         }
 
         return tree;
+    }
+
+    @Override
+    public Bracket getBracketByMatchId(int matchId) {
+        Bracket bracket;
+        String sql = "SELECT bracket_id, parent_bracket, b.match_id, name FROM bracket b " +
+                     "JOIN match m ON b.match_id = m.match_id " +
+                     "WHERE b.match_id = ?;";
+
+        try {
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchId);
+            bracket = (results.next()) ? mapRowsetToBracket(results) : null;
+
+        } catch (CannotGetJdbcConnectionException ex) {
+            throw new DaoException("Unable to connect to server or database", ex);
+        }
+
+        return bracket;
+    }
+
+    @Override
+    public void updateBrackets(List<Bracket> brackets) {
+        String sql = "UPDATE bracket " +
+                     "SET match_id = ? " +
+                     "WHERE bracket_id = ?;";
+
+        try {
+            int rowsAffected;
+            for(Bracket bracket : brackets) {
+                rowsAffected = jdbcTemplate.update(sql, bracket.getMatchId(), bracket.getBracketId());
+
+                if (rowsAffected != 1) throw new DaoException("Unable to update bracket " + bracket.getBracketId());
+
+            }
+        } catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database",e);
+        } catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation",e);
+        }
+
+
     }
 
     @Override
