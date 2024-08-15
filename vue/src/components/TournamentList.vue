@@ -1,6 +1,6 @@
 <template>
     <div class="tournament-list-container">
-        <Carousel ref="carousel" :itemsToShow="8" :itemsToScroll="1" :loop="false" :autoplay="false"
+        <Carousel ref="carousel" :itemsToShow="20" :itemsToScroll="1" :loop="true" :autoplay="false"
             :navigationEnabled="true" :breakpoints="breakpoints">
             <Slide v-for="tournament in tournaments" :key="tournament.tournament_id">
                 <div v-on:click="sendToTournamentDetailsPage(tournament)" class="tournament-slide">

@@ -40,6 +40,7 @@ export default {
                 backgroundColor: 'white'
             },
             gameLogos:{
+                //Please match the logo id with the postgresStudio GameId
                 //Chess
                 1: '/assets/chess_logo.jpg',
                 //Golf
@@ -53,18 +54,15 @@ export default {
                 //Tennis
                 6: '/assets/tennis_logo.png',
                 //Pickleball
-                7: '/assets/pickleball.png',
+                7: '/assets/pickleball_logo.jpg',
                 //Breakdance
                 8: '/assets/breakdancing.png',
                 //Pool  
                 9: '/assets/pool.png',
                 //Corn Hole
                 10: '/assets/cornhole.png',
-                //Horshoes
-                11: '/assets/horseshoe.png',
-                //Badminton
-                12: '/assets/badminton_logo.jpg'
-
+                //Ping Pong
+                11: '/assets/ping_pong_logo.jpg',
 
             }
         }
@@ -121,6 +119,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden; /* Hides any parts of the image that overflow */
 }
 
 .tournament-container .tournamentName,
@@ -136,5 +135,8 @@ export default {
   height: 70px; /* Set desired height */
   border-radius: 50%; /* Makes the image circular */
   object-fit: cover; /* Ensures the image covers the circle without distortion */
+  border: 1px solid black; /* Adds a black border around the circular image */
+
+  
 }
 </style>
