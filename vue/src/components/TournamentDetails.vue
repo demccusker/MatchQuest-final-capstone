@@ -141,11 +141,6 @@ export default {
         });
     },
     assignMatches(bracketTree, matches) {
-      if (bracketTree.length != matches.length) {
-        console.log("brackeTree and matches mismatch!");
-        return;
-      }
-
       matches = matches.slice().reverse();
 
       for(let i = 0; i < bracketTree.length && i < matches.length; i++) {
@@ -155,8 +150,6 @@ export default {
         bracketTree[i] = bracket;
       }
 
-      console.log("BracketTree before update: ", bracketTree);
-      console.log("Token: ", this.$store.state.token);
       BracketService.updateBrackets(bracketTree, this.$store.state.token).then(response => {
         if (response.status == 200) {
           this.tournament.bracketId = response.data.root;
@@ -171,45 +164,47 @@ export default {
           this.assignMatches(response.data, matches);
         }
       }).catch(error => {
-        console.log()
+        console.log(error)
       });
     },
     confirmGenerateBrackets() {
       this.showGenerateConfirmModal = false;
       
-      const numberOfMatches = Math.floor(Math.log2(this.registeredParticipants.length) + 1);
+      const numberOfMatches = this.registeredParticipants.length - 1;
       const matches = [];
 
-      // Go through registeredParticipants and assign to matches //
-      for (let participantIndex = 0, matchCount = 0; participantIndex < this.registeredParticipants.length && matchCount < numberOfMatches; matchCount++) {
-        const player1 = this.registeredParticipants[participantIndex];
-        const player2 = this.registeredParticipants[participantIndex + 1];
-
+      for (let matchCount = 0; matchCount < numberOfMatches; matchCount++) {
         let match = {
           matchId: 0,
           gameId: this.tournament.gameId,
           isScrim: this.tournament.isScrim,
-          player1Id: 0,
-          player2Id: 0,
+          player1Id: null,
+          player2Id: null,
           player1Score: 0,
           player2Score: 0,
           winnerId: null,
           isDraw: false,
-          matchStartTime: '11:00 AM'
+          matchStartTime: ""
         }
+
+        matches.push(match);
+      }
+
+      // Go through registeredParticipants and assign to matches //
+      for (let participantIndex = 0, matchCount = 0; participantIndex < this.registeredParticipants.length; matchCount++) {
+        const player1 = this.registeredParticipants[participantIndex];
+        const player2 = this.registeredParticipants[participantIndex + 1];
+        const match = matches[matchCount];
 
         match.player1Id = (player1 != null) ? player1.userId : null;
         match.player2Id = (player2 != null) ? player2.userId : null;
 
-        matches.push(match);
-
+        matches[matchCount] = match;
         participantIndex += 2;
       }
 
-      console.log("Matches ", matches);
       matchService.createMatches(matches, this.$store.state.token).then(response => {
         if (response.status == 201) {
-          console.log("Response Matches: ", response.data);
           let responseMatches = response.data;
           this.createBrackets(responseMatches);
         }
@@ -230,9 +225,9 @@ export default {
     },
     getMatches(tournamentId) {
       if (this.tournament.bracketId == null) return;
-
+      
       matchService.getMatchesByTournamentId(tournamentId).then(response => {
-        if (response.status === 200) {
+        if (response.status == 200) {
           this.matches = response.data;
         }
       }).catch(error => {
@@ -255,6 +250,8 @@ export default {
         });
     },
     fetchAddress(tournamentId) {
+      if (tournamentId == null) return;
+
       AddressService.getAddress(tournamentId, this.$store.state.token).then(response => {
         if (response.status == 200) {
           this.tournamentAddress = response.data;
@@ -276,7 +273,7 @@ export default {
         });
     }
   },
-  created() {
+  mounted() {
     const tournamentId = this.$route.params.tournamentId;
     this.fetchTournamentRegistrations(tournamentId);
     this.fetchAddress(tournamentId);

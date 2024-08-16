@@ -17,7 +17,7 @@
             </div>
             <div class="form-input-group">
                 <label for="endDate">End Date</label>
-                <input type="date" id="endDate" v-model="editTournament.endDate" required />
+                <input type="date" id="endDate" v-model="editTournament.endDate"/>
 
             </div>
             <div class="form-input-group">
@@ -29,8 +29,15 @@
                 <input type="checkbox" id="isScrim" v-model="editTournament.isScrim" />
             </div>
             <div class="form-input-group" v-show="!editTournament.isOnline">
-                <label for="location">Location</label>
-                <input type="text" id="location" v-model="editTournament.location" />
+                <h4>Location</h4>
+                <label for="streetNumber">Building Number and Street</label>
+                <input type="text" id="streetNumber" v-model="editTournament.location" />
+                <label for="city">City</label>
+                <input type="text" id="city" v-model="address.city" />
+                <label for="province">Province</label>
+                <input type="text" id="province" v-model="address.province" />
+                <label for="country">Country</label>
+                <input type="text" id="country" v-model="address.country" />
             </div>
             <button type="submit">Edit</button>
         </form>
@@ -42,6 +49,7 @@
 <script>
 import TournamentService from '../services/TournamentService';
 import GamesService from '../services/GamesService';
+import AddressService from '../services/AddressService';
 
 export default {
     name: 'EditTournament',
@@ -55,6 +63,13 @@ export default {
         return {
             editTournament: {} ,
             games : [],
+            address: {
+                tournamentId: null,
+                streetNumber: '',
+                city: '',
+                province: '',
+                country: ''
+            },
             gamesLoaded: false
         }
         
@@ -65,14 +80,14 @@ export default {
     mounted() {
         this.fetchTournamentData();
         this.gamesLoaded = true;
-
     },
     methods: {
         fetchTournamentData() {
             const tournamentId = this.$route.params.id;
             TournamentService.getTournament(tournamentId) 
                 .then((response) => {
-                    if (response.status === 200){
+                    if (response.status === 200) {
+                        this.fetchAddress(response.data.tournamentId);
                         this.editTournament = response.data; 
                     } else {
                         console.error('Error fetching tournament data:', response.status);
@@ -80,17 +95,25 @@ export default {
                 })
                 .catch((error) => {
                     console.error('Error fetching tournament data:', error);
-                    
                 });
         },
+        fetchAddress(tournamentId) {
+            AddressService.getAddress(tournamentId, this.$store.state.token).then(response => {
+                if (response.status == 200) {
+                    this.address = response.data;
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        },
         editTournamentMethod() {
-            // console.log("Editing tournament");
-            // console.log(this.tournament);
             TournamentService.updateTournament(this.tournament.tournamentId, this.editTournament, this.$store.state.token) 
                 .then((response) => {
-                    if (response.status == 200) {  
+                    if (response.status == 200 && this.tournament.isOnline) {  
                         this.$router.push("/organizer/dashboard"); 
-                    } 
+                    } else if (response.status == 200) {
+                        this.updateAddress();
+                    }
                 })
                 .catch((error) => {
                     const response = error.response;
@@ -99,11 +122,20 @@ export default {
                     }
                 });
         },
+        updateAddress() {
+            this.address.tournamentId = this.tournament.tournamentId;
+            AddressService.updateAddress(this.address, this.$store.state.token).then(response => {
+                if (response.status == 200) {
+                    this.$router.push("/organizer/dashboard");
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        },
         getGamesHere() {
             GamesService.getAllGames().then(response => {
                 if (response.status == 200) {
                     this.games = response.data;
-                    // console.log(this.games);
                 }
             }).catch(error => {
                 console.log(error);
