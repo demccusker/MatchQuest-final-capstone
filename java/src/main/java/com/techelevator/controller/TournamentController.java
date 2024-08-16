@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.*;
 
 @RestController
@@ -29,6 +30,7 @@ public class TournamentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public Tournament createTournament(@RequestBody Tournament tournament, Principal caller) {
         Tournament newTournament;
         UserDetails userDetails = getUserDetailsByCaller(detailsDao, caller);
@@ -202,13 +204,7 @@ public class TournamentController {
             );
         }
 
-        List<Bracket> availableNodes = new ArrayList<>();
-        for (Bracket node : tree) {
-            List<Bracket> children = bracketDao.getChildBrackets(node.getBracketId());
-            if (children.size() < 2) availableNodes.add(node);
-        }
-
-        return availableNodes;
+        return tree;
     }
 
 
@@ -274,6 +270,25 @@ public class TournamentController {
                         "Error while deleting Bracket Tree"
                 );
             }
+
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    ex.getMessage()
+            );
+        }
+    }
+
+    @RequestMapping(path = "/{tournamentId}/conclude", method = RequestMethod.PUT)
+    public void concludeTournament(@PathVariable int tournamentId) {
+        try {
+            Tournament tournament = tournamentDao.getTournamentById(tournamentId);
+            if (tournament.getEndDate() != null) throw new ResponseStatusException(
+                    HttpStatus.ALREADY_REPORTED, "End date for this tournament is already set."
+            );
+
+            tournament.setEndDate(LocalDate.now());
+            tournamentDao.updateTournament(tournament);
 
         } catch (DaoException ex) {
             throw new ResponseStatusException(
