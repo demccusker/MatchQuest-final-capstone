@@ -161,8 +161,6 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants,
     ((SELECT game_id FROM game WHERE name = 'Breakdancing'), null, 27, 'Rayguns Revenge', 8, FALSE, FALSE, '32 Hollywood Blvd', '2026-08-16', NULL),
     ((SELECT game_id FROM game WHERE name = 'Pickleball'), 1020, 27, 'Chow Challenge', 8, FALSE, TRUE, NULL, '2023-01-08', '2023-09-02');
 
-
-
 INSERT INTO address (tournament_id, city, province, country) VALUES
     (1, 'Los Angeles', 'California', 'USA'),
     (2, 'Los Angeles', 'California', 'USA'),
@@ -248,6 +246,40 @@ INSERT INTO tournament_players (user_id, tournament_id) VALUES
                        ((SELECT user_id FROM users WHERE username = 'usera66'),
                         (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
                        ((SELECT user_id FROM users WHERE username = 'usera67'),
-                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge'));
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+    (10,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (11,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (12,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (13,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (14,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (15,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (16,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (17,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (18,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (19,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (20,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (21,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (22,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (23,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (24,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly')),
+    (25,
+     (SELECT tournament_id FROM tournament WHERE name = 'Pooly'));
+
+
 
 COMMIT TRANSACTION;
