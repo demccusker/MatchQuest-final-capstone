@@ -38,6 +38,7 @@ INSERT INTO users (username,password_hash,role) VALUES
     ('usera69', '$2a$10$8bXjpYjP0ukdxB96vRCF5ObBctkP2Wun8Z0oYvGqU0r/Z94S3Oabm', 'ROLE_USER'),
     ('usera70', '$2a$10$GYt187Q4AQly1YXQX0NwDO11QrFj7J8Zy55U5Sl3hXY2yGvZJsaV.', 'ROLE_USER');
 
+
   INSERT INTO user_details (user_id, display_name, elo_rating, is_staff) VALUES
       (1, 'user', 1150, FALSE),
       (2, 'admin', 1100, TRUE),
@@ -103,7 +104,14 @@ INSERT INTO match (game_id, is_scrim, player1_id, player2_id, player1_score, pla
         ((SELECT game_id FROM game WHERE name = 'Breakdancing'), FALSE, 13, 14, NULL, NULL, NULL, FALSE, '10:00 AM'),
                 ((SELECT game_id FROM game WHERE name = 'Breakdancing'), FALSE, 15, 16, NULL, NULL, NULL, FALSE, '10:00 AM'),
                 ((SELECT game_id FROM game WHERE name = 'Breakdancing'), FALSE, 17, 18, NULL, NULL, NULL, FALSE, '10:00 AM'),
-                ((SELECT game_id FROM game WHERE name = 'Breakdancing'), FALSE, 19, 20, NULL, NULL, NULL, FALSE, '10:00 AM');
+                ((SELECT game_id FROM game WHERE name = 'Breakdancing'), FALSE, 19, 20, NULL, NULL, NULL, FALSE, '10:00 AM'),
+                ((SELECT game_id FROM game WHERE name = 'Pickleball'), FALSE, 22, 23, 67, 30, 22, FALSE, '10:00 AM'),
+                    ((SELECT game_id FROM game WHERE name = 'Pickleball'), FALSE, 24, 25, 43, 24, 24, FALSE, '10:00 AM'),
+                    ((SELECT game_id FROM game WHERE name = 'Pickleball'), FALSE, 26, 27, 50, 26, 26, FALSE, '10:00 AM'),
+                    ((SELECT game_id FROM game WHERE name = 'Pickleball'), FALSE, 28, 29, 90, 28, 28, FALSE, '10:00 AM'),
+                    ((SELECT game_id FROM game WHERE name = 'Pickleball'), FALSE, 22, 24, 50, 22, 22, FALSE, '12:00 PM'),
+                    ((SELECT game_id FROM game WHERE name = 'Pickleball'), FALSE, 26, 28, 40, 15, 26, FALSE, '12:00 PM'),
+                    ((SELECT game_id FROM game WHERE name = 'Pickleball'), FALSE, 22, 26, 40, 22, 22, FALSE, '03:00 PM');
 
 -- Inserting into Bracket
 INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
@@ -127,7 +135,14 @@ INSERT INTO bracket (bracket_id, parent_bracket, match_id, name) VALUES
             ((SELECT currval('seq_bracket_id')) + 3, (SELECT currval('seq_bracket_id')) + 1, 16, 'Quarter-Final'),  -- Quarter-Final 1 for second bracket
             ((SELECT currval('seq_bracket_id')) + 4, (SELECT currval('seq_bracket_id')) + 1, 15, 'Quarter-Final'),  -- Quarter-Final 2 for second bracket
             ((SELECT currval('seq_bracket_id')) + 5, (SELECT currval('seq_bracket_id')) + 2, 14, 'Quarter-Final'),  -- Quarter-Final 3 for second bracket
-            ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 13, 'Quarter-Final');  --Quarter-Final 4 for second bracket
+            ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 13, 'Quarter-Final'),
+                ((SELECT nextval('seq_bracket_id')), NULL, 23, 'Final'),
+                          ((SELECT currval('seq_bracket_id')) + 1, (SELECT currval('seq_bracket_id')), 22, 'Semi-Final'),  -- Semi-Final 1 for second bracket
+                          ((SELECT currval('seq_bracket_id')) + 2, (SELECT currval('seq_bracket_id')), 21, 'Semi-Final'),  -- Semi-Final 2 for second bracket
+                          ((SELECT currval('seq_bracket_id')) + 3, (SELECT currval('seq_bracket_id')) + 1, 20, 'Quarter-Final'),  -- Quarter-Final 1 for second bracket
+                          ((SELECT currval('seq_bracket_id')) + 4, (SELECT currval('seq_bracket_id')) + 1, 19, 'Quarter-Final'),  -- Quarter-Final 2 for second bracket
+                          ((SELECT currval('seq_bracket_id')) + 5, (SELECT currval('seq_bracket_id')) + 2, 18, 'Quarter-Final'),  -- Quarter-Final 3 for second bracket
+                          ((SELECT currval('seq_bracket_id')) + 6, (SELECT currval('seq_bracket_id')) + 2, 17, 'Quarter-Final'); --Quarter-Final 4 for second bracket
 
 
 --
@@ -141,16 +156,18 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants,
     ((SELECT game_id FROM game WHERE name = 'Pickleball'), null, 3, 'PT pickky', 64, FALSE, FALSE, NULL, '2024-08-16', NULL),
     ((SELECT game_id FROM game WHERE name = 'Pool'), null, 3, 'Pooly', 64, FALSE, FALSE, NULL, '2026-08-16', NULL),
     ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 3, 'Cornholllllleeeoooo', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL),
-                  ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 27, 'Cornholllllleeeoooo', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL),
+                  ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 27, 'Corn Balls', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL),
                   ((SELECT game_id FROM game WHERE name = 'Ping Pong'), null, 27, 'Darcys Ping Pong Tournament', 8, FALSE, FALSE, 'Lewes, DE', '2026-08-01', NULL),
-                  ((SELECT game_id FROM game WHERE name = 'Breakdancing'), null, 27, 'Rayguns Revenge', 8, FALSE, FALSE, 'Lewes, DE', '2026-08-15', NULL);
+                  ((SELECT game_id FROM game WHERE name = 'Breakdancing'), null, 27, 'Rayguns Revenge', 8, FALSE, FALSE, 'Lewes, DE', '2026-08-16', NULL),
+                  ((SELECT game_id FROM game WHERE name = 'Pickleball'), 1020, 27, 'Chow Challenge', 8, FALSE, TRUE, NULL, '2023-01-08', '2023-09-02');
 
 
 
 INSERT INTO address (tournament_id, city, province, country) VALUES
     (1, 'Los Angeles', 'California', 'USA'),
     (2, 'Los Angeles', 'California', 'USA'),
-    (3, 'Lewes', 'Deleware', 'USA');
+    (3, 'Annapolis', 'Maryland', 'USA'),
+    (4, 'Lewes', 'Deleware', 'USA');
 
 
 INSERT INTO tournament_players (user_id, tournament_id) VALUES
@@ -170,6 +187,7 @@ INSERT INTO tournament_players (user_id, tournament_id) VALUES
      (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
     ((SELECT user_id FROM users WHERE username = 'usera58'),
      (SELECT tournament_id FROM tournament WHERE name = 'Minecraft Tournament of Champs')),
+
     ((SELECT user_id FROM users WHERE username = 'user1'),
      (SELECT tournament_id FROM tournament WHERE name = 'Mind Games Tournament')),
     ((SELECT user_id FROM users WHERE username = 'user2'),
@@ -211,7 +229,22 @@ INSERT INTO tournament_players (user_id, tournament_id) VALUES
          ((SELECT user_id FROM users WHERE username = 'usera57'),
           (SELECT tournament_id FROM tournament WHERE name = 'Rayguns Revenge')),
          ((SELECT user_id FROM users WHERE username = 'usera58'),
-          (SELECT tournament_id FROM tournament WHERE name = 'Rayguns Revenge'));
-
+           (SELECT tournament_id FROM tournament WHERE name = 'Rayguns Revenge')),
+                   ((SELECT user_id FROM users WHERE username = 'usera60'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+                       ((SELECT user_id FROM users WHERE username = 'usera61'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+                       ((SELECT user_id FROM users WHERE username = 'usera62'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+                       ((SELECT user_id FROM users WHERE username = 'usera63'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+                       ((SELECT user_id FROM users WHERE username = 'usera64'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+                       ((SELECT user_id FROM users WHERE username = 'usera65'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+                       ((SELECT user_id FROM users WHERE username = 'usera66'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge')),
+                       ((SELECT user_id FROM users WHERE username = 'usera67'),
+                        (SELECT tournament_id FROM tournament WHERE name = 'Chow Challenge'));
 
 COMMIT TRANSACTION;
