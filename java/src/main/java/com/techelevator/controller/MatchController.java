@@ -1,6 +1,5 @@
 package com.techelevator.controller;
 
-
 import com.techelevator.dao.JdbcMatchDao;
 import com.techelevator.dao.MatchDao;
 import com.techelevator.exception.DaoException;
@@ -22,7 +21,6 @@ import java.util.List;
 @PreAuthorize("isAuthenticated()")
 @CrossOrigin
 public class MatchController {
-
     //Basic methods are created but not tested yet
     private final MatchDao matchDao;
 
@@ -53,7 +51,7 @@ public class MatchController {
     @PreAuthorize("permitAll")
     @RequestMapping(path="/{matchId}",method=RequestMethod.GET)
     public Match getMatchById(@PathVariable int matchId){
-        Match match = null;
+        Match match;
 
         try{
             match = matchDao.getMatchById(matchId);
@@ -119,7 +117,8 @@ public class MatchController {
                 );
             }
 
-            int rowsAffected = matchDao.updateMatch(match);
+            int rowsAffected = (match.getPlayer1Id() == null || match.getPlayer2Id() == null) ?
+                    matchDao.updateMatch(match) : matchDao.updateParent(match);
 
             if (rowsAffected == 0){
                 throw new ResponseStatusException(
@@ -127,9 +126,6 @@ public class MatchController {
             }
 
             updatedMatch = matchDao.getMatchById(matchId);
-/*            if (updatedMatch.getWinnerId() != previous.getWinnerId()) {
-                matchDao.
-            }*/
 
         }catch(DaoException e){
             throw new ResponseStatusException(
@@ -150,23 +146,29 @@ public class MatchController {
                     HttpStatus.NOT_FOUND, "Unable locate match"
             );
 
-        }catch(DaoException ex){
+        } catch(DaoException ex) {
             throw new ResponseStatusException(
-            HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+                HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
             );
-
         }
+
         return newMatch;
     }
 
-    @RequestMapping(path = "/{matchId}/add-player", method = RequestMethod.PUT)
-    public void addPlayer(@RequestBody LinkedHashMap<String, Object> playerId) {
+    @RequestMapping(path = "/{matchId}/parent", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
+    public Match getMatchParent(@PathVariable int matchId) {
+        Match parent;
 
-    }
+        try {
+            parent = matchDao.getParentMatch(matchId);
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Unable locate match"
+            );
+        }
 
-    @RequestMapping(path = "/{matchId}/remove-player", method = RequestMethod.PUT)
-    public void removePlayer(@RequestBody LinkedHashMap<String, Object> playerId) {
-
+        return parent;
     }
 
     @RequestMapping(path = "/array-create", method = RequestMethod.POST)

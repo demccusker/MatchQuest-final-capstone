@@ -75,6 +75,29 @@ public class JdbcMatchDao implements MatchDao {
     }
 
     @Override
+    public Match getParentMatch(int matchId) {
+        Match parent;
+        String sql = "SELECT * FROM match " +
+                     "WHERE match_id = ( " +
+                        "SELECT match_id FROM bracket WHERE bracket_id = ( " +
+                            "SELECT parent_bracket FROM match m " +
+                            "JOIN bracket b ON m.match_id = b.match_id " +
+                            "WHERE m.match_id = ? " +
+                     "  ) " +
+                     ")";
+
+        try {
+            SqlRowSet result = jdbcTemplate.queryForRowSet(sql, matchId);
+            parent = (result.next()) ? mapRowToMatch(result) : null;
+
+        } catch (CannotGetJdbcConnectionException ex) {
+            throw new DaoException("Unable to connect to server or database", ex);
+        }
+
+        return parent;
+    }
+
+    @Override
     public Match getMatchById(int matchId){
         Match match;
         String sql = "SELECT * FROM match WHERE match_id = ?";
@@ -126,8 +149,7 @@ public class JdbcMatchDao implements MatchDao {
     }
     @Override
     public int updateMatch(MatchDto match){
-        int rowsAffected = 0;
-        Match updateMatch = null;
+        int rowsAffected;
         String sql = "UPDATE match " +
                 "SET player1_score = ?, player2_score = ?, winner_id = ?, is_draw = ?, " +
                 "match_start_time = ? " +
@@ -142,10 +164,38 @@ public class JdbcMatchDao implements MatchDao {
                     match.getPlayer1Score(),
                     match.getPlayer2Score(),
                     winnerId,
-                    match.getIsDraw(),
+                    match.isDraw(),
                     match.getMatchStartTime(),
                     match.getMatchId()
                     );
+
+        }catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database",e);
+        }catch(DataIntegrityViolationException e){
+            throw new DaoException("Data integrity violation",e);
+        }
+        return rowsAffected;
+    }
+
+    @Override
+    public int updateParent(MatchDto match){
+        int rowsAffected;
+        String sql = "UPDATE match " +
+                "SET player1_id = ?, player2_id = ? " +
+                "WHERE match_id = ?";
+
+        try{
+            Integer player1Id = match.getPlayer1Id(),
+                    player2Id = match.getPlayer2Id();
+
+            player1Id = (player1Id == 0) ? null : player1Id;
+            player2Id = (player2Id == 0) ? null : player2Id;
+
+            rowsAffected = jdbcTemplate.update(sql,
+                    player1Id,
+                    player2Id,
+                    match.getMatchId()
+            );
 
         }catch(CannotGetJdbcConnectionException e){
             throw new DaoException("Unable to connect to server or database",e);

@@ -12,8 +12,10 @@ public interface MatchDao {
     List<Match> getMatchesByPlayerId(int playerId);
     List<Match> getMatchesByTournamentId(int tournamentId);
 
+    Match getParentMatch(int matchId);
     Match getMatchById(int matchId);
     Match createMatch(Match match);
 
     int updateMatch(@Valid MatchDto match);
+    int updateParent(MatchDto match);
 }
