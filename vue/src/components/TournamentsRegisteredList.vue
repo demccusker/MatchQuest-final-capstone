@@ -52,7 +52,6 @@ export default {
     
     TournamentService.getTournamentsRegisteredByUserId(userId,authToken).then((response) => {
       if (response.status === 200) {
-        // console.log(response);
         this.tournaments = response.data;
       }
     }).catch(error => {
@@ -61,13 +60,9 @@ export default {
   },
   methods: {
     sendToTournamentDetailsPage(tournament) {
-      // console.log(tournament);
       this.$store.commit('SET_TOURNAMENT_ID', tournament.tournamentId);
       this.$store.commit('SET_TOURNAMENT_CREATOR_ID', tournament.creatorId);
-      this.$router.push({ name: 'tournamentDetails', params: { tournamentId: tournament.tournamentId } })
-
-
-
+      this.$router.push({ name: 'tournamentDetails', params: { tournamentId: tournament.tournamentId } });
     },
     nextSlide() {
       this.$refs.carousel.next();

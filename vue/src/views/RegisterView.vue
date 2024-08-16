@@ -60,11 +60,7 @@ export default {
         authService
           .register(this.user)
           .then((response) => {
-            if ((response.status == 201)) {
-              // console.log(response.data);
-              // this.$store.commit("SET_AUTH_TOKEN", response.data.token)
-              
-              
+            if ((response.status == 201)) {                   
               this.$router.push("/login");
               this.userRegistrationSuccess = true;
             }

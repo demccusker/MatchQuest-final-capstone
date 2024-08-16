@@ -15,6 +15,11 @@ export default {
     return http.post('/address', address, authHeader);
   },
 
+  updateAddress(address, authToken) {
+    let authHeader = { headers: { Authorization: `Bearer ${authToken}` } };
+    return http.put('/address', address, authHeader);
+  },
+
   deleteAddress(tournamentId, authToken) {
     let authHeader = { headers: { Authorization: `Bearer ${authToken}` } };
     return http.delete(`/address/${tournamentId}`, authHeader);

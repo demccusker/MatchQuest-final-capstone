@@ -40,7 +40,6 @@ export default {
     },
     methods:{
         createUserDetails(){
-            // console.log("ID: " + this.$store.state.user.id);
             const authToken = this.$store.state.token;
             UserDetailsService.createUserDetails(this.$store.state.user.id, this.userDetails,authToken).then((response)=>{
                 if(response.status == 201){

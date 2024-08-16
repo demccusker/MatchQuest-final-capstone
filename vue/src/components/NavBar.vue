@@ -87,15 +87,8 @@ export default {
             const currentUserId = this.$store.state.user.id;
             const creatorId = this.$store.state.tournamentCreatorId;
             const editTournamentRoute = /^\/tournaments\/\d+$/.test(this.$route.path);
-            // console.log("CurrentUserID:",currentUserId);
-            // console.log("CreatorID:",creatorId);
-            // if(currentUserId === creatorId ){
-            //     return true;
-            // }
-            // return false;
 
             return currentUserId === creatorId && editTournamentRoute;
-            // return /^\/tournaments\/\d+$/.test(this.$route.path);
         }
     }
 };

@@ -73,9 +73,6 @@ export default {
     },
     nextPage(userId) {
       detailsService.getUserDetails(userId).then(response => {
-        // console.log("response below");
-        // console.log(response.data);
-        
         this.userDetails = response.data;
 
         

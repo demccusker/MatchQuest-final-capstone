@@ -10,10 +10,6 @@ export default {
     return http.get(`tournaments/${tournamentId}/brackets`, authHeader);
   },
 
-  getBracketTree(bracketId) {
-    return http.get(`/brackets/${bracketId}/tree`);
-  },
-
   createBracketTree(tournamentId) {
     return http.post(`tournaments/${tournamentId}/brackets`);
   },
@@ -21,5 +17,9 @@ export default {
   updateBrackets(brackets, authToken) {
     let authHeader = { headers: { Authorization: `Bearer ${authToken}` } };
     return http.put('/bracket', brackets, authHeader);
+  },
+
+  getAncestors(matchId) {
+    return http.get(`/bracket/match/${matchId}/?get=ancestors`)
   }
 };

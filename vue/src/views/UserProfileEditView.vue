@@ -33,7 +33,6 @@ export default {
                 .then((response) => {
                     if (response.status === 200) {
                         this.selectedUserDetails = response.data;
-                        // console.log(this.selectedUserDetails);
                     } else {
                         console.error('Error fetching user data:', response.status);
                     }

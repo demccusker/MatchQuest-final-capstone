@@ -27,8 +27,6 @@ export default {
     }, 
     async created() {
         this.userDetails = await this.fetchUserDetails();
-        console.log("User details:", this.userDetails);
-        
     },
     methods:{
         fetchUserDetails() {
@@ -36,9 +34,7 @@ export default {
             UserDetailsService.getUserDetails(userId)
                 .then((response) => {
                     if (response.status === 200){
-                        this.userDetails = response.data; 
-                        // console.log("Fetched user details:", this.userDetails);
-                        
+                        this.userDetails = response.data;      
                     } else {
                         console.error('Error fetching user data:', response.status);
                     }

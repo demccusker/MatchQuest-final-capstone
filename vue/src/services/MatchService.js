@@ -10,13 +10,16 @@ export default {
     getMatchById(matchId) {
       return http.get(`/matches/${matchId}`);
     },
+    getParentMatch(matchId) {
+      return http.get(`/matches/${matchId}/parent`);
+    },
     getMatchesByPlayerId(playerId) {
       return http.get(`/matches/player/${playerId}`);
     },
     getMatchesByTournamentId(tournamentId) {
       return http.get(`/matches/tournaments/${tournamentId}`);
     },
-    updateMatch(matchId, matchDto,authToken) {
+    updateMatch(matchId, matchDto, authToken) {
       let authHeader = { headers:{"Authorization": `Bearer ${authToken}`} };
       return http.put(`/matches/${matchId}/update`, matchDto, authHeader);
     },

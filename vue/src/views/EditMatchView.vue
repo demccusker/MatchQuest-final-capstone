@@ -28,11 +28,9 @@ export default {
     methods: {
         fetchMatchData() {
             const matchId = this.$route.params.matchId;
-            // console.log('matchId:', matchId);
             MatchService.getMatchById(matchId)
                 .then((response) => {
                     if (response.status === 200) {
-                        // console.log('Match data:', response.data);
                         this.selectedMatch = response.data;
                     } else {
                         console.error('Error fetching match data:', response.status);
