@@ -153,22 +153,25 @@ INSERT INTO tournament (game_id, bracket_id, creator_id, name, max_participants,
     ((SELECT game_id FROM game WHERE name = 'Golf'), null, 2, 'Golfy Tournament', 15, TRUE, TRUE, NULL, CURRENT_DATE, NULL),
     ((SELECT game_id FROM game WHERE name = 'Minecraft'), 510, 3, 'Minecraft Tournament of Champs', 8, FALSE, TRUE, NULL, '2023-01-01', '2023-01-02'),
     ((SELECT game_id FROM game WHERE name = 'Chess'), null, 3, 'Mind Games Tournament', 64, FALSE, TRUE, NULL, '2026-01-01', NULL),
-    ((SELECT game_id FROM game WHERE name = 'Pickleball'), null, 3, 'PT pickky', 64, FALSE, FALSE, NULL, '2024-08-16', NULL),
-    ((SELECT game_id FROM game WHERE name = 'Pool'), null, 3, 'Pooly', 64, FALSE, FALSE, NULL, '2026-08-16', NULL),
-    ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 3, 'Cornholllllleeeoooo', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL),
-                  ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 27, 'Corn Balls', 8, FALSE, FALSE, 'Lewes, DE', '2026-10-31', NULL),
-                  ((SELECT game_id FROM game WHERE name = 'Ping Pong'), null, 27, 'Darcys Ping Pong Tournament', 8, FALSE, FALSE, 'Lewes, DE', '2026-08-01', NULL),
-                  ((SELECT game_id FROM game WHERE name = 'Breakdancing'), null, 27, 'Rayguns Revenge', 8, FALSE, FALSE, 'Lewes, DE', '2026-08-16', NULL),
-                  ((SELECT game_id FROM game WHERE name = 'Pickleball'), 1020, 27, 'Chow Challenge', 8, FALSE, TRUE, NULL, '2023-01-08', '2023-09-02');
+    ((SELECT game_id FROM game WHERE name = 'Pickleball'), null, 3, 'PT pickky', 64, FALSE, FALSE, '874 Bakers Avenue', '2024-08-16', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Pool'), null, 3, 'Pooly', 64, FALSE, FALSE, '1172 Louisa Street', '2026-08-16', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 3, 'Cornholllllleeeoooo', 8, FALSE, FALSE, '902 Ukla Avenue', '2026-10-31', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Corn Hole'), null, 27, 'Corn Balls', 8, FALSE, FALSE, '491 18th Street', '2026-10-31', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Ping Pong'), null, 27, 'Darcys Ping Pong Tournament', 8, FALSE, FALSE, '430 Hastings Street', '2026-08-01', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Breakdancing'), null, 27, 'Rayguns Revenge', 8, FALSE, FALSE, '32 Hollywood Blvd', '2026-08-16', NULL),
+    ((SELECT game_id FROM game WHERE name = 'Pickleball'), 1020, 27, 'Chow Challenge', 8, FALSE, TRUE, NULL, '2023-01-08', '2023-09-02');
 
 
 
 INSERT INTO address (tournament_id, city, province, country) VALUES
     (1, 'Los Angeles', 'California', 'USA'),
     (2, 'Los Angeles', 'California', 'USA'),
-    (3, 'Annapolis', 'Maryland', 'USA'),
-    (4, 'Lewes', 'Deleware', 'USA');
-
+    (6, 'Houston', 'Texas', 'USA'),
+    (7, 'Pomona', 'California', 'USA'),
+    (8, 'Lewes', 'Deleware', 'USA'),
+    (9, 'Ceder Rapids', 'Iowa', 'USA'),
+    (10, 'Seattle', 'Washington', 'USA'),
+    (11, 'Los Angeles', 'California', 'USA');
 
 INSERT INTO tournament_players (user_id, tournament_id) VALUES
     ((SELECT user_id FROM users WHERE username = 'usera51'),
