@@ -34,20 +34,15 @@
 </template>
 
 <script>
+import BracketService from '../services/BracketService';
 import MatchService from '../services/MatchService';
+import TournamentService from '../services/TournamentService';
 
-export default{
-    // props: {
-    //     match: {
-    //         type: Object,
-    //         required: true
-    //     }
-    // },
+export default {
     data() {
         return {
             editMatch: {},
             editMatchDto: {
-                
                 player1Score: '',
                 player2Score: '',
                 winnerId: '',
@@ -55,26 +50,30 @@ export default{
                 matchStartTime: '',
                 matchId: 0
             },
-            players : []
+            players: [],
+            ancestorCount: null,
         }
     },
     mounted() {
         this.fetchMatchData();
-        // console.log("Player 1 Id: ",this.editMatch.player1Id);
-        
-        // console.log("Players: ",this.players);
-        
     },
-    methods : {
+    methods: {
         editTheMatch() {
             this.editMatchDto = this.matchToMatchDto(this.editMatch);
-            // console.log("matchId before service call",this.editMatchDto.matchId)
             const matchId = this.$route.params.matchId;
             const tournamentId = this.$route.params.tournamentId;
-            MatchService.updateMatch(matchId,this.editMatchDto,this.$store.state.token)
+
+            console.log(this.editMatchDto);
+            MatchService.updateMatch(matchId, this.editMatchDto, this.$store.state.token)
                 .then((response) => {
                     if (response.status === 200) {
-                        this.$router.push({ name: 'matchDetails', params: {tournamentId:tournamentId, matchId: matchId } });
+                        if (this.editMatchDto.winnerId === 0) {
+                            this.$router.push({ name: "tournamentDetails", params: { tournamentId: this.$route.params.tournamentId } });
+                        } else if (this.ancestorCount === 0) {
+                            this.concludeTournament();
+                        } else {
+                            this.passWinner();
+                        }
                     } else {
                         console.error('Error editing match:', response.status);
                     }
@@ -83,14 +82,29 @@ export default{
                     console.error('Error editing match:', error);
                 });
         },
+        concludeTournament() {
+            TournamentService.concludeTournament(this.$route.params.tournamentId, this.$store.state.token).then(response => {
+                this.$router.push({ name: "tournamentDetails", params: { tournamentId: this.$route.params.tournamentId } });
+            })
+        },
+        fetchAncestorCount(matchId) {
+            BracketService.getAncestors(matchId).then(response => {
+                if (response.status === 200) {
+                    this.ancestorCount = response.data.length;
+                }
+            }).catch(error => {
+                console.log(error);
+            })
+        },
         fetchMatchData() {
             const matchId = this.$route.params.matchId;
             MatchService.getMatchById(matchId)
                 .then((response) => {
                     if (response.status === 200) {
                         this.editMatch = response.data;
+                        this.fetchAncestorCount(this.editMatch.matchId);
                         this.fillPlayers();
-                        
+
                     } else {
                         console.error('Error fetching match data:', response.status);
                     }
@@ -99,7 +113,29 @@ export default{
                     console.error('Error fetching match data:', error);
                 });
         },
-        matchToMatchDto(match){
+        bubbleUpWinner(parentMatch = null) {
+            if (parentMatch == "") return;
+
+            if (parentMatch.player1Id === 0) {
+                parentMatch.player1Id = this.editMatchDto.winnerId;
+            } else if (parentMatch.player2Id === 0) {
+                parentMatch.player2Id = this.editMatchDto.winnerId;
+            }
+            
+            MatchService.updateMatch(parentMatch.matchId, parentMatch, this.$store.state.token).then(request => {
+                this.$router.push({ name: "tournamentDetails", params: { tournamentId: this.$route.params.tournamentId } });
+            })
+        },
+        passWinner() {
+            MatchService.getParentMatch(this.editMatchDto.matchId).then(response => {
+                if (response.status == 200) {
+                    this.bubbleUpWinner(response.data);
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+        matchToMatchDto(match) {
             this.editMatchDto.player1Score = match.player1Score;
             this.editMatchDto.player2Score = match.player2Score;
             this.editMatchDto.winnerId = match.winnerId;

@@ -38,8 +38,15 @@
                 <input type="checkbox" id="isScrim" v-model="tournament.isScrim" />
             </div>
             <div class="form-input-group" v-show="!tournament.isOnline">
-                <label for="location">Location</label>
-                <input type="text" id="location" v-model="tournament.location" />
+                <h4>Location</h4>
+                <label for="streetNumber">Building Number and Street</label>
+                <input type="text" id="streetNumber" v-model="tournament.location" />
+                <label for="city">City</label>
+                <input type="text" id="city" v-model="address.city" />
+                <label for="province">Province</label>
+                <input type="text" id="province" v-model="address.province" />
+                <label for="country">Country</label>
+                <input type="text" id="country" v-model="address.country" />
             </div>
             <button type="submit">Create</button>
 
@@ -49,6 +56,7 @@
 </template>
 
 <script>
+import AddressService from '../services/AddressService';
 import GamesService from '../services/GamesService';
 import TournamentService from '../services/TournamentService';
 
@@ -59,7 +67,7 @@ export default {
             tournament: {
                 name: '',
                 gameId: null,
-                bracketId: null, 
+                bracketId: null,
                 creatorId: this.$store.state.user.id,
                 maxParticipants: 0,
                 startDate: '',
@@ -67,7 +75,13 @@ export default {
                 isOnline: false,
                 isScrim: false,
                 location: '',
-
+            },
+            address: {
+                tournamentId: null,
+                streetNumber: '',
+                city: '',
+                province: '',
+                country: ''
             },
             games: [],
             selectedGameName: null,
@@ -76,7 +90,6 @@ export default {
     },
     created() {
         this.games = this.getGamesHere();
-
     },
     mounted() {
 
@@ -84,16 +97,12 @@ export default {
     },
     methods: {
         createNewTournament() {
-            // console.log("Creating new tournament");
-            // console.log(this.tournament);
-            // console.log(this.$store.state.token);
             TournamentService.createTournament(this.tournament, this.$store.state.token)
                 .then((response) => {
-                    // console.log("Response is:", response);
-                    // console.log(response.status)
-                    if (response.status == 201 || response.status == 200) {
-
+                    if (response.status == 201 && this.tournament.isOnline) {
                         this.$router.push("/tournaments");
+                    } else if (response.status == 201) {
+                        this.addAddress(response.data);
                     }
                 }).catch((error) => {
                     const response = error.response;
@@ -101,7 +110,14 @@ export default {
                         this.registrationErrorMsg = "An error occurred during tournament creation"
                     }
                 });
-
+        },
+        addAddress(tournament) {
+            this.address.tournamentId = tournament.tournamentId;
+            AddressService.addAddress(this.address, this.$store.state.token).then(response => {
+                this.$router.push("/tournaments");
+            }).catch(error => {
+                console.log(error);
+            })
         },
         getGamesHere() {
             GamesService.getAllGames().then(response => {
@@ -126,7 +142,6 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 
 form {
