@@ -58,6 +58,26 @@ public class JdbcAddressDao implements AddressDao {
     }
 
     @Override
+    public boolean updateAddress(Address address) {
+        String sql = "UPDATE address " +
+                "SET city = ?, province = ?, country = ? " +
+                "WHERE tournament_id = ?;";
+
+        try {
+            int rowsAffected = jdbcTemplate.update(sql,
+                    address.getCity(),
+                    address.getProvince(),
+                    address.getCountry(),
+                    address.getTournamentId()
+            );
+
+            return rowsAffected == 1;
+        } catch(CannotGetJdbcConnectionException e){
+            throw new DaoException("Unable to connect to server or database",e);
+        }
+    }
+
+    @Override
     public boolean deleteAddress(int tournamentId) {
         String sql = "DELETE FROM address " +
                      "WHERE tournament_id = ?;";

@@ -68,6 +68,19 @@ public class AddressController {
         return address;
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    public void updateAddress(@RequestBody Address address) {
+        try {
+            if (!addressDao.updateAddress(address)) throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Unable to update address!"
+            );
+        } catch (DaoException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, ex.getMessage()
+            );
+        }
+    }
+
     @RequestMapping(path = "/{tournamentId}", method = RequestMethod.DELETE)
     public void deleteAddress(@PathVariable int tournamentId) {
         try {
